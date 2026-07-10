@@ -5,7 +5,7 @@ export const SITE = {
   taglineHindi: '२ कदम देश के माटे।',
   location: 'Ahmedabad, India',
   email: 'info@kedarfoundation.org',
-  phone: '+91 98765 43210',
+  phone: '+91 63519 25121',
 };
 
 export const VISION =
