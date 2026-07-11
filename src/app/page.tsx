@@ -1,12 +1,15 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import {
   ArrowRight, Award, Globe, Heart, Leaf, Shield, Sprout, Users, Wheat,
 } from 'lucide-react';
 import { SectionHeading } from '@/components/SectionHeading';
+import { HeroBanner } from '@/components/HeroBanner';
 import { CtaBanner } from '@/components/InitiativeCard';
+import { FeaturedProducts } from '@/components/FeaturedProducts';
+import { ProjectsCarousel } from '@/components/ProjectsCarousel';
 import {
-  INITIATIVES, MISSION, PRODUCTS, QUALITY_BADGES, SITE, VISION,
+  GUIDING_PRINCIPLE, HOMEPAGE_STATS, INITIATIVES, MISSION,
+  PROJECTS, QUALITY_BADGES, SITE, VISION,
 } from '@/lib/content';
 
 const HIGHLIGHTS = [
@@ -21,67 +24,28 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-hero-gradient text-white">
-        <div className="absolute inset-0 opacity-20">
-          <Image
-            src="/images/brochure.png"
-            alt=""
-            fill
-            className="object-cover object-center"
-            priority
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-kedar-navy/80 via-kedar-navy/90 to-kedar-navy" />
+      <HeroBanner />
 
-        <div className="section-container relative py-20 sm:py-28 lg:py-32">
-          <div className="mx-auto max-w-4xl text-center">
-            <Image
-              src="/images/logo.png"
-              alt={SITE.name}
-              width={120}
-              height={120}
-              className="mx-auto mb-8 h-24 w-24 rounded-full border-4 border-kedar-gold/40 shadow-gold sm:h-28 sm:w-28"
-              priority
-            />
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-kedar-gold">
-              केदार · Kedar Foundation
-            </p>
-            <h1 className="mt-4 font-serif text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
-              Empowering Communities,
-              <span className="block text-kedar-gold">Enriching Lives</span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
-              Inspired by the sacred mountains of Kedar, we are dedicated to pure quality, social welfare,
-              sustainable agriculture, and nation-building through innovation and community participation.
-            </p>
-            <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <Link href="/about" className="btn-primary">
-                Our Story
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-              <Link href="/products" className="btn-outline">
-                Premium Wheat
-              </Link>
+      {/* Stats strip */}
+      <section className="border-b border-kedar-gold/15 bg-white py-8">
+        <div className="section-container grid grid-cols-2 gap-6 lg:grid-cols-4">
+          {HOMEPAGE_STATS.map(({ value, label }) => (
+            <div key={label} className="text-center">
+              <p className="font-serif text-2xl font-bold text-kedar-gold-dark sm:text-3xl">{value}</p>
+              <p className="mt-1 text-xs font-medium uppercase tracking-wider text-kedar-navy/60">{label}</p>
             </div>
-          </div>
-        </div>
-
-        <div className="relative border-t border-kedar-gold/20 bg-kedar-navy-dark/80 py-4">
-          <div className="section-container flex flex-wrap items-center justify-center gap-6 text-center text-sm text-white/70">
-            <span className="flex items-center gap-2">
-              <Wheat className="h-4 w-4 text-kedar-gold" />
-              {SITE.tagline}
-            </span>
-            <span className="hidden h-4 w-px bg-white/20 sm:block" />
-            <span>{SITE.taglineGujarati}</span>
-          </div>
+          ))}
         </div>
       </section>
 
       {/* Highlights */}
       <section className="section-padding">
         <div className="section-container">
+          <SectionHeading
+            eyebrow="What We Stand For"
+            title="Empowering Communities, Enriching Lives"
+            description={GUIDING_PRINCIPLE}
+          />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {HIGHLIGHTS.map(({ icon: Icon, title, text }) => (
               <div key={title} className="card text-center">
@@ -96,8 +60,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Vision & Mission */}
+      {/* Projects carousel */}
       <section className="section-padding bg-white">
+        <div className="section-container">
+          <SectionHeading
+            eyebrow="Our Work"
+            title="Projects & Completed Initiatives"
+            description="A glimpse of the impact we create through agriculture, community development, and social welfare programs across Gujarat and beyond."
+          />
+          <ProjectsCarousel projects={PROJECTS} />
+        </div>
+      </section>
+
+      {/* Vision & Mission */}
+      <section className="section-padding">
         <div className="section-container">
           <SectionHeading
             eyebrow="Who We Are"
@@ -117,49 +93,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Premium Wheat */}
-      <section className="section-padding">
+      {/* Our Products — multiple from ERP */}
+      <section className="section-padding bg-kedar-cream">
         <div className="section-container">
           <SectionHeading
             eyebrow="Our Products"
-            title="Premium Wheat"
-            description="Global quality, heritage values — combining sustainable farming practices with time-honored values of trust and integrity."
+            title="Agricultural & Food Products"
+            description="Browse grains, pulses, flour, snacks, and spices — sourced and processed with the same quality standards trusted by Kedar Enterprise."
           />
+          <FeaturedProducts limit={6} />
+        </div>
+      </section>
 
-          <div className="grid items-center gap-10 lg:grid-cols-2">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-card">
-              <Image
-                src="/images/product-sacks.png"
-                alt="Kedar Foundation Premium Wheat sacks"
-                fill
-                className="object-cover"
-              />
-            </div>
-
-            <div className="space-y-6">
-              {PRODUCTS.map((product) => (
-                <div
-                  key={product.id}
-                  className="flex gap-4 rounded-xl border border-kedar-gold/20 bg-white p-5 shadow-sm"
-                >
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-kedar-gold/15 font-serif text-lg font-bold text-kedar-gold-dark">
-                    {product.id.replace('kg', '')}
-                  </div>
-                  <div>
-                    <h3 className="font-serif text-lg font-semibold text-kedar-navy">{product.name}</h3>
-                    <p className="text-sm font-medium text-kedar-gold-dark">{product.subtitle}</p>
-                    <p className="mt-1 text-sm text-kedar-navy/70">{product.description}</p>
-                  </div>
-                </div>
-              ))}
-              <Link href="/products" className="btn-primary inline-flex">
-                View All Products
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-
-          <div className="mt-12 grid gap-4 sm:grid-cols-3">
+      {/* Quality badges */}
+      <section className="section-padding bg-white">
+        <div className="section-container">
+          <div className="grid gap-4 sm:grid-cols-3">
             {QUALITY_BADGES.map((badge) => (
               <div key={badge.label} className="card flex items-start gap-4">
                 <Award className="h-8 w-8 shrink-0 text-kedar-gold" />
@@ -222,7 +171,7 @@ export default function HomePage() {
           <div className="flex items-center gap-3">
             <Wheat className="h-8 w-8 text-kedar-gold" />
             <div>
-              <p className="font-semibold text-kedar-navy">100% Pure Wheat</p>
+              <p className="font-semibold text-kedar-navy">Premium Quality</p>
               <p className="text-xs text-kedar-navy/60">{SITE.location}</p>
             </div>
           </div>

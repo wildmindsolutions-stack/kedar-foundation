@@ -8,6 +8,20 @@ export const SITE = {
   phone: '+91 63519 25121',
 };
 
+export const KEDAR_ACRONYM = {
+  title: 'KEDAR',
+  subtitle: 'Building the Future Through',
+  pillars: [
+    { letter: 'K', meaning: 'Knowledge', short: 'Knowledge' },
+    { letter: 'E', meaning: 'Entrepreneurship', short: 'Entrepreneurship' },
+    { letter: 'D', meaning: 'Dignity', short: 'Dignity' },
+    { letter: 'A', meaning: 'Agriculture & Advancement', short: 'Agriculture' },
+    { letter: 'R', meaning: 'राष्ट्रनिर्माण (Rashtra Nirman / Nation Building)', short: 'Rashtra Nirman' },
+  ],
+  visionStatement:
+    'A vision-driven initiative committed to empowering individuals, strengthening communities, advancing agriculture, and contributing to the growth of the nation.',
+};
+
 export const VISION =
   'Kedar Foundation envisions creating a self-reliant, innovative, and socially empowered India by providing opportunities, knowledge, technology, and support to individuals and communities. The foundation aims to become a catalyst for positive social change by connecting innovation with community welfare and sustainable development.';
 
@@ -191,4 +205,55 @@ export const NAV_LINKS = [
   { href: '/initiatives', label: 'Initiatives' },
   { href: '/products', label: 'Products' },
   { href: '/contact', label: 'Contact' },
+];
+
+/** Completed work / projects — add images to public/images/projects/ when ready. */
+export const PROJECTS = [
+  {
+    id: 'organic-farming',
+    title: 'Organic Farming Awareness Program',
+    description:
+      'Farmer workshops and demonstration plots promoting chemical-free cultivation, soil health, and sustainable crop rotation across rural Gujarat.',
+    location: 'Ahmedabad District',
+    year: '2024',
+  },
+  {
+    id: 'women-empowerment',
+    title: 'Women Self-Help Group Initiative',
+    description:
+      'Training and market linkage for women-led food processing units — enabling home-based businesses with branding and packaging support.',
+    location: 'Rural Gujarat',
+    year: '2024',
+  },
+  {
+    id: 'youth-innovation',
+    title: 'Youth Innovation Challenge',
+    description:
+      'A platform for students and young innovators to present technology-driven solutions for agriculture, education, and community welfare.',
+    location: 'Ahmedabad, India',
+    year: '2025',
+  },
+  {
+    id: 'wheat-processing',
+    title: 'Premium Wheat Processing & Supply',
+    description:
+      'End-to-end wheat sourcing, cleaning, grading, and packaging — delivering trusted grain quality to families, retailers, and institutions.',
+    location: 'Kedar Enterprise',
+    year: '2025',
+  },
+  {
+    id: 'rural-skills',
+    title: 'Rural Skill Development Camps',
+    description:
+      'Digital literacy, agricultural technology, and vocational training camps empowering village youth with employable skills.',
+    location: 'Multiple Villages',
+    year: '2025',
+  },
+];
+
+export const HOMEPAGE_STATS = [
+  { value: '17+', label: 'Strategic Initiatives' },
+  { value: '10+', label: 'Product Categories' },
+  { value: '100%', label: 'Quality Commitment' },
+  { value: 'Ahmedabad', label: 'Based in Gujarat' },
 ];
