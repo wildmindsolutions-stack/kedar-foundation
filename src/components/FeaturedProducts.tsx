@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { ProductCard } from '@/components/ProductCard';
-import { SectionHeading } from '@/components/SectionHeading';
 import { fetchStoreProducts } from '@/lib/products';
 
 interface FeaturedProductsProps {
