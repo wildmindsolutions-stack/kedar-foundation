@@ -3,8 +3,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { LogIn, LogOut, Menu, ShoppingCart, User, X } from 'lucide-react';
+import { LogIn, LogOut, Menu, Package, ShoppingCart, User, X } from 'lucide-react';
 import { CartDrawer } from '@/components/CartDrawer';
+import { NotificationPanel } from '@/components/NotificationPanel';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { NAV_LINKS, SITE } from '@/lib/content';
@@ -61,9 +62,28 @@ export function Header() {
               )}
             </button>
 
+            {user && <NotificationPanel />}
+
+            {user && (
+              <Link
+                href="/orders"
+                className="relative rounded-lg p-2.5 text-white transition-colors hover:bg-white/10 hover:text-kedar-gold sm:hidden"
+                aria-label="My orders"
+              >
+                <Package className="h-5 w-5" />
+              </Link>
+            )}
+
             {!isLoading && (
               user ? (
                 <div className="hidden items-center gap-2 sm:flex">
+                  <Link
+                    href="/orders"
+                    className="flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 text-xs font-medium text-white/90 transition-colors hover:border-kedar-gold/40 hover:text-kedar-gold"
+                  >
+                    <Package className="h-3.5 w-3.5" />
+                    My Orders
+                  </Link>
                   <span className="flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/90">
                     <User className="h-3.5 w-3.5 text-kedar-gold" />
                     {user.name.split(' ')[0]}
@@ -121,13 +141,23 @@ export function Header() {
               </Link>
             ))}
             {user ? (
-              <button
-                type="button"
-                onClick={() => { logout(); setOpen(false); }}
-                className="rounded-lg px-4 py-3 text-left text-sm font-medium text-white/90 hover:bg-white/5"
-              >
-                Log out ({user.name})
-              </button>
+              <>
+                <Link
+                  href="/orders"
+                  className="flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-medium text-kedar-gold hover:bg-white/5"
+                  onClick={() => setOpen(false)}
+                >
+                  <Package className="h-4 w-4" />
+                  My Orders
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => { logout(); setOpen(false); }}
+                  className="rounded-lg px-4 py-3 text-left text-sm font-medium text-white/90 hover:bg-white/5"
+                >
+                  Log out ({user.name})
+                </button>
+              </>
             ) : (
               <Link
                 href="/login"

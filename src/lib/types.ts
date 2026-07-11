@@ -18,14 +18,26 @@ export interface CartItem {
   quantity: number;
 }
 
-export interface AuthUser {
+export interface FoundationCustomer {
   id: string;
+  customerId: string;
   name: string;
   email: string;
-  role: string;
+  phone: string | null;
+  city: string | null;
+  state: string;
+  type: 'foundation';
 }
 
-export interface LoginResponse {
+export interface AuthResponse {
   accessToken: string;
-  user: AuthUser;
+  user: FoundationCustomer;
+  linkedExistingCustomer?: boolean;
+  profileFromErp?: boolean;
+}
+
+export interface PlacedOrder {
+  id: string;
+  status: string;
+  customer: { name: string };
 }

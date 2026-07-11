@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { CheckCircle, ShoppingCart, Wheat } from 'lucide-react';
+import { AlertTriangle, ShoppingCart, Wheat } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { formatPrice, getProductDescription } from '@/lib/products';
 import type { StoreProduct } from '@/lib/types';
@@ -15,7 +16,16 @@ interface ProductCardProps {
 
 export function ProductCard({ product, compact = false, className }: ProductCardProps) {
   const { addItem } = useCart();
+  const [toast, setToast] = useState('');
   const description = getProductDescription(product);
+
+  function handleAdd() {
+    const result = addItem(product);
+    if (result.message) {
+      setToast(result.message);
+      setTimeout(() => setToast(''), 4000);
+    }
+  }
 
   return (
     <article className={cn('card flex flex-col !p-0 overflow-hidden', className)}>
@@ -60,7 +70,19 @@ export function ProductCard({ product, compact = false, className }: ProductCard
           <span>GST {product.gstRate}%</span>
           <span>·</span>
           <span>Per {product.unitName}</span>
+          {product.inStock && (
+            <>
+              <span>·</span>
+              <span className="font-medium text-emerald-700">{Math.floor(product.stock)} {product.unit} in stock</span>
+            </>
+          )}
         </div>
+        {toast && (
+          <p className="mt-2 flex items-start gap-1.5 rounded-lg bg-amber-50 px-2 py-1.5 text-[11px] text-amber-800">
+            <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0" />
+            {toast}
+          </p>
+        )}
         <div className="mt-auto flex items-center justify-between gap-3 pt-4">
           <div>
             <p className="font-serif text-xl font-bold text-kedar-navy">
@@ -71,7 +93,7 @@ export function ProductCard({ product, compact = false, className }: ProductCard
           <button
             type="button"
             disabled={!product.inStock}
-            onClick={() => addItem(product)}
+            onClick={handleAdd}
             className={cn(
               'inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-all',
               product.inStock
@@ -95,21 +117,38 @@ interface AddToCartButtonProps {
 
 export function AddToCartButton({ product, className }: AddToCartButtonProps) {
   const { addItem } = useCart();
+  const [toast, setToast] = useState('');
+
+  function handleAdd() {
+    const result = addItem(product);
+    if (result.message) {
+      setToast(result.message);
+      setTimeout(() => setToast(''), 4000);
+    }
+  }
 
   return (
-    <button
-      type="button"
-      disabled={!product.inStock}
-      onClick={() => addItem(product)}
-      className={cn(
-        'btn-primary',
-        !product.inStock && 'cursor-not-allowed opacity-50',
-        className,
+    <div>
+      {toast && (
+        <p className="mb-3 flex items-start gap-1.5 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800">
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+          {toast}
+        </p>
       )}
-    >
-      <ShoppingCart className="mr-2 h-4 w-4" />
-      {product.inStock ? 'Add to Cart' : 'Out of Stock'}
-    </button>
+      <button
+        type="button"
+        disabled={!product.inStock}
+        onClick={handleAdd}
+        className={cn(
+          'btn-primary',
+          !product.inStock && 'cursor-not-allowed opacity-50',
+          className,
+        )}
+      >
+        <ShoppingCart className="mr-2 h-4 w-4" />
+        {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+      </button>
+    </div>
   );
 }
 
@@ -119,14 +158,14 @@ export function ProductDetailList({ product }: { product: StoreProduct }) {
     { label: 'Unit', value: `${product.unitName} (${product.unit})` },
     { label: 'HSN Code', value: product.hsnCode },
     { label: 'GST Rate', value: `${product.gstRate}%` },
-    { label: 'Availability', value: product.inStock ? `In stock (${product.stock} ${product.unit})` : 'Out of stock' },
+    { label: 'Availability', value: product.inStock ? `In stock (${Math.floor(product.stock)} ${product.unit})` : 'Out of stock' },
   ];
 
   return (
     <ul className="space-y-3">
       {details.map(({ label, value }) => (
         <li key={label} className="flex items-start gap-2 text-sm">
-          <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-kedar-gold" />
+          <span className="mt-0.5 h-4 w-4 shrink-0 rounded-full bg-kedar-gold/20" />
           <span>
             <strong className="text-kedar-navy">{label}:</strong>{' '}
             <span className="text-kedar-navy/75">{value}</span>

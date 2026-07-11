@@ -11,13 +11,15 @@ interface CartContextValue {
   items: CartItem[];
   itemCount: number;
   total: number;
-  addItem: (product: StoreProduct, quantity?: number) => void;
+  addItem: (product: StoreProduct, quantity?: number) => { ok: boolean; message?: string };
   removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  updateQuantity: (productId: string, quantity: number) => { ok: boolean; message?: string };
   clearCart: () => void;
   isOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
+  getStockShortfall: (productId: string) => number;
+  hasStockShortfall: boolean;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -48,19 +50,43 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [items, hydrated]);
 
+  const getStockShortfall = useCallback(
+    (productId: string) => {
+      const item = items.find((i) => i.product.id === productId);
+      if (!item) return 0;
+      return Math.max(0, item.quantity - Math.floor(item.product.stock));
+    },
+    [items],
+  );
+
+  const hasStockShortfall = useMemo(
+    () => items.some((i) => i.quantity > Math.floor(i.product.stock)),
+    [items],
+  );
+
   const addItem = useCallback((product: StoreProduct, quantity = 1) => {
+    if (!product.inStock || product.stock < 1) {
+      return { ok: false, message: `${product.name} is out of stock.` };
+    }
+
+    let message: string | undefined;
     setItems((prev) => {
       const existing = prev.find((i) => i.product.id === product.id);
+      const newQty = (existing?.quantity ?? 0) + quantity;
+      if (newQty > Math.floor(product.stock)) {
+        message = `Only ${Math.floor(product.stock)} ${product.unit} in stock. Extra units will require production before confirmation.`;
+      }
       if (existing) {
         return prev.map((i) =>
           i.product.id === product.id
-            ? { ...i, quantity: i.quantity + quantity }
+            ? { ...i, quantity: newQty, product }
             : i,
         );
       }
       return [...prev, { product, quantity }];
     });
     setIsOpen(true);
+    return { ok: true, message };
   }, []);
 
   const removeItem = useCallback((productId: string) => {
@@ -70,11 +96,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const updateQuantity = useCallback((productId: string, quantity: number) => {
     if (quantity < 1) {
       setItems((prev) => prev.filter((i) => i.product.id !== productId));
-      return;
+      return { ok: true };
     }
-    setItems((prev) =>
-      prev.map((i) => (i.product.id === productId ? { ...i, quantity } : i)),
-    );
+
+    let message: string | undefined;
+    setItems((prev) => {
+      const item = prev.find((i) => i.product.id === productId);
+      if (!item) return prev;
+      if (quantity > Math.floor(item.product.stock)) {
+        message = `Only ${Math.floor(item.product.stock)} ${item.product.unit} in stock. Extra units need production.`;
+      }
+      return prev.map((i) =>
+        i.product.id === productId ? { ...i, quantity } : i,
+      );
+    });
+    return { ok: true, message };
   }, []);
 
   const clearCart = useCallback(() => setItems([]), []);
@@ -98,11 +134,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       removeItem,
       updateQuantity,
       clearCart,
+      getStockShortfall,
+      hasStockShortfall,
       isOpen,
       openCart: () => setIsOpen(true),
       closeCart: () => setIsOpen(false),
     }),
-    [items, itemCount, total, addItem, removeItem, updateQuantity, clearCart, isOpen],
+    [items, itemCount, total, addItem, removeItem, updateQuantity, clearCart, getStockShortfall, hasStockShortfall, isOpen],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
