@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { AlertTriangle, ShoppingCart, Wheat } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
-import { formatPrice, getProductDescription } from '@/lib/products';
+import { formatPrice, getProductCategoryName, getProductDescription } from '@/lib/products';
 import type { StoreProduct } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
@@ -17,6 +17,7 @@ interface ProductCardProps {
 export function ProductCard({ product, compact = false, className }: ProductCardProps) {
   const { addItem } = useCart();
   const [toast, setToast] = useState('');
+  const categoryName = getProductCategoryName(product.category);
   const description = getProductDescription(product);
 
   function handleAdd() {
@@ -41,7 +42,7 @@ export function ProductCard({ product, compact = false, className }: ProductCard
           ) : (
             <div className="text-center text-white">
               <Wheat className="mx-auto mb-2 h-10 w-10 text-kedar-gold" />
-              <p className="text-xs uppercase tracking-widest text-kedar-gold/80">{product.category}</p>
+              <p className="text-xs uppercase tracking-widest text-kedar-gold/80">{categoryName}</p>
             </div>
           )}
           {!product.inStock && (
@@ -54,7 +55,7 @@ export function ProductCard({ product, compact = false, className }: ProductCard
 
       <div className={cn('flex flex-1 flex-col', compact ? 'p-4' : 'p-5')}>
         <p className="text-[10px] font-semibold uppercase tracking-wider text-kedar-gold-dark">
-          {product.category}
+          {categoryName}
         </p>
         <Link href={`/products/${product.id}`}>
           <h3 className="mt-1 font-serif text-lg font-semibold text-kedar-navy hover:text-kedar-gold-dark">
@@ -154,7 +155,7 @@ export function AddToCartButton({ product, className }: AddToCartButtonProps) {
 
 export function ProductDetailList({ product }: { product: StoreProduct }) {
   const details = [
-    { label: 'Category', value: product.category },
+    { label: 'Category', value: getProductCategoryName(product.category) },
     { label: 'Unit', value: `${product.unitName} (${product.unit})` },
     { label: 'HSN Code', value: product.hsnCode },
     { label: 'GST Rate', value: `${product.gstRate}%` },

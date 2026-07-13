@@ -37,9 +37,67 @@ export function formatPrice(amount: number): string {
   }).format(amount);
 }
 
+type RawCategory = string | { name?: string } | null | undefined;
+type RawUnit = string | { name?: string; symbol?: string } | null | undefined;
+
+type RawStoreProduct = Omit<Partial<StoreProduct>, 'category' | 'unit'> & {
+  category?: RawCategory;
+  categoryName?: string;
+  unit?: RawUnit;
+};
+
+export function getProductCategoryName(category: RawCategory): string {
+  if (typeof category === 'string') return category.trim();
+  if (category && typeof category === 'object' && category.name) {
+    return category.name.trim();
+  }
+  return '';
+}
+
+function normalizeStoreProduct(raw: RawStoreProduct): StoreProduct | null {
+  if (!raw.id || !raw.name) return null;
+
+  const category =
+    getProductCategoryName(raw.category) ||
+    (typeof raw.categoryName === 'string' ? raw.categoryName.trim() : '');
+
+  const unit =
+    typeof raw.unit === 'string'
+      ? raw.unit
+      : raw.unit?.symbol?.trim() || '';
+
+  const unitName =
+    raw.unitName?.trim() ||
+    (typeof raw.unit === 'object' && raw.unit?.name ? raw.unit.name.trim() : '') ||
+    unit;
+
+  return {
+    id: raw.id,
+    slug: raw.slug?.trim() || raw.id,
+    name: raw.name,
+    category: category || 'Other',
+    unit,
+    unitName,
+    price: Number(raw.price ?? 0),
+    hsnCode: raw.hsnCode ?? '',
+    gstRate: Number(raw.gstRate ?? 0),
+    imageUrl: raw.imageUrl ?? null,
+    inStock: Boolean(raw.inStock),
+    stock: Number(raw.stock ?? 0),
+  };
+}
+
+function normalizeStoreProducts(rawProducts: RawStoreProduct[]): StoreProduct[] {
+  return rawProducts
+    .map((product) => normalizeStoreProduct(product))
+    .filter((product): product is StoreProduct => product !== null);
+}
+
 export async function fetchStoreProducts(): Promise<StoreProduct[]> {
   try {
-    const products = await apiFetch<StoreProduct[]>('/store/products');
+    const products = normalizeStoreProducts(
+      await apiFetch<RawStoreProduct[]>('/store/products'),
+    );
     return products.length > 0 ? products : FALLBACK_PRODUCTS;
   } catch {
     return FALLBACK_PRODUCTS;
@@ -48,7 +106,9 @@ export async function fetchStoreProducts(): Promise<StoreProduct[]> {
 
 export async function fetchStoreProduct(id: string): Promise<StoreProduct | null> {
   try {
-    const product = await apiFetch<StoreProduct>(`/store/products/${id}`);
+    const product = normalizeStoreProduct(
+      await apiFetch<RawStoreProduct>(`/store/products/${id}`),
+    );
     return product;
   } catch {
     return FALLBACK_PRODUCTS.find((p) => p.id === id || p.slug === id) ?? null;

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Award, MapPin, Shield } from 'lucide-react';
+import { FilterableProductsGrid } from '@/components/FilterableProductsGrid';
 import { PageHero } from '@/components/InitiativeCard';
-import { ProductsGrid } from '@/components/FeaturedProducts';
 import { SectionHeading } from '@/components/SectionHeading';
 import { fetchStoreProducts } from '@/lib/products';
 import { QUALITY_BADGES, SITE } from '@/lib/content';
@@ -13,7 +13,6 @@ export const metadata = {
 
 export default async function ProductsPage() {
   const products = await fetchStoreProducts();
-  const categories = Array.from(new Set(products.map((p) => p.category)));
 
   return (
     <>
@@ -25,17 +24,7 @@ export default async function ProductsPage() {
 
       <section className="section-padding">
         <div className="section-container">
-          <div className="mb-10 flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <span
-                key={cat}
-                className="rounded-full border border-kedar-gold/30 bg-kedar-gold/10 px-4 py-1.5 text-xs font-semibold text-kedar-navy"
-              >
-                {cat}
-              </span>
-            ))}
-          </div>
-          <ProductsGrid />
+          <FilterableProductsGrid products={products} />
         </div>
       </section>
 
