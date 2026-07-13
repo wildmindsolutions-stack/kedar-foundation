@@ -117,8 +117,6 @@ export function CartDrawer() {
                       </Link>
                       <p className="text-xs text-kedar-navy/55">
                         {formatPrice(product.price)} / {product.unit}
-                        {' · '}
-                        {Math.floor(product.stock)} in stock
                       </p>
                       {shortfall > 0 && (
                         <p className="mt-1 flex items-center gap-1 text-[11px] font-medium text-amber-700">
@@ -134,6 +132,7 @@ export function CartDrawer() {
                         <button type="button" onClick={() => handleUpdateQty(product.id, quantity + 1)} className="rounded border border-kedar-navy/15 p-1 hover:bg-kedar-cream" aria-label="Increase">
                           <Plus className="h-3 w-3" />
                         </button>
+                        <span className="text-xs font-medium uppercase text-kedar-navy/55">{product.unit}</span>
                         <button type="button" onClick={() => removeItem(product.id)} className="ml-auto rounded p-1 text-red-500 hover:bg-red-50" aria-label="Remove">
                           <Trash2 className="h-4 w-4" />
                         </button>
