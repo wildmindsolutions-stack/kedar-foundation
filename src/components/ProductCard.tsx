@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { AlertTriangle, ShoppingCart, Wheat } from 'lucide-react';
-import { useCart } from '@/contexts/CartContext';
-import { formatPrice, getProductCategoryName, getProductDescription } from '@/lib/products';
+import { AlertTriangle, ShoppingCart } from 'lucide-react';
+import { ProductImage } from '@/components/ProductImage';
+import { useCart } from '@/contexts/CartContext';import { formatPrice, getProductCategoryName, getProductDescription } from '@/lib/products';
 import type { StoreProduct } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
@@ -31,22 +31,9 @@ export function ProductCard({ product, compact = false, className }: ProductCard
   return (
     <article className={cn('card flex flex-col !p-0 overflow-hidden', className)}>
       <Link href={`/products/${product.id}`} className="block">
-        <div className="relative flex aspect-[4/3] items-center justify-center bg-hero-gradient">
-          {product.imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={product.imageUrl}
-              alt={product.name}
-              className="h-full w-full object-cover"
-            />
-          ) : (
-            <div className="text-center text-white">
-              <Wheat className="mx-auto mb-2 h-10 w-10 text-kedar-gold" />
-              <p className="text-xs uppercase tracking-widest text-kedar-gold/80">{categoryName}</p>
-            </div>
-          )}
-          {!product.inStock && (
-            <span className="absolute right-3 top-3 rounded-full bg-red-500/90 px-2 py-0.5 text-[10px] font-semibold uppercase text-white">
+        <div className="relative aspect-[4/3] overflow-hidden bg-hero-gradient">
+          <ProductImage product={product} sizes="(max-width: 640px) 100vw, 33vw" className="absolute inset-0" />
+          {!product.inStock && (            <span className="absolute right-3 top-3 rounded-full bg-red-500/90 px-2 py-0.5 text-[10px] font-semibold uppercase text-white">
               Out of stock
             </span>
           )}
