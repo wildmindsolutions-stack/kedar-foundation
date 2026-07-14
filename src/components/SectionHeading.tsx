@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { LotusDivider } from '@/components/BrandMotifs';
 
 interface SectionHeadingProps {
   eyebrow?: string;
@@ -6,6 +7,7 @@ interface SectionHeadingProps {
   description?: string;
   align?: 'left' | 'center';
   light?: boolean;
+  lotus?: boolean;
 }
 
 export function SectionHeading({
@@ -14,6 +16,7 @@ export function SectionHeading({
   description,
   align = 'center',
   light = false,
+  lotus = false,
 }: SectionHeadingProps) {
   return (
     <div className={cn('mb-12', align === 'center' && 'text-center')}>
@@ -35,7 +38,11 @@ export function SectionHeading({
       >
         {title}
       </h2>
-      <div className={cn('gold-divider my-4', align === 'left' && 'mx-0')} />
+      {lotus ? (
+        <LotusDivider className={cn('my-4', light && 'text-kedar-gold')} />
+      ) : (
+        <div className={cn('gold-divider my-4', align === 'left' && 'mx-0')} />
+      )}
       {description && (
         <p
           className={cn(

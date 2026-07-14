@@ -83,7 +83,77 @@ export const QUALITY_BADGES = [
   { label: 'Export Documentation', description: 'Prepared for domestic and export market requirements.' },
 ];
 
+export const CHILD_WELFARE_TAGLINE =
+  'Provide support to organizations that offer free education, accommodation, and meals to children who do not have parents (orphaned boys and girls).';
+
+export const CHILD_WELFARE_IMAGES = [
+  '/work/child-welfare/child-welfare-01.avif',
+  '/work/child-welfare/child-welfare-02.avif',
+  '/work/child-welfare/child-welfare-03.avif',
+  '/work/child-welfare/child-welfare-04.avif',
+  '/work/child-welfare/child-welfare-05.avif',
+];
+
+export const FARMING_TAGLINE =
+  'Support farmers by assisting with irrigation projects and water management initiatives to improve agricultural productivity and sustainability.';
+
+export const FARMING_IMAGES = [
+  '/work/farming/farming-01.avif',
+  '/work/farming/farming-02.avif',
+  '/work/farming/farming-03.avif',
+  '/work/farming/farming-04.avif',
+];
+
+export const BIRD_SEVA_TAGLINE =
+  'Serve birds through feeding initiatives, water bowl distribution, tree plantation, and environmental awareness campaigns to conserve biodiversity and inspire community participation.';
+
+export const BIRD_SEVA_IMAGES = Array.from(
+  { length: 30 },
+  (_, i) => `/work/bird-seva/bird-seva-${String(i + 1).padStart(2, '0')}.avif`,
+);
+
 export const INITIATIVES = [
+  {
+    title: 'Child Welfare Support',
+    description: CHILD_WELFARE_TAGLINE,
+    items: [
+      'Support for orphaned boys and girls',
+      'Free education partnerships',
+      'Safe accommodation',
+      'Nutritious daily meals',
+      'Community care organizations',
+    ],
+    image: CHILD_WELFARE_IMAGES[0],
+    images: CHILD_WELFARE_IMAGES,
+    tagline: CHILD_WELFARE_TAGLINE,
+  },
+  {
+    title: 'Farmer Irrigation & Water Management',
+    description: FARMING_TAGLINE,
+    items: [
+      'Irrigation project support',
+      'Water management initiatives',
+      'Farmer productivity programs',
+      'Sustainable agriculture practices',
+      'Rural community outreach',
+    ],
+    image: FARMING_IMAGES[0],
+    images: FARMING_IMAGES,
+    tagline: FARMING_TAGLINE,
+  },
+  {
+    title: 'Bird Seva',
+    description: BIRD_SEVA_TAGLINE,
+    items: [
+      'Bird feeding initiatives',
+      'Water bowl distribution',
+      'Tree plantation',
+      'Environmental awareness',
+    ],
+    image: BIRD_SEVA_IMAGES[0],
+    images: BIRD_SEVA_IMAGES,
+    tagline: BIRD_SEVA_TAGLINE,
+  },
   {
     title: 'Student Innovation & Youth Development',
     description:
@@ -180,12 +250,6 @@ export const INITIATIVES = [
       'Effective utilization of agricultural waste through compost production, bio-decomposers, and natural fertilizers.',
     items: ['Organic compost', 'Bio-decomposer usage', 'Waste recycling', 'Awareness campaigns'],
   },
-  {
-    title: 'Bird Conservation & Environment',
-    description:
-      'Environmental campaigns focused on biodiversity conservation, tree plantation, and community participation.',
-    items: ['Bird feeding initiatives', 'Water bowl distribution', 'Tree plantation', 'Environmental awareness'],
-  },
 ];
 
 export const FUTURE_OPPORTUNITIES = [
@@ -209,6 +273,33 @@ export const NAV_LINKS = [
 
 /** Completed work / projects — add images to public/images/projects/ when ready. */
 export const PROJECTS = [
+  {
+    id: 'child-welfare',
+    title: 'Child Welfare Support',
+    description: CHILD_WELFARE_TAGLINE,
+    location: 'Gujarat',
+    year: '2025',
+    image: CHILD_WELFARE_IMAGES[0],
+    images: CHILD_WELFARE_IMAGES,
+  },
+  {
+    id: 'farmer-irrigation',
+    title: 'Farmer Irrigation & Water Management',
+    description: FARMING_TAGLINE,
+    location: 'Rural Gujarat',
+    year: '2025',
+    image: FARMING_IMAGES[0],
+    images: FARMING_IMAGES,
+  },
+  {
+    id: 'bird-seva',
+    title: 'Bird Seva',
+    description: BIRD_SEVA_TAGLINE,
+    location: 'Ahmedabad, Gujarat',
+    year: '2025',
+    image: BIRD_SEVA_IMAGES[0],
+    images: BIRD_SEVA_IMAGES,
+  },
   {
     id: 'organic-farming',
     title: 'Organic Farming Awareness Program',
@@ -252,7 +343,7 @@ export const PROJECTS = [
 ];
 
 export const HOMEPAGE_STATS = [
-  { value: '17+', label: 'Strategic Initiatives' },
+  { value: '19+', label: 'Strategic Initiatives' },
   { value: '10+', label: 'Product Categories' },
   { value: '100%', label: 'Quality Commitment' },
   { value: 'Ahmedabad', label: 'Based in Gujarat' },

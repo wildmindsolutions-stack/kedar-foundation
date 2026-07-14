@@ -3,6 +3,7 @@ import {
   ArrowRight, Award, Globe, Heart, Leaf, Shield, Sprout, Users, Wheat,
 } from 'lucide-react';
 import { SectionHeading } from '@/components/SectionHeading';
+import { LotusMotif, MountainLightBackdrop } from '@/components/BrandMotifs';
 import { HeroBanner } from '@/components/HeroBanner';
 import { CtaBanner } from '@/components/InitiativeCard';
 import { FeaturedProducts } from '@/components/FeaturedProducts';
@@ -39,8 +40,9 @@ export default function HomePage() {
       </section>
 
       {/* Highlights */}
-      <section className="section-padding">
-        <div className="section-container">
+      <section className="relative overflow-hidden section-padding">
+        <MountainLightBackdrop />
+        <div className="section-container relative z-10">
           <SectionHeading
             eyebrow="What We Stand For"
             title="Empowering Communities, Enriching Lives"
@@ -73,12 +75,15 @@ export default function HomePage() {
       </section>
 
       {/* Vision & Mission */}
-      <section className="section-padding">
-        <div className="section-container">
+      <section className="relative overflow-hidden section-padding">
+        <LotusMotif className="pointer-events-none absolute -right-8 top-8 h-32 w-auto text-kedar-gold opacity-[0.07] sm:h-40" />
+        <LotusMotif className="pointer-events-none absolute -left-8 bottom-8 h-24 w-auto scale-x-[-1] text-kedar-gold opacity-[0.07] sm:h-32" />
+        <div className="section-container relative z-10">
           <SectionHeading
             eyebrow="Who We Are"
             title="Vision & Mission"
             description="Building a self-reliant, innovative, and socially empowered India."
+            lotus
           />
           <div className="grid gap-8 lg:grid-cols-2">
             <div className="card border-l-4 border-l-kedar-gold">
@@ -94,8 +99,9 @@ export default function HomePage() {
       </section>
 
       {/* Our Products — multiple from ERP */}
-      <section className="section-padding bg-kedar-cream">
-        <div className="section-container">
+      <section className="relative overflow-hidden section-padding bg-kedar-cream">
+        <MountainLightBackdrop />
+        <div className="section-container relative z-10">
           <SectionHeading
             eyebrow="Our Products"
             title="Agricultural & Food Products"
@@ -130,6 +136,7 @@ export default function HomePage() {
             title="Strategic Initiatives"
             description="Practical programs that improve quality of life while promoting environmental sustainability and national development."
             light
+            lotus
           />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {featuredInitiatives.map((initiative) => (

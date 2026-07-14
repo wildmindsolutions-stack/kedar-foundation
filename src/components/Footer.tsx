@@ -1,23 +1,24 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Mail, MapPin, Phone, Wheat } from 'lucide-react';
+import { Mail, MapPin, Phone } from 'lucide-react';
+import { LotusMotif, FooterMountain } from '@/components/BrandMotifs';
 import { NAV_LINKS, SITE } from '@/lib/content';
 
 export function Footer() {
   return (
-    <footer className="bg-kedar-navy-dark text-white">
-      <div className="border-b border-kedar-gold/20 bg-kedar-navy py-8">
-        <div className="section-container flex flex-col items-center gap-3 text-center">
-          <div className="flex items-center gap-3">
-            <Wheat className="h-5 w-5 text-kedar-gold" />
+    <footer className="relative overflow-hidden bg-kedar-navy-dark text-white">
+      <div className="relative border-b border-kedar-gold/20 bg-kedar-navy py-8">
+        <div className="section-container relative z-10 flex flex-col items-center gap-3 text-center">
+          <div className="flex items-center gap-4">
+            <LotusMotif className="h-8 w-auto text-kedar-gold sm:h-10" />
             <p className="font-serif text-xl font-semibold text-kedar-gold">{SITE.tagline}</p>
-            <Wheat className="h-5 w-5 scale-x-[-1] text-kedar-gold" />
+            <LotusMotif className="h-8 w-auto scale-x-[-1] text-kedar-gold sm:h-10" />
           </div>
           <p className="text-sm text-white/70">{SITE.taglineGujarati}</p>
         </div>
       </div>
 
-      <div className="section-container grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="section-container relative z-10 grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-4">
           <div className="flex items-center gap-3">
             <Image src="/images/logo.png" alt={SITE.name} width={44} height={44} className="rounded-full" />
@@ -73,7 +74,9 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 py-6 text-center text-xs text-white/50">
+      <FooterMountain />
+
+      <div className="relative z-10 border-t border-white/10 py-6 text-center text-xs text-white/50">
         © {new Date().getFullYear()} Kedar Foundation. All rights reserved.
       </div>
     </footer>

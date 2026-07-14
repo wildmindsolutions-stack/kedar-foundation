@@ -1,7 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useCarouselSwipe } from '@/hooks/useCarouselSwipe';
 import { cn } from '@/lib/utils';
 
 export interface ProjectSlide {
@@ -11,33 +13,71 @@ export interface ProjectSlide {
   location?: string;
   year?: string;
   image?: string;
+  images?: string[];
 }
 
 interface ProjectsCarouselProps {
   projects: ProjectSlide[];
 }
 
+const PHOTO_INTERVAL_MS = 4000;
+
+function getPhotos(project: ProjectSlide | undefined): string[] {
+  if (!project) return [];
+  if (project.images?.length) return project.images;
+  if (project.image) return [project.image];
+  return [];
+}
+
 export function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
   const [index, setIndex] = useState(0);
+  const [photoIndex, setPhotoIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  const next = useCallback(() => {
-    setIndex((i) => (i + 1) % projects.length);
+  const current = projects[index];
+  const photos = getPhotos(current);
+
+  const goToProject = useCallback((projectIndex: number) => {
+    setIndex(((projectIndex % projects.length) + projects.length) % projects.length);
+    setPhotoIndex(0);
   }, [projects.length]);
 
-  const prev = useCallback(() => {
-    setIndex((i) => (i - 1 + projects.length) % projects.length);
-  }, [projects.length]);
+  const nextProject = useCallback(() => {
+    goToProject(index + 1);
+  }, [goToProject, index]);
+
+  const prevProject = useCallback(() => {
+    goToProject(index - 1);
+  }, [goToProject, index]);
+
+  const nextPhoto = useCallback(() => {
+    setPhotoIndex((i) => (i + 1) % photos.length);
+  }, [photos.length]);
+
+  const prevPhoto = useCallback(() => {
+    setPhotoIndex((i) => (i - 1 + photos.length) % photos.length);
+  }, [photos.length]);
+
+  const advance = useCallback(() => {
+    if (photos.length > 1 && photoIndex < photos.length - 1) {
+      setPhotoIndex((i) => i + 1);
+      return;
+    }
+    setIndex((i) => (i + 1) % projects.length);
+    setPhotoIndex(0);
+  }, [photoIndex, photos.length, projects.length]);
 
   useEffect(() => {
-    if (paused || projects.length <= 1) return;
-    const timer = setInterval(next, 5000);
+    if (paused) return;
+    const canAdvance = photos.length > 1 || projects.length > 1;
+    if (!canAdvance) return;
+    const timer = setInterval(advance, PHOTO_INTERVAL_MS);
     return () => clearInterval(timer);
-  }, [paused, next, projects.length]);
+  }, [paused, advance, photos.length, projects.length]);
+
+  const photoSwipe = useCarouselSwipe(prevPhoto, nextPhoto, setPaused);
 
   if (projects.length === 0) return null;
-
-  const current = projects[index];
 
   return (
     <div
@@ -46,14 +86,76 @@ export function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
       onMouseLeave={() => setPaused(false)}
     >
       <div className="flex flex-col lg:grid lg:grid-cols-2">
-        <div className="relative aspect-[2/1] w-full shrink-0 sm:aspect-[16/10] lg:aspect-auto lg:min-h-[280px]">
-          {current.image ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={current.image}
-              alt={current.title}
-              className="h-full w-full object-cover"
-            />
+        <div
+          className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-kedar-navy-dark touch-pan-y sm:aspect-[5/4] lg:aspect-auto lg:min-h-[360px]"
+          {...(photos.length > 1 ? photoSwipe : {})}
+        >
+          {photos.length > 0 ? (
+            <>
+              {photos.map((src, i) => (
+                <div
+                  key={src}
+                  className={cn(
+                    'absolute inset-0 flex items-center justify-center bg-kedar-navy-dark p-3 transition-opacity duration-700 sm:p-5',
+                    i === photoIndex ? 'opacity-100' : 'opacity-0',
+                  )}
+                >
+                  <div className="relative h-full w-full">
+                    <Image
+                      src={src}
+                      alt={`${current.title} photo ${i + 1}`}
+                      fill
+                      className="object-contain object-center"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      priority={i === 0 && index === 0}
+                    />
+                  </div>
+                </div>
+              ))}
+
+              {photos.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={prevPhoto}
+                    className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/20 bg-kedar-navy/80 p-1.5 text-white transition-colors hover:border-kedar-gold hover:text-kedar-gold sm:left-3 sm:p-2"
+                    aria-label="Previous photo"
+                  >
+                    <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={nextPhoto}
+                    className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/20 bg-kedar-navy/80 p-1.5 text-white transition-colors hover:border-kedar-gold hover:text-kedar-gold sm:right-3 sm:p-2"
+                    aria-label="Next photo"
+                  >
+                    <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+                  </button>
+
+                  <div className="absolute bottom-3 left-0 right-0 z-10 flex flex-col items-center gap-2">
+                    <span className="rounded-full bg-kedar-navy/80 px-3 py-1 text-xs font-medium text-white">
+                      {photoIndex + 1} / {photos.length}
+                    </span>
+                    {photos.length <= 12 && (
+                      <div className="flex max-w-full flex-wrap justify-center gap-1.5 px-4">
+                        {photos.map((src, i) => (
+                          <button
+                            key={src}
+                            type="button"
+                            onClick={() => setPhotoIndex(i)}
+                            className={cn(
+                              'h-1.5 rounded-full transition-all',
+                              i === photoIndex ? 'w-5 bg-kedar-gold' : 'w-1.5 bg-white/50 hover:bg-white/80',
+                            )}
+                            aria-label={`Show photo ${i + 1}`}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+            </>
           ) : (
             <div className="flex h-full min-h-[120px] items-center justify-center bg-gradient-to-br from-kedar-navy-light via-kedar-navy to-kedar-navy-dark p-4 text-center sm:min-h-[180px] sm:p-6">
               <div className="max-w-full">
@@ -88,7 +190,7 @@ export function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
           <div className="mt-4 flex items-center justify-center gap-3 sm:mt-6 sm:gap-4 lg:justify-start">
             <button
               type="button"
-              onClick={prev}
+              onClick={prevProject}
               className="rounded-full border border-white/20 p-1.5 transition-colors hover:border-kedar-gold hover:text-kedar-gold sm:p-2"
               aria-label="Previous project"
             >
@@ -99,7 +201,7 @@ export function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
                 <button
                   key={p.id}
                   type="button"
-                  onClick={() => setIndex(i)}
+                  onClick={() => goToProject(i)}
                   className={cn(
                     'h-1.5 rounded-full transition-all sm:h-2',
                     i === index ? 'w-6 bg-kedar-gold sm:w-8' : 'w-1.5 bg-white/30 hover:bg-white/50 sm:w-2',
@@ -110,7 +212,7 @@ export function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
             </div>
             <button
               type="button"
-              onClick={next}
+              onClick={nextProject}
               className="rounded-full border border-white/20 p-1.5 transition-colors hover:border-kedar-gold hover:text-kedar-gold sm:p-2"
               aria-label="Next project"
             >

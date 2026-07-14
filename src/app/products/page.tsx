@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Award, MapPin, Shield } from 'lucide-react';
+import { MountainLightBackdrop } from '@/components/BrandMotifs';
 import { FilterableProductsGrid } from '@/components/FilterableProductsGrid';
 import { PageHero } from '@/components/InitiativeCard';
 import { SectionHeading } from '@/components/SectionHeading';
@@ -22,8 +23,9 @@ export default async function ProductsPage() {
         subtitle="Quality grains, pulses, flour, snacks, and spices — sourced from trusted farmers and processed with care."
       />
 
-      <section className="section-padding">
-        <div className="section-container">
+      <section className="relative overflow-hidden section-padding">
+        <MountainLightBackdrop />
+        <div className="section-container relative z-10">
           <FilterableProductsGrid products={products} />
         </div>
       </section>
