@@ -6,14 +6,86 @@ import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   useCallback, useEffect, useRef, useState,
 } from 'react';
+import { MountainMotif } from '@/components/BrandMotifs';
 import { KEDAR_ACRONYM, SITE } from '@/lib/content';
 import { HERO_CAROUSEL_IMAGES } from '@/lib/hero-images.generated';
 import { cn } from '@/lib/utils';
 
-const LOGO_SRC = '/images/logo.png';
 const INTERVAL_MS = 6000;
 const TRANSITION_MS = 700;
 const SWIPE_THRESHOLD = 48;
+
+function KedarAcronymPanel() {
+  return (
+    <div className="rounded-xl border border-kedar-navy/8 bg-white px-4 py-5 shadow-card sm:px-8 sm:py-8">
+      <p className="text-center text-[10px] font-semibold uppercase tracking-[0.24em] text-kedar-gold-dark sm:text-xs">
+        What KEDAR Stands For
+      </p>
+      <div className="gold-divider my-3 sm:my-4" />
+
+      {/* Mobile — vertical list for readable labels */}
+      <ul className="divide-y divide-kedar-navy/8 md:hidden">
+        {KEDAR_ACRONYM.pillars.map(({ letter, short }) => (
+          <li key={letter} className="flex items-center gap-3 py-2.5 first:pt-0 last:pb-0">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-kedar-gold font-serif text-sm font-bold text-kedar-navy shadow-sm">
+              {letter}
+            </span>
+            <span className="text-sm font-semibold text-kedar-navy">{short}</span>
+          </li>
+        ))}
+      </ul>
+
+      {/* Tablet+ — compact horizontal grid */}
+      <div className="mx-auto hidden max-w-3xl grid-cols-5 gap-2 md:grid sm:gap-3">
+        {KEDAR_ACRONYM.pillars.map(({ letter, short }) => (
+          <div key={letter} className="min-w-0 text-center">
+            <p className="font-serif text-2xl font-bold leading-none tracking-tight text-kedar-gold sm:text-3xl">
+              {letter}
+            </p>
+            <div className="mx-auto my-2 h-px w-6 bg-kedar-gold/50 sm:w-8" />
+            <p className="text-xs font-semibold leading-tight text-kedar-navy sm:text-sm">{short}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BrandSlideContent() {
+  return (
+    <div className="relative mx-auto w-full max-w-5xl">
+      <div className="relative z-10">
+        <div className="mx-auto max-w-4xl px-1 text-center sm:px-0">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-kedar-gold-dark sm:text-xs">
+            {SITE.name}
+          </p>
+          <h1 className="mt-2 font-serif text-base font-bold leading-snug text-kedar-navy sm:mt-3 sm:text-3xl md:text-4xl md:whitespace-nowrap">
+            {KEDAR_ACRONYM.subtitle}{' '}
+            <span className="tracking-tight text-kedar-gold">{KEDAR_ACRONYM.title}</span>
+          </h1>
+        </div>
+
+        <div className="mt-5 sm:mt-8 md:mt-10">
+          <KedarAcronymPanel />
+        </div>
+
+        <p className="mx-auto mt-4 max-w-2xl text-center text-xs leading-relaxed text-kedar-navy/75 sm:mt-8 sm:text-base">
+          {KEDAR_ACRONYM.visionStatement}
+        </p>
+
+        <div className="mx-auto mt-5 flex w-full max-w-xs flex-col gap-2.5 sm:mt-8 sm:max-w-none sm:flex-row sm:justify-center sm:gap-3">
+          <Link href="/about" className="btn-primary w-full !py-2.5 !text-sm sm:w-auto sm:!px-6 sm:!py-3">
+            Our Story
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
+          <Link href="/products" className="btn-outline w-full !py-2.5 !text-sm sm:w-auto sm:!px-6 sm:!py-3">
+            Shop Products
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function HeroCarousel() {
   const workImages = HERO_CAROUSEL_IMAGES;
@@ -59,7 +131,10 @@ export function HeroCarousel() {
 
   return (
     <section
-      className="relative flex min-h-[calc(100dvh-4rem)] flex-col overflow-hidden bg-kedar-navy text-white sm:min-h-[calc(100dvh-5rem)]"
+      className={cn(
+        'relative flex min-h-[calc(100dvh-4rem)] flex-col overflow-hidden sm:min-h-[calc(100dvh-5rem)]',
+        isBrandSlide ? 'bg-kedar-cream text-kedar-navy' : 'bg-kedar-navy text-white',
+      )}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={onTouchStart}
@@ -76,15 +151,22 @@ export function HeroCarousel() {
             transition: `transform ${TRANSITION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`,
           }}
         >
-          {/* Slide 0 — plain navy (logo lives in foreground layout, not background) */}
-          <div className="relative h-full w-screen shrink-0 bg-kedar-navy">
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-kedar-navy via-kedar-navy to-kedar-navy-dark" />
+          {/* Slide 0 — cream brand intro with mountain bottom-left */}
+          <div className="relative h-full w-screen shrink-0 overflow-hidden bg-kedar-cream">
             <div
-              className="pointer-events-none absolute inset-0 opacity-[0.08]"
-              style={{
-                backgroundImage: 'radial-gradient(circle at 30% 20%, #D4AF37 0%, transparent 50%)',
-              }}
-            />
+              className="pointer-events-none absolute bottom-0 left-0 flex w-[85%] max-w-4xl items-end justify-start overflow-hidden sm:w-[75%] sm:max-w-5xl"
+              aria-hidden
+            >
+              <div
+                className={cn(
+                  '-translate-x-4 sm:-translate-x-6',
+                  '[mask-image:linear-gradient(to_right,transparent_0%,black_40%,black_100%)]',
+                  '[-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_40%,black_100%)]',
+                )}
+              >
+                <MountainMotif className="h-52 w-auto opacity-[0.22] sm:h-[26rem] md:h-[32rem] lg:h-[36rem]" />
+              </div>
+            </div>
           </div>
 
           {/* Work photo slides */}
@@ -105,87 +187,9 @@ export function HeroCarousel() {
       </div>
 
       {/* Foreground content */}
-      <div className="section-container relative z-10 flex flex-1 flex-col justify-center py-5 sm:py-8 md:py-12">
+      <div className="section-container relative z-10 flex flex-1 flex-col justify-center py-4 sm:py-8 md:py-12">
         {isBrandSlide ? (
-          <>
-            <div className="mx-auto w-full max-w-xl text-center">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-kedar-gold/90 sm:text-xs">
-                {SITE.name}
-              </p>
-              <h1 className="mt-2 font-serif text-[1.35rem] font-bold leading-[1.2] text-white sm:mt-3 sm:text-3xl md:text-4xl">
-                {KEDAR_ACRONYM.subtitle}
-                <span className="mt-1 block text-2xl font-bold tracking-[0.08em] text-kedar-gold sm:mt-2 sm:text-3xl md:text-4xl">
-                  {KEDAR_ACRONYM.title}
-                </span>
-              </h1>
-            </div>
-
-            {/* Mobile — fullform only, no logo */}
-            <div className="mx-auto mt-5 w-full max-w-md rounded-2xl border border-white/20 bg-kedar-navy/70 px-4 py-3 shadow-lg backdrop-blur-md md:hidden">
-              <p className="mb-3 text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-kedar-gold/85">
-                What KEDAR Stands For
-              </p>
-              <ul className="divide-y divide-white/10">
-                {KEDAR_ACRONYM.pillars.map(({ letter, short }) => (
-                  <li key={letter} className="flex items-center gap-3 py-2.5 first:pt-0 last:pb-0">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-kedar-gold font-serif text-sm font-bold text-kedar-navy shadow-sm">
-                      {letter}
-                    </span>
-                    <span className="text-sm font-medium text-white/95">{short}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Desktop — logo + fullform side by side */}
-            <div className="mx-auto mt-8 hidden w-full max-w-5xl items-center gap-8 md:grid md:grid-cols-2 lg:gap-12">
-              <div className="flex items-center justify-center">
-                <Image
-                  src={LOGO_SRC}
-                  alt="Kedar Foundation"
-                  width={400}
-                  height={400}
-                  className="h-auto max-h-[min(50vh,380px)] w-auto max-w-full object-contain"
-                  priority
-                  style={{ width: 'auto', height: 'auto' }}
-                />
-              </div>
-              <div className="rounded-2xl border border-white/20 bg-kedar-navy/60 px-5 py-5 shadow-lg backdrop-blur-md">
-                <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.2em] text-kedar-gold/85">
-                  What KEDAR Stands For
-                </p>
-                <div className="grid grid-cols-5 gap-1.5 lg:gap-2">
-                  {KEDAR_ACRONYM.pillars.map(({ letter, short }) => (
-                    <div
-                      key={letter}
-                      className="flex min-w-0 flex-col items-center gap-1.5 overflow-hidden rounded-xl bg-white/[0.06] px-0.5 py-2.5 text-center sm:px-1 sm:py-3"
-                    >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-kedar-gold font-serif text-sm font-bold text-kedar-navy lg:h-10 lg:w-10">
-                        {letter}
-                      </span>
-                      <p className="w-full min-w-0 break-words text-[8px] leading-[1.25] text-white/90 sm:text-[9px]">
-                        {short}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <p className="mx-auto mt-4 hidden max-w-xl text-center text-sm leading-relaxed text-white/90 sm:block md:mt-8">
-              {KEDAR_ACRONYM.visionStatement}
-            </p>
-
-            <div className="mx-auto mt-5 flex w-full max-w-xs flex-col gap-2.5 sm:mt-8 sm:max-w-none sm:flex-row sm:justify-center sm:gap-3 md:mt-10">
-              <Link href="/about" className="btn-primary w-full !py-2.5 !text-sm sm:w-auto sm:!px-6 sm:!py-3">
-                Our Story
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-              <Link href="/products" className="btn-outline w-full !py-2.5 !text-sm sm:w-auto sm:!px-6 sm:!py-3">
-                Shop Products
-              </Link>
-            </div>
-          </>
+          <BrandSlideContent />
         ) : (
           <div className="mx-auto max-w-lg text-center">
             <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-kedar-gold/90 sm:text-xs [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
@@ -204,7 +208,12 @@ export function HeroCarousel() {
           <button
             type="button"
             onClick={prev}
-            className="absolute left-2 top-1/2 z-20 -translate-y-1/2 rounded-full border border-white/25 bg-kedar-navy/40 p-2 text-white backdrop-blur-sm transition-colors hover:border-kedar-gold hover:text-kedar-gold sm:left-4 sm:p-2.5"
+            className={cn(
+              'absolute left-1 top-1/2 z-20 -translate-y-1/2 rounded-full border p-1.5 backdrop-blur-sm transition-colors sm:left-4 sm:p-2.5',
+              isBrandSlide
+                ? 'border-kedar-navy/15 bg-white/80 text-kedar-navy hover:border-kedar-gold hover:text-kedar-gold-dark'
+                : 'border-white/25 bg-kedar-navy/40 text-white hover:border-kedar-gold hover:text-kedar-gold',
+            )}
             aria-label="Previous slide"
           >
             <ChevronLeft className="h-5 w-5" />
@@ -212,7 +221,12 @@ export function HeroCarousel() {
           <button
             type="button"
             onClick={next}
-            className="absolute right-2 top-1/2 z-20 -translate-y-1/2 rounded-full border border-white/25 bg-kedar-navy/40 p-2 text-white backdrop-blur-sm transition-colors hover:border-kedar-gold hover:text-kedar-gold sm:right-4 sm:p-2.5"
+            className={cn(
+              'absolute right-1 top-1/2 z-20 -translate-y-1/2 rounded-full border p-1.5 backdrop-blur-sm transition-colors sm:right-4 sm:p-2.5',
+              isBrandSlide
+                ? 'border-kedar-navy/15 bg-white/80 text-kedar-navy hover:border-kedar-gold hover:text-kedar-gold-dark'
+                : 'border-white/25 bg-kedar-navy/40 text-white hover:border-kedar-gold hover:text-kedar-gold',
+            )}
             aria-label="Next slide"
           >
             <ChevronRight className="h-5 w-5" />
@@ -232,20 +246,29 @@ export function HeroCarousel() {
                 'rounded-full transition-all duration-300',
                 i === index
                   ? 'h-2 w-7 bg-kedar-gold'
-                  : 'h-2 w-2 bg-white/50 hover:bg-white/80',
+                  : isBrandSlide
+                    ? 'h-2 w-2 bg-kedar-navy/25 hover:bg-kedar-navy/40'
+                    : 'h-2 w-2 bg-white/50 hover:bg-white/80',
               )}
-              aria-label={i === 0 ? 'Go to Kedar logo slide' : `Go to work photo ${i}`}
+              aria-label={i === 0 ? 'Go to Kedar introduction slide' : `Go to work photo ${i}`}
               aria-current={i === index ? 'true' : undefined}
             />
           ))}
         </div>
       )}
 
-      <div className="relative z-10 mt-auto shrink-0 border-t border-white/15 bg-kedar-navy/60 px-4 py-2 backdrop-blur-md sm:py-3">
-        <p className="text-center text-[10px] leading-relaxed text-white/55 sm:text-xs">
+      <div
+        className={cn(
+          'relative z-10 mt-auto shrink-0 border-t px-4 py-2 backdrop-blur-md sm:py-3',
+          isBrandSlide
+            ? 'border-kedar-navy/10 bg-white/70 text-kedar-navy/70'
+            : 'border-white/15 bg-kedar-navy/60 text-white/55',
+        )}
+      >
+        <p className="text-center text-[10px] leading-relaxed sm:text-xs">
           <span className="block sm:inline">{SITE.tagline}</span>
-          <span className="mx-1.5 hidden text-kedar-gold/40 sm:inline">·</span>
-          <span className="mt-0.5 block text-[9px] text-white/45 sm:mt-0 sm:inline sm:text-xs sm:text-white/55">
+          <span className={cn('mx-1.5 hidden sm:inline', isBrandSlide ? 'text-kedar-gold/50' : 'text-kedar-gold/40')}>·</span>
+          <span className={cn('mt-0.5 block text-[9px] sm:mt-0 sm:inline sm:text-xs', isBrandSlide ? 'text-kedar-navy/55' : 'text-white/45 sm:text-white/55')}>
             {SITE.taglineGujarati}
           </span>
         </p>
