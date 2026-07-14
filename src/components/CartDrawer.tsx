@@ -12,7 +12,7 @@ export function CartDrawer() {
   const { user, placeOrder } = useAuth();
   const {
     items, itemCount, total, isOpen, closeCart,
-    updateQuantity, removeItem, clearCart, getStockShortfall, hasStockShortfall,
+    updateQuantity, removeItem, clearCart, getStockShortfall, hasStockShortfall, prepareForCheckout,
   } = useCart();
   const [placing, setPlacing] = useState(false);
   const [orderDone, setOrderDone] = useState(false);
@@ -26,8 +26,14 @@ export function CartDrawer() {
     setError('');
     setPlacing(true);
     try {
+      const prepared = await prepareForCheckout();
+      if (!prepared.ok) {
+        setError(prepared.message);
+        return;
+      }
+
       const result = await placeOrder(
-        items.map(({ product, quantity }) => ({
+        prepared.items.map(({ product, quantity }) => ({
           productId: product.id,
           qty: quantity,
           rate: product.price,
@@ -90,9 +96,14 @@ export function CartDrawer() {
                   ? 'Your order is received. Some items need production before our team can confirm it. We will notify you when ready.'
                   : 'Your order has been sent to our sales team. They will review and confirm it shortly.'}
               </p>
-              <button type="button" onClick={handleClose} className="btn-primary mt-6">
-                Continue Shopping
-              </button>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <Link href="/orders" className="btn-primary" onClick={handleClose}>
+                  View My Orders
+                </Link>
+                <button type="button" onClick={handleClose} className="rounded-xl border border-kedar-navy/15 px-5 py-2.5 text-sm font-medium text-kedar-navy hover:bg-kedar-cream">
+                  Continue Shopping
+                </button>
+              </div>
             </div>
           ) : items.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center text-center">
@@ -121,7 +132,7 @@ export function CartDrawer() {
                       {shortfall > 0 && (
                         <p className="mt-1 flex items-center gap-1 text-[11px] font-medium text-amber-700">
                           <AlertTriangle className="h-3 w-3" />
-                          {shortfall} {product.unit} need production
+                          Awaiting production before confirmation
                         </p>
                       )}
                       <div className="mt-2 flex items-center gap-2">

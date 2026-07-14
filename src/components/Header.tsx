@@ -86,7 +86,7 @@ export function Header() {
                   </Link>
                   <span className="flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/90">
                     <User className="h-3.5 w-3.5 text-kedar-gold" />
-                    {user.name.split(' ')[0]}
+                    <Link href="/account" className="hover:text-kedar-gold">{user.name.split(' ')[0]}</Link>
                   </span>
                   <button
                     type="button"
@@ -142,6 +142,14 @@ export function Header() {
             ))}
             {user ? (
               <>
+                <Link
+                  href="/account"
+                  className="flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-medium text-white/90 hover:bg-white/5"
+                  onClick={() => setOpen(false)}
+                >
+                  <User className="h-4 w-4" />
+                  My Account
+                </Link>
                 <Link
                   href="/orders"
                   className="flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-medium text-kedar-gold hover:bg-white/5"

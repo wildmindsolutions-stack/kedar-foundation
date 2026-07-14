@@ -11,13 +11,23 @@ const INDIAN_STATES = [
   'Uttar Pradesh', 'Madhya Pradesh', 'Punjab', 'Haryana', 'Other',
 ];
 
+function getPostAuthPath(from: string | null) {
+  if (from === 'cart') return '/?cart=open';
+  if (from === 'orders') return '/orders';
+  return '/';
+}
+
 function AuthForm() {
   const { login, register, user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const fromCart = searchParams.get('from') === 'cart';
+  const from = searchParams.get('from');
+  const fromCart = from === 'cart';
+  const postAuthPath = getPostAuthPath(from);
 
-  const [mode, setMode] = useState<'login' | 'signup'>(searchParams.get('mode') === 'signup' ? 'signup' : 'login');
+  const [mode, setMode] = useState<'login' | 'signup' | 'reset'>(
+    searchParams.get('mode') === 'signup' ? 'signup' : 'login',
+  );
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -27,12 +37,15 @@ function AuthForm() {
   const [phone, setPhone] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('Gujarat');
+  const [resetPhone, setResetPhone] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [resetSuccess, setResetSuccess] = useState('');
 
   useEffect(() => {
     if (user) {
-      router.replace(fromCart ? '/?cart=open' : '/');
+      router.replace(postAuthPath);
     }
-  }, [user, router, fromCart]);
+  }, [user, router, postAuthPath]);
 
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
@@ -40,7 +53,7 @@ function AuthForm() {
     setLoading(true);
     try {
       await login(email, password);
-      router.push(fromCart ? '/?cart=open' : '/');
+      router.push(postAuthPath);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed.');
     } finally {
@@ -60,13 +73,34 @@ function AuthForm() {
           'Your account was linked to our existing customer record. Name and city from our ERP system were kept.',
         );
       }
-      router.push(fromCart ? '/?cart=open' : '/');
+      router.push(postAuthPath);
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Registration failed.';
       setError(msg);
       if (msg.toLowerCase().includes('please login')) {
         setMode('login');
       }
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleResetPassword(e: FormEvent) {
+    e.preventDefault();
+    setError('');
+    setResetSuccess('');
+    setLoading(true);
+    try {
+      const { apiFetch } = await import('@/lib/api');
+      const res = await apiFetch<{ message: string }>('/store/auth/reset-password', {
+        method: 'POST',
+        body: JSON.stringify({ email, phone: resetPhone, password: newPassword }),
+      });
+      setResetSuccess(res.message);
+      setMode('login');
+      setPassword('');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not reset password.');
     } finally {
       setLoading(false);
     }
@@ -87,17 +121,20 @@ function AuthForm() {
               )}
             </div>
             <h1 className="font-serif text-2xl font-bold text-kedar-navy">
-              {mode === 'login' ? 'Login' : 'Create Account'}
+              {mode === 'login' ? 'Login' : mode === 'signup' ? 'Create Account' : 'Reset Password'}
             </h1>
             <p className="mt-2 text-sm text-kedar-navy/65">
               {fromCart
                 ? 'Sign in or register to place your order.'
                 : mode === 'login'
                   ? 'Sign in to your Kedar Foundation customer account.'
-                  : 'Register to order products. If our team already added you as a customer, use the same phone number to activate your online account.'}
+                  : mode === 'signup'
+                    ? 'Register to order products. If our team already added you as a customer, use the same phone number to activate your online account.'
+                    : 'Enter your registered email and phone number to set a new password.'}
             </p>
           </div>
 
+          {mode !== 'reset' && (
           <div className="mb-6 flex rounded-full border border-kedar-navy/10 bg-kedar-cream/50 p-1">
             {(['login', 'signup'] as const).map((tab) => (
               <button
@@ -115,6 +152,13 @@ function AuthForm() {
               </button>
             ))}
           </div>
+          )}
+
+          {resetSuccess && mode === 'login' && (
+            <div className="mb-4 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
+              {resetSuccess}
+            </div>
+          )}
 
           {mode === 'login' ? (
             <form onSubmit={handleLogin} className="space-y-4">
@@ -142,6 +186,41 @@ function AuthForm() {
               )}
               <button type="submit" disabled={loading} className="btn-primary w-full">
                 {loading ? 'Signing in…' : 'Sign In'}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setMode('reset'); setError(''); setResetSuccess(''); }}
+                className="mt-3 w-full text-center text-sm font-medium text-kedar-gold-dark hover:underline"
+              >
+                Forgot password?
+              </button>
+            </form>
+          ) : mode === 'reset' ? (
+            <form onSubmit={handleResetPassword} className="space-y-4">
+              <div>
+                <label htmlFor="reset-email" className="mb-1 block text-sm font-medium text-kedar-navy">Email</label>
+                <input id="reset-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={inputClass} />
+              </div>
+              <div>
+                <label htmlFor="reset-phone" className="mb-1 block text-sm font-medium text-kedar-navy">Phone</label>
+                <input id="reset-phone" type="tel" required value={resetPhone} onChange={(e) => setResetPhone(e.target.value)} className={inputClass} placeholder="10-digit mobile number" />
+              </div>
+              <div>
+                <label htmlFor="new-password" className="mb-1 block text-sm font-medium text-kedar-navy">New password</label>
+                <input id="new-password" type="password" required minLength={6} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className={inputClass} />
+              </div>
+              {error && (
+                <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</div>
+              )}
+              <button type="submit" disabled={loading} className="btn-primary w-full">
+                {loading ? 'Updating…' : 'Update Password'}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setMode('login'); setError(''); }}
+                className="mt-2 w-full text-center text-sm text-kedar-navy/60 hover:text-kedar-navy"
+              >
+                Back to login
               </button>
             </form>
           ) : (

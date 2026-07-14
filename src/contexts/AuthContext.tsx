@@ -22,10 +22,14 @@ interface AuthContextValue {
   user: FoundationCustomer | null;
   token: string | null;
   isLoading: boolean;
+  sessionMessage: string | null;
+  clearSessionMessage: () => void;
   login: (email: string, password: string) => Promise<void>;
   register: (data: RegisterData) => Promise<{ profileFromErp?: boolean }>;
   logout: () => void;
+  updateProfile: (data: { name?: string; city?: string; state?: string }) => Promise<void>;
   placeOrder: (items: { productId: string; qty: number; rate: number }[]) => Promise<{ id: string; awaitingStock?: boolean }>;
+  cancelOrder: (orderId: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -34,6 +38,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<FoundationCustomer | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [sessionMessage, setSessionMessage] = useState<string | null>(null);
+
+  const clearSessionMessage = useCallback(() => setSessionMessage(null), []);
 
   const persistAuth = useCallback((data: AuthResponse) => {
     localStorage.setItem(TOKEN_KEY, data.accessToken);
@@ -62,6 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem(USER_KEY);
         setToken(null);
         setUser(null);
+        setSessionMessage('Your session expired. Please sign in again.');
       } finally {
         setIsLoading(false);
       }
@@ -93,6 +101,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
   }, []);
 
+  const updateProfile = useCallback(async (data: { name?: string; city?: string; state?: string }) => {
+    if (!token) throw new Error('Please log in');
+    const profile = await apiFetch<FoundationCustomer>('/store/auth/profile', {
+      method: 'PATCH',
+      token,
+      body: JSON.stringify(data),
+    });
+    localStorage.setItem(USER_KEY, JSON.stringify(profile));
+    setUser(profile);
+  }, [token]);
+
+  const cancelOrder = useCallback(async (orderId: string) => {
+    if (!token) throw new Error('Please log in');
+    await apiFetch(`/store/orders/${orderId}/cancel`, { method: 'POST', token });
+  }, [token]);
+
   const placeOrder = useCallback(async (
     items: { productId: string; qty: number; rate: number }[],
   ) => {
@@ -107,9 +131,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo(
     () => ({
-      user, token, isLoading, login, register, logout, placeOrder,
+      user, token, isLoading, sessionMessage, clearSessionMessage,
+      login, register, logout, updateProfile, placeOrder, cancelOrder,
     }),
-    [user, token, isLoading, login, register, logout, placeOrder],
+    [user, token, isLoading, sessionMessage, clearSessionMessage, login, register, logout, updateProfile, placeOrder, cancelOrder],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

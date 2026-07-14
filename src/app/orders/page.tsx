@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { ArrowLeft, Download, Loader2, Package } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { ArrowLeft, Download, Loader2, Package, XCircle } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { apiFetch, downloadInvoicePdf } from '@/lib/api';
 import { formatPrice } from '@/lib/products';
-
+import { cn } from '@/lib/utils';
 interface InvoiceLineItem {
   id: string;
   qty: number;
@@ -52,6 +52,7 @@ interface Order {
   id: string;
   status: string;
   orderDate: string;
+  notes?: string | null;
   items: OrderItem[];
   invoice: Invoice | null;
 }
@@ -90,11 +91,27 @@ function orderGrandTotal(order: Order) {
 }
 
 export default function OrdersPage() {
-  const { user, token, isLoading } = useAuth();
+  return (
+    <Suspense fallback={
+      <section className="section-padding">
+        <div className="section-container text-center text-kedar-navy/60">Loading orders…</div>
+      </section>
+    }>
+      <OrdersContent />
+    </Suspense>
+  );
+}
+
+function OrdersContent() {
+  const { user, token, isLoading, cancelOrder } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const highlightId = searchParams.get('highlight');
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState('');
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [cancellingId, setCancellingId] = useState<string | null>(null);
 
   useEffect(() => {
     if (isLoading) return;
@@ -102,10 +119,36 @@ export default function OrdersPage() {
       router.replace('/login?from=orders');
       return;
     }
+    setFetchError('');
     apiFetch<Order[]>('/store/orders', { token })
       .then(setOrders)
+      .catch((err) => {
+        setOrders([]);
+        setFetchError(err instanceof Error ? err.message : 'Could not load your orders.');
+      })
       .finally(() => setLoading(false));
   }, [user, token, isLoading, router]);
+
+  useEffect(() => {
+    if (!highlightId || loading) return;
+    const el = document.getElementById(`order-${highlightId}`);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [highlightId, loading, orders]);
+
+  async function handleCancel(orderId: string) {
+    if (!window.confirm('Cancel this pending order?')) return;
+    setCancellingId(orderId);
+    try {
+      await cancelOrder(orderId);
+      setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, status: 'CANCELLED' } : o)));
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Could not cancel order');
+    } finally {
+      setCancellingId(null);
+    }
+  }
 
   async function handleDownloadPdf(invoice: Invoice) {
     if (!token) return;
@@ -142,7 +185,13 @@ export default function OrdersPage() {
         <h1 className="font-serif text-3xl font-bold text-kedar-navy">My Orders</h1>
         <p className="mt-2 text-sm text-kedar-navy/65">Track confirmation, dispatch, delivery, and invoice details.</p>
 
-        {orders.length === 0 ? (
+        {fetchError && (
+          <div className="mt-6 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">
+            {fetchError}
+          </div>
+        )}
+
+        {!fetchError && orders.length === 0 ? (
           <div className="card mt-8 text-center">
             <Package className="mx-auto mb-3 h-10 w-10 text-kedar-navy/25" />
             <p className="text-kedar-navy/70">No orders yet.</p>
@@ -173,7 +222,14 @@ export default function OrdersPage() {
                   }));
 
               return (
-                <li key={order.id} className="card">
+                <li
+                  key={order.id}
+                  id={`order-${order.id}`}
+                  className={cn(
+                    'card transition-shadow',
+                    highlightId === order.id && 'ring-2 ring-kedar-gold shadow-md',
+                  )}
+                >
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                       <p className="text-xs text-kedar-navy/50">
@@ -195,6 +251,24 @@ export default function OrdersPage() {
                       {delivery && <span className={cnBadge(delivery.color)}>{delivery.label}</span>}
                     </div>
                   </div>
+
+                  {order.status === 'DRAFT' && (
+                    <div className="mt-3 flex justify-end">
+                      <button
+                        type="button"
+                        onClick={() => handleCancel(order.id)}
+                        disabled={cancellingId === order.id}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-700 hover:bg-red-100 disabled:opacity-60"
+                      >
+                        {cancellingId === order.id ? (
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        ) : (
+                          <XCircle className="h-3.5 w-3.5" />
+                        )}
+                        Cancel Order
+                      </button>
+                    </div>
+                  )}
 
                   {inv && (
                     <div className="mt-2 flex flex-wrap items-center justify-between gap-2">

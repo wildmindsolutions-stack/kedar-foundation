@@ -7,6 +7,10 @@ import { useAuth } from '@/contexts/AuthContext';
 import { apiFetch } from '@/lib/api';
 import { cn } from '@/lib/utils';
 
+function orderLink(refId: string | null) {
+  return refId ? `/orders?highlight=${encodeURIComponent(refId)}` : '/orders';
+}
+
 interface CustomerNotification {
   id: string;
   type: string;
@@ -43,6 +47,7 @@ export function NotificationPanel() {
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState<CustomerNotification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [pollError, setPollError] = useState('');
   const panelRef = useRef<HTMLDivElement>(null);
 
   const fetchNotifications = useCallback(async () => {
@@ -54,8 +59,9 @@ export function NotificationPanel() {
       ]);
       setNotifications(list);
       setUnreadCount(unread.count);
+      setPollError('');
     } catch {
-      /* ignore poll errors */
+      setPollError('Could not refresh notifications.');
     }
   }, [token]);
 
@@ -154,6 +160,11 @@ export function NotificationPanel() {
             </div>
 
             <div className="max-h-[calc(min(70vh,32rem)-7rem)] overflow-y-auto md:max-h-64">
+              {pollError && (
+                <p className="border-b border-amber-100 bg-amber-50 px-4 py-2 text-xs text-amber-800">
+                  {pollError}
+                </p>
+              )}
               {notifications.length === 0 ? (
                 <p className="px-4 py-8 text-center text-sm text-kedar-navy/50">
                   No notifications yet. Place an order to track its status here.
@@ -168,10 +179,13 @@ export function NotificationPanel() {
                         !n.isRead && 'bg-kedar-gold/5',
                       )}
                     >
-                      <button
-                        type="button"
-                        className="w-full text-left"
-                        onClick={() => !n.isRead && markRead(n.id)}
+                      <Link
+                        href={orderLink(n.refId)}
+                        className="block w-full text-left"
+                        onClick={() => {
+                          if (!n.isRead) markRead(n.id);
+                          setOpen(false);
+                        }}
                       >
                         <div className="mb-1 flex items-start justify-between gap-2">
                           <span
@@ -190,7 +204,10 @@ export function NotificationPanel() {
                         <p className="mt-0.5 break-words text-[11px] leading-relaxed text-kedar-navy/65 sm:text-xs">
                           {n.message}
                         </p>
-                      </button>
+                        {n.refId && (
+                          <p className="mt-1 text-[10px] font-medium text-kedar-gold-dark">View order →</p>
+                        )}
+                      </Link>
                     </li>
                   ))}
                 </ul>

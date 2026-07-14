@@ -10,7 +10,6 @@ export interface StoreProduct {
   gstRate: number;
   imageUrl: string | null;
   inStock: boolean;
-  stock: number;
 }
 
 export interface CartItem {

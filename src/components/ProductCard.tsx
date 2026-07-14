@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { AlertTriangle, ShoppingCart, Wheat } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
-import { formatPrice, getProductCategoryName, getProductDescription } from '@/lib/products';
+import { formatPrice, isFallbackCatalogProduct, getProductCategoryName, getProductDescription } from '@/lib/products';
 import type { StoreProduct } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
@@ -19,9 +19,16 @@ export function ProductCard({ product, compact = false, className }: ProductCard
   const [toast, setToast] = useState('');
   const categoryName = getProductCategoryName(product.category);
   const description = getProductDescription(product);
+  const catalogOffline = isFallbackCatalogProduct(product.id);
+  const canOrder = !catalogOffline;
 
   function handleAdd() {
     const result = addItem(product);
+    if (!result.ok && result.message) {
+      setToast(result.message);
+      setTimeout(() => setToast(''), 4000);
+      return;
+    }
     if (result.message) {
       setToast(result.message);
       setTimeout(() => setToast(''), 4000);
@@ -74,7 +81,7 @@ export function ProductCard({ product, compact = false, className }: ProductCard
           {product.inStock && (
             <>
               <span>·</span>
-              <span className="font-medium text-emerald-700">{Math.floor(product.stock)} {product.unit} in stock</span>
+              <span className="font-medium text-emerald-700">In stock</span>
             </>
           )}
         </div>
@@ -93,17 +100,17 @@ export function ProductCard({ product, compact = false, className }: ProductCard
           </div>
           <button
             type="button"
-            disabled={!product.inStock}
+            disabled={!canOrder}
             onClick={handleAdd}
             className={cn(
               'inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-all',
-              product.inStock
+              canOrder
                 ? 'bg-kedar-gold text-kedar-navy hover:bg-kedar-gold-light'
                 : 'cursor-not-allowed bg-kedar-navy/10 text-kedar-navy/40',
             )}
           >
             <ShoppingCart className="h-3.5 w-3.5" />
-            Add to Cart
+            {catalogOffline ? 'Unavailable' : product.inStock ? 'Add to Cart' : 'Order Anyway'}
           </button>
         </div>
       </div>
@@ -119,9 +126,16 @@ interface AddToCartButtonProps {
 export function AddToCartButton({ product, className }: AddToCartButtonProps) {
   const { addItem } = useCart();
   const [toast, setToast] = useState('');
+  const catalogOffline = isFallbackCatalogProduct(product.id);
+  const canOrder = !catalogOffline;
 
   function handleAdd() {
     const result = addItem(product);
+    if (!result.ok && result.message) {
+      setToast(result.message);
+      setTimeout(() => setToast(''), 4000);
+      return;
+    }
     if (result.message) {
       setToast(result.message);
       setTimeout(() => setToast(''), 4000);
@@ -138,16 +152,16 @@ export function AddToCartButton({ product, className }: AddToCartButtonProps) {
       )}
       <button
         type="button"
-        disabled={!product.inStock}
+        disabled={!canOrder}
         onClick={handleAdd}
         className={cn(
           'btn-primary',
-          !product.inStock && 'cursor-not-allowed opacity-50',
+          !canOrder && 'cursor-not-allowed opacity-50',
           className,
         )}
       >
         <ShoppingCart className="mr-2 h-4 w-4" />
-        {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+        {catalogOffline ? 'Unavailable' : product.inStock ? 'Add to Cart' : 'Order Anyway'}
       </button>
     </div>
   );
@@ -159,7 +173,7 @@ export function ProductDetailList({ product }: { product: StoreProduct }) {
     { label: 'Unit', value: `${product.unitName} (${product.unit})` },
     { label: 'HSN Code', value: product.hsnCode },
     { label: 'GST Rate', value: `${product.gstRate}%` },
-    { label: 'Availability', value: product.inStock ? `In stock (${Math.floor(product.stock)} ${product.unit})` : 'Out of stock' },
+    { label: 'Availability', value: product.inStock ? 'In stock' : 'Out of stock — order held until production' },
   ];
 
   return (

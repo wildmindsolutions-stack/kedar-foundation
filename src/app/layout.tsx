@@ -4,6 +4,7 @@ import './globals.css';
 import { Providers } from './providers';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { SignupNoticeBanner } from '@/components/SignupNoticeBanner';
 import { ScrollToTop } from '@/components/ScrollToTop';
 import { SITE } from '@/lib/content';
 
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable} font-sans`}>
         <Providers>
+          <SignupNoticeBanner />
           <Header />
           <main>{children}</main>
           <Footer />

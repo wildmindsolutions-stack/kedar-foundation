@@ -1,17 +1,42 @@
 'use client';
 
-import { useState } from 'react';
-import { Mail, MapPin, Phone, Send, Shield, Globe } from 'lucide-react';
+import { FormEvent, useState } from 'react';
+import { Mail, MapPin, Phone, Send, Shield, Globe, Loader2 } from 'lucide-react';
 import { PageHero } from '@/components/InitiativeCard';
 import { SectionHeading } from '@/components/SectionHeading';
 import { SITE } from '@/lib/content';
+import { apiFetch } from '@/lib/api';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitted(true);
+    setError('');
+    setLoading(true);
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    try {
+      await apiFetch<{ message: string }>('/store/contact', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: String(data.get('name') || ''),
+          email: String(data.get('email') || ''),
+          subject: String(data.get('subject') || 'General Inquiry'),
+          message: String(data.get('message') || ''),
+        }),
+      });
+      setSubmitted(true);
+      form.reset();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not send your message. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -132,9 +157,21 @@ export default function ContactPage() {
                     className="w-full resize-none rounded-lg border border-kedar-navy/15 bg-kedar-cream px-4 py-2.5 text-sm outline-none focus:border-kedar-gold focus:ring-2 focus:ring-kedar-gold/20"
                   />
                 </div>
-                <button type="submit" className="btn-primary w-full sm:w-auto">
-                  Send Message
-                  <Send className="ml-2 h-4 w-4" />
+                {error && (
+                  <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</div>
+                )}
+                <button type="submit" disabled={loading} className="btn-primary flex w-full items-center justify-center gap-2 sm:w-auto">
+                  {loading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Sending…
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <Send className="ml-2 h-4 w-4" />
+                    </>
+                  )}
                 </button>
               </form>
             )}
