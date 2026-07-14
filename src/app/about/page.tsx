@@ -1,4 +1,5 @@
 import { PageHero } from '@/components/InitiativeCard';
+import { LotusDivider, MountainAboutFeature } from '@/components/BrandMotifs';
 import { SectionHeading } from '@/components/SectionHeading';
 import {
   BENEFICIARIES, CORE_OBJECTIVES, FUTURE_OPPORTUNITIES, GUIDING_PRINCIPLE, MISSION, VISION,
@@ -13,24 +14,47 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
+        mountain={false}
         eyebrow="About Kedar Foundation"
         title="Our Story"
         subtitle="Inspired by the sacred mountains of Kedar, dedicated to providing pure, high-quality solutions rooted in tradition and excellence."
       />
 
       <section className="section-padding">
-        <div className="section-container max-w-4xl">
-          <SectionHeading align="left" title="Vision" />
-          <p className="text-base leading-relaxed text-kedar-navy/80">{VISION}</p>
+        <div className="mx-auto w-full max-w-[90rem] px-3 sm:px-5 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-[minmax(220px,26%)_minmax(0,1fr)] lg:items-end lg:gap-10 xl:gap-14">
+            <MountainAboutFeature className="order-2 lg:order-1 lg:pb-2" />
 
-          <div className="mt-12">
-            <SectionHeading align="left" title="Mission" />
-            <p className="text-base leading-relaxed text-kedar-navy/80">{MISSION}</p>
+            <div className="order-1 space-y-12 lg:order-2">
+              <div>
+                <SectionHeading align="left" title="Vision" />
+                <p className="text-base leading-[1.85] text-kedar-navy/80 sm:text-[1.05rem]">
+                  {VISION}
+                </p>
+              </div>
+
+              <div>
+                <SectionHeading align="left" title="Mission" />
+                <p className="text-base leading-[1.85] text-kedar-navy/80 sm:text-[1.05rem]">
+                  {MISSION}
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div className="mt-12">
-            <SectionHeading align="left" title="Guiding Principle" />
-            <p className="text-base leading-relaxed text-kedar-navy/80">{GUIDING_PRINCIPLE}</p>
+          <div className="mt-14 border-t border-kedar-navy/10 pt-14 lg:mt-16">
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-12 xl:gap-16">
+              <div className="min-w-0 flex-1">
+                <h2 className="font-serif text-3xl font-bold text-kedar-navy sm:text-4xl">
+                  Guiding Principle
+                </h2>
+                <div className="gold-divider my-4 mx-0" />
+                <p className="text-base leading-[1.85] text-kedar-navy/80 sm:text-[1.05rem]">
+                  {GUIDING_PRINCIPLE}
+                </p>
+              </div>
+              <LotusDivider className="shrink-0 self-center lg:mt-3 lg:self-start" />
+            </div>
           </div>
         </div>
       </section>
@@ -77,6 +101,7 @@ export default function AboutPage() {
         <div className="section-container">
           <SectionHeading
             light
+            lotus
             title="Public Awareness Campaigns"
             description="Inspiring citizens to actively participate in nation-building and community development."
           />

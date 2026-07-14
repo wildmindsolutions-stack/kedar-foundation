@@ -69,6 +69,42 @@ async function convertProducts() {
   return paths;
 }
 
+async function convertWorkSubfolder(subdir, prefix) {
+  const dir = path.join(workDir, subdir);
+  const paths = [];
+  if (!fs.existsSync(dir)) return paths;
+
+  console.log(`\nWork/${subdir}:`);
+  const sources = fs
+    .readdirSync(dir)
+    .filter((f) => SOURCE_EXTS.has(path.extname(f).toLowerCase()))
+    .sort();
+
+  let i = 1;
+  for (const source of sources) {
+    const slug = `${prefix}-${String(i).padStart(2, '0')}`;
+    const input = path.join(dir, source);
+    const output = path.join(dir, `${slug}.avif`);
+    await convertToAvif(input, output, 1600);
+    fs.unlinkSync(input);
+    const outKb = Math.round(fs.statSync(output).size / 1024);
+    console.log(`  ${source} → ${slug}.avif (${outKb}KB), removed source`);
+    paths.push(`/work/${subdir}/${slug}.avif`);
+    i += 1;
+  }
+
+  if (paths.length === 0) {
+    for (const file of fs.readdirSync(dir)) {
+      if (file.endsWith('.avif')) {
+        paths.push(`/work/${subdir}/${file}`);
+        console.log(`  keep existing ${file}`);
+      }
+    }
+  }
+
+  return paths.sort();
+}
+
 async function convertWork() {
   const paths = [];
   if (!fs.existsSync(workDir)) {
@@ -124,6 +160,9 @@ export const HERO_CAROUSEL_IMAGES: string[] = ${JSON.stringify(heroPaths, null, 
 async function main() {
   const productPaths = await convertProducts();
   const workPaths = await convertWork();
+  await convertWorkSubfolder('child-welfare', 'child-welfare');
+  await convertWorkSubfolder('farming', 'farming');
+  await convertWorkSubfolder('bird-seva', 'bird-seva');
   writeManifest(productPaths, workPaths);
   console.log('Done.');
 }

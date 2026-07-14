@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { AddToCartButton, ProductDetailList } from '@/components/ProductCard';
 import { ProductImage } from '@/components/ProductImage';
+import { MountainLightBackdrop } from '@/components/BrandMotifs';
 import { PageHero } from '@/components/InitiativeCard';
 import {
   fetchStoreProduct, fetchStoreProducts, formatPrice, getProductDescription,
@@ -31,13 +32,15 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
   return (
     <>
       <PageHero
+        mountain={false}
         eyebrow={product.category}
         title={product.name}
         subtitle={description}
       />
 
-      <section className="section-padding">
-        <div className="section-container">
+      <section className="relative overflow-hidden section-padding">
+        <MountainLightBackdrop />
+        <div className="section-container relative z-10">
           <Link
             href="/products"
             className="mb-8 inline-flex items-center gap-1 text-sm font-medium text-kedar-gold-dark hover:underline"
