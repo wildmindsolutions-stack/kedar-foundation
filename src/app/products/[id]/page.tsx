@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, Wheat } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { AddToCartButton, ProductDetailList } from '@/components/ProductCard';
+import { ProductImage } from '@/components/ProductImage';
 import { PageHero } from '@/components/InitiativeCard';
 import {
   fetchStoreProduct, fetchStoreProducts, formatPrice, getProductDescription,
@@ -46,20 +47,13 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
           </Link>
 
           <div className="grid gap-10 lg:grid-cols-2">
-            <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-hero-gradient shadow-card">
-              {product.imageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="text-center text-white">
-                  <Wheat className="mx-auto mb-4 h-16 w-16 text-kedar-gold" />
-                  <p className="text-sm uppercase tracking-widest text-kedar-gold/80">{product.category}</p>
-                </div>
-              )}
+            <div className="relative aspect-square overflow-hidden rounded-2xl bg-hero-gradient shadow-card">
+              <ProductImage
+                product={product}
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+                iconClassName="h-16 w-16"
+              />
             </div>
 
             <div>

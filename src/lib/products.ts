@@ -1,4 +1,5 @@
 import { apiFetch } from './api';
+import { resolveProductImageUrl } from './product-images';
 import type { StoreProduct } from './types';
 
 /** Matches ERP seed data — used when the API is unavailable. */
@@ -81,7 +82,11 @@ function normalizeStoreProduct(raw: RawStoreProduct): StoreProduct | null {
     price: Number(raw.price ?? 0),
     hsnCode: raw.hsnCode ?? '',
     gstRate: Number(raw.gstRate ?? 0),
-    imageUrl: raw.imageUrl ?? null,
+    imageUrl: resolveProductImageUrl({
+      slug: raw.slug?.trim() || raw.id,
+      name: raw.name,
+      imageUrl: raw.imageUrl ?? null,
+    }),
     inStock: Boolean(raw.inStock),
   };
 }
