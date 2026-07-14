@@ -73,12 +73,12 @@ function BrandSlideContent() {
           {KEDAR_ACRONYM.visionStatement}
         </p>
 
-        <div className="mx-auto mt-5 flex w-full max-w-xs flex-col gap-2.5 sm:mt-8 sm:max-w-none sm:flex-row sm:justify-center sm:gap-3">
-          <Link href="/about" className="btn-primary w-full !py-2.5 !text-sm sm:w-auto sm:!px-6 sm:!py-3">
+        <div className="mx-auto mt-5 flex w-fit flex-col items-center gap-2 sm:mt-8 sm:flex-row sm:justify-center sm:gap-3">
+          <Link href="/about" className="btn-primary !px-4 !py-1.5 !text-xs sm:!px-6 sm:!py-3 sm:!text-sm">
             Our Story
-            <ArrowRight className="ml-2 h-4 w-4" />
+            <ArrowRight className="ml-1.5 h-3.5 w-3.5 sm:ml-2 sm:h-4 sm:w-4" />
           </Link>
-          <Link href="/products" className="btn-outline w-full !py-2.5 !text-sm sm:w-auto sm:!px-6 sm:!py-3">
+          <Link href="/products" className="btn-outline !px-4 !py-1.5 !text-xs sm:!px-6 sm:!py-3 sm:!text-sm">
             Shop Products
           </Link>
         </div>
@@ -154,7 +154,7 @@ export function HeroCarousel() {
           {/* Slide 0 — cream brand intro with mountain bottom-left */}
           <div className="relative h-full w-screen shrink-0 overflow-hidden bg-kedar-cream">
             <div
-              className="pointer-events-none absolute bottom-0 left-0 flex w-[85%] max-w-4xl items-end justify-start overflow-hidden sm:w-[75%] sm:max-w-5xl"
+              className="pointer-events-none absolute bottom-20 left-0 flex w-[85%] max-w-4xl items-end justify-start overflow-hidden sm:bottom-0 sm:w-[75%] sm:max-w-5xl"
               aria-hidden
             >
               <div
