@@ -263,9 +263,143 @@ export const FUTURE_OPPORTUNITIES = [
   'Impact reporting dashboard',
 ];
 
+export interface TrusteeProfile {
+  id: string;
+  name: string;
+  designation: string;
+  initials: string;
+  image?: string;
+  professionalBackground: string[];
+  areasOfExpertise?: string[];
+  communityVision?: string;
+  socialContributions?: string[];
+  additionalRole?: string;
+  personalPhilosophy?: string;
+  familyNote?: string;
+  vision?: string;
+  coreValues: string[];
+  quote?: string;
+}
+
+export const FOUNDERS_SHARED_VISION =
+  'The Founders and Trustees of Kedar Foundation come from diverse backgrounds including biotechnology, education, agriculture, entrepreneurship, industry, spirituality, and social development. Together, they aim to build a compassionate, self-reliant, and environmentally conscious society through education, rural development, sustainable agriculture, environmental conservation, innovation, and community empowerment.';
+
+export const TRUSTEES: TrusteeProfile[] = [
+  {
+    id: 'anil-shrivastav',
+    name: 'Dr. Anil Shrivastav',
+    designation: 'Founder & Trustee',
+    initials: 'AS',
+    professionalBackground: [
+      'Biotechnology Expert',
+      'Project Consultant',
+      'Research Professional in Plant Biotechnology',
+    ],
+    areasOfExpertise: [
+      'Plant Biotechnology',
+      'Scientific Research',
+      'Biotechnology Projects',
+      'Research Consulting',
+      'Sustainable Agricultural Innovation',
+    ],
+    communityVision:
+      'Promoting science-driven sustainable development, encouraging research for social welfare, and supporting innovation in agriculture and biotechnology.',
+    coreValues: ['Scientific Excellence', 'Innovation', 'Sustainability', 'Knowledge Sharing'],
+  },
+  {
+    id: 'purushottam-putabia',
+    name: 'Shri Purushottam Putabia',
+    designation: 'Founder & Trustee',
+    initials: 'PP',
+    professionalBackground: [
+      'Residential Superintendent (Grihapati), Adarsh Residential School, Dahegam',
+    ],
+    areasOfExpertise: [
+      'Educational Leadership',
+      'Community Development',
+      'Social Service',
+      "Women's Empowerment",
+      'Gandhian Philosophy',
+    ],
+    socialContributions: [
+      'Serving underprivileged communities',
+      'Mobilizing community support',
+      'Bird conservation campaigns',
+      "Women's skill development",
+      'Facilitating access to government welfare schemes',
+    ],
+    coreValues: ['Service Before Self', 'Compassion', 'Gandhian Ideology', 'Social Responsibility'],
+  },
+  {
+    id: 'rajabhai-khatwani',
+    name: 'Shri Rajabhai Khatwani',
+    designation: 'Founder & Trustee',
+    initials: 'RK',
+    professionalBackground: ['Owner, Raja Fashion Showroom, Naroda'],
+    areasOfExpertise: ['Entrepreneurship', 'Business Management', 'Community Engagement'],
+    socialContributions: [
+      'Spiritually inclined and actively involved in community welfare',
+    ],
+    coreValues: ['Spiritual Growth', 'Integrity', 'Compassion', 'Service to Society'],
+  },
+  {
+    id: 'shivraj-chauhan',
+    name: 'Shri Shivraj Chauhan',
+    designation: 'Founder & Trustee',
+    initials: 'SC',
+    professionalBackground: [
+      'Regional Manager (5 States), Patanjali Haridwar – Animal Feed Distribution & Production',
+    ],
+    additionalRole: 'Certified Yoga Instructor',
+    socialContributions: [
+      'Promotes healthy living through yoga and believes in action-oriented leadership',
+    ],
+    personalPhilosophy: 'Less Promise, More Deliver.',
+    coreValues: ['Commitment', 'Discipline', 'Humility', 'Positivity', 'Service Excellence'],
+  },
+  {
+    id: 'ratibhai-patel',
+    name: 'Shri Ratibhai Patel',
+    designation: 'Founder & Trustee',
+    initials: 'RP',
+    professionalBackground: [
+      'Associated with Dev Day Chem Industries, Naroda (Family-managed business)',
+    ],
+    socialContributions: [
+      'Known for compassion, devotion, discipline, and humanitarian values',
+    ],
+    familyNote: 'Son: Vivek Patel – Founder, Wildchild Studio (IT Company)',
+    coreValues: ['Compassion', 'Devotion', 'Simplicity', 'Integrity', 'Self-Discipline'],
+  },
+  {
+    id: 'bharat-patel',
+    name: 'Shri Bharat Patel',
+    designation: 'Founder & Trustee',
+    initials: 'BP',
+    professionalBackground: ['Organic Farming Expert with over 30 years of experience'],
+    areasOfExpertise: [
+      'Organic Farming',
+      'Medicinal Plants',
+      'Aromatic Crops',
+      'Value Addition',
+      'Millet Promotion',
+      'Agro Tourism',
+      'Sustainable Agriculture',
+    ],
+    socialContributions: [
+      'Supports bird conservation, farmer empowerment, and medicinal crop cultivation',
+      'Collaborates with organizations such as RSS and Patanjali',
+    ],
+    vision:
+      'To ensure sustainable development benefits every section of society through innovation and natural farming.',
+    coreValues: ['Nation First', 'Innovation', 'Courage', 'Environmental Conservation', 'Service'],
+  },
+];
+
 export const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
+  { href: '/leadership', label: 'Leadership' },
   { href: '/initiatives', label: 'Initiatives' },
   { href: '/products', label: 'Products' },
   { href: '/contact', label: 'Contact' },
