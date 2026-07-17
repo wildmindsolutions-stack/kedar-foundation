@@ -1,11 +1,14 @@
-import { PageHero, InitiativeCard } from '@/components/InitiativeCard';
+import { PageHero } from '@/components/InitiativeCard';
 import { FeaturedWorkCarousel } from '@/components/FeaturedWorkCarousel';
+import { InitiativesGrid } from '@/components/InitiativesGrid';
 import { SectionHeading } from '@/components/SectionHeading';
 import {
   BIRD_SEVA_IMAGES,
   BIRD_SEVA_TAGLINE,
   CHILD_WELFARE_IMAGES,
   CHILD_WELFARE_TAGLINE,
+  FACTORY_IMAGES,
+  FACTORY_TAGLINE,
   FARMING_IMAGES,
   FARMING_TAGLINE,
   INITIATIVES,
@@ -71,17 +74,28 @@ export default function InitiativesPage() {
         </div>
       </section>
 
+      {/* Featured: Food Processing & Factory Operations */}
       <section className="section-padding">
+        <div className="section-container">
+          <SectionHeading
+            eyebrow="Featured Initiative"
+            title="Food Processing & Factory Operations"
+            description={FACTORY_TAGLINE}
+          />
+          <FeaturedWorkCarousel
+            images={FACTORY_IMAGES}
+            altPrefix="Kedar Enterprise food processing and factory operations"
+          />
+        </div>
+      </section>
+
+      <section className="section-padding bg-white">
         <div className="section-container">
           <SectionHeading
             title="Our Programs"
             description="From child welfare and student innovation to organic farming, women empowerment, and environmental conservation — each initiative is designed to create meaningful community impact."
           />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {INITIATIVES.map((initiative) => (
-              <InitiativeCard key={initiative.title} {...initiative} />
-            ))}
-          </div>
+          <InitiativesGrid initiatives={INITIATIVES} />
         </div>
       </section>
     </>

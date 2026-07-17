@@ -1,7 +1,7 @@
 export const SITE = {
   name: 'Kedar Foundation',
   tagline: 'Trusted Quality in Every Grain',
-  taglineGujarati: 'ચાલો આપણે દેશ માટે કંઈ કરીએ.',
+  taglineGujarati: 'आइये देश के लिए कुछ करें।',
   taglineHindi: '२ कदम देश के माटे।',
   location: 'Ahmedabad, India',
   email: 'info@kedarfoundation.org',
@@ -112,6 +112,14 @@ export const BIRD_SEVA_IMAGES = Array.from(
   (_, i) => `/work/bird-seva/bird-seva-${String(i + 1).padStart(2, '0')}.avif`,
 );
 
+export const FACTORY_TAGLINE =
+  'A look inside Kedar Enterprise’s food-processing facility, where agricultural produce is handled, processed, and prepared with a commitment to hygiene, consistency, and trusted quality.';
+
+export const FACTORY_IMAGES = Array.from(
+  { length: 8 },
+  (_, i) => `/work/factory/factory-${String(i + 1).padStart(2, '0')}.avif`,
+);
+
 export const INITIATIVES = [
   {
     title: 'Child Welfare Support',
@@ -153,6 +161,20 @@ export const INITIATIVES = [
     image: BIRD_SEVA_IMAGES[0],
     images: BIRD_SEVA_IMAGES,
     tagline: BIRD_SEVA_TAGLINE,
+  },
+  {
+    title: 'Food Processing & Factory Operations',
+    description: FACTORY_TAGLINE,
+    items: [
+      'Hygienic food processing',
+      'Quality-controlled operations',
+      'Agricultural produce handling',
+      'Packaging and supply preparation',
+      'Consistent production standards',
+    ],
+    image: FACTORY_IMAGES[0],
+    images: FACTORY_IMAGES,
+    tagline: FACTORY_TAGLINE,
   },
   {
     title: 'Student Innovation & Youth Development',
@@ -465,6 +487,8 @@ export const PROJECTS = [
       'End-to-end wheat sourcing, cleaning, grading, and packaging — delivering trusted grain quality to families, retailers, and institutions.',
     location: 'Kedar Enterprise',
     year: '2025',
+    image: FACTORY_IMAGES[0],
+    images: FACTORY_IMAGES,
   },
   {
     id: 'rural-skills',

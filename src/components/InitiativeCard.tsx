@@ -16,9 +16,10 @@ export function InitiativeCard({
   title, description, items, image, images, tagline,
 }: InitiativeCardProps) {
   const cover = image || images?.[0];
+  const remaining = Math.max(0, items.length - 4);
 
   return (
-    <article className="card group flex h-full flex-col !p-0 overflow-hidden">
+    <article className="card group flex h-full cursor-pointer flex-col !p-0 overflow-hidden transition-shadow hover:shadow-lg">
       {cover && (
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-kedar-navy/10">
           <Image
@@ -39,7 +40,7 @@ export function InitiativeCard({
             {tagline}
           </p>
         )}
-        <p className="mt-3 flex-1 text-sm leading-relaxed text-kedar-navy/70">{description}</p>
+        <p className="mt-3 flex-1 text-sm leading-relaxed text-kedar-navy/70 line-clamp-3">{description}</p>
         <ul className="mt-4 space-y-1.5 border-t border-kedar-navy/5 pt-4">
           {items.slice(0, 4).map((item) => (
             <li key={item} className="flex items-start gap-2 text-xs text-kedar-navy/60">
@@ -48,6 +49,9 @@ export function InitiativeCard({
             </li>
           ))}
         </ul>
+        <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-kedar-gold-dark">
+          {remaining > 0 ? `View details · +${remaining} more` : 'View details'}
+        </p>
       </div>
     </article>
   );

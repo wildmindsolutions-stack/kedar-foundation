@@ -107,7 +107,7 @@ export default function AboutPage() {
           />
           <div className="mx-auto max-w-2xl space-y-4 text-center">
             <p className="rounded-2xl border border-kedar-gold/30 bg-white/5 px-6 py-5 font-serif text-xl text-kedar-gold">
-              ચાલો આપણે દેશ માટે કંઈ કરીએ .
+              आइये देश के लिए कुछ करें।
             </p>
             <p className="rounded-2xl border border-kedar-gold/30 bg-white/5 px-6 py-5 font-serif text-xl text-kedar-gold">
               २ कदम देश के माटे ।

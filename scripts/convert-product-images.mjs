@@ -163,6 +163,7 @@ async function main() {
   await convertWorkSubfolder('child-welfare', 'child-welfare');
   await convertWorkSubfolder('farming', 'farming');
   await convertWorkSubfolder('bird-seva', 'bird-seva');
+  await convertWorkSubfolder('factory', 'factory');
   writeManifest(productPaths, workPaths);
   console.log('Done.');
 }
