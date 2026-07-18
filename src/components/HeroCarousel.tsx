@@ -225,9 +225,6 @@ export function HeroCarousel() {
             <p className="mt-3 font-sans text-2xl font-bold leading-tight text-white sm:text-3xl md:text-4xl [text-shadow:0_2px_14px_rgba(0,0,0,0.8)]">
               {WORK_SLIDES[(index - 1 + WORK_SLIDES.length) % WORK_SLIDES.length].title}
             </p>
-            <p className="mx-auto mt-2.5 max-w-md text-sm text-white/85 sm:text-base [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
-              {WORK_SLIDES[(index - 1 + WORK_SLIDES.length) % WORK_SLIDES.length].caption}
-            </p>
           </div>
         )}
       </div>

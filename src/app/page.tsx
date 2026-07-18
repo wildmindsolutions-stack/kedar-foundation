@@ -10,7 +10,7 @@ import { CtaBanner } from '@/components/InitiativeCard';
 import { FeaturedProducts } from '@/components/FeaturedProducts';
 import { ProjectsCarousel } from '@/components/ProjectsCarousel';
 import {
-  GUIDING_PRINCIPLE, HOMEPAGE_STATS, INITIATIVES, MISSION,
+  HOMEPAGE_STATS, INITIATIVES, MISSION,
   PROJECTS, QUALITY_BADGES, SITE, VISION,
 } from '@/lib/content';
 
