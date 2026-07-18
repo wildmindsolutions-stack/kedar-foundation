@@ -27,14 +27,14 @@ const WORK_SLIDES = [
 
 function KedarAcronymPanel() {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-kedar-navy/10 bg-gradient-to-b from-white to-kedar-cream/70 px-5 py-6 shadow-lifted sm:px-9 sm:py-9">
+    <div className="relative overflow-hidden rounded-3xl border border-kedar-navy/10 bg-gradient-to-b from-white to-kedar-cream/70 px-4 py-4 shadow-lifted sm:px-9 sm:py-9">
       {/* Top accent + soft glows */}
       <span className="absolute inset-x-0 top-0 h-1 bg-gold-gradient" />
       <div className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-kedar-gold/10 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-14 -left-12 h-36 w-36 rounded-full bg-kedar-navy/5 blur-3xl" />
 
       {/* Header */}
-      <div className="mb-6 flex items-center justify-center gap-3">
+      <div className="mb-3 flex items-center justify-center gap-3 sm:mb-6">
         <span className="h-px w-6 bg-kedar-gold/40 sm:w-10" />
         <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-kedar-gold-dark sm:text-xs">
           What KEDAR Stands For
@@ -43,13 +43,13 @@ function KedarAcronymPanel() {
       </div>
 
       {/* Mobile — vertical list with gradient badges */}
-      <ul className="space-y-2.5 md:hidden">
+      <ul className="space-y-1.5 md:hidden">
         {KEDAR_ACRONYM.pillars.map(({ letter, short }, i) => (
           <li
             key={letter}
-            className="flex items-center gap-3 rounded-xl border border-kedar-navy/8 bg-white/70 px-3 py-2.5"
+            className="flex items-center gap-3 rounded-xl border border-kedar-navy/8 bg-white/70 px-3 py-1.5"
           >
-            <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-kedar-gold to-kedar-gold-dark font-serif text-base font-bold text-kedar-navy shadow-gold">
+            <span className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-kedar-gold to-kedar-gold-dark font-serif text-sm font-bold text-kedar-navy shadow-gold">
               {letter}
               <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-kedar-navy text-[8px] font-bold text-kedar-gold">
                 {i + 1}
@@ -92,15 +92,15 @@ function BrandSlideContent() {
           </h1>
         </div>
 
-        <div className="mt-5 sm:mt-8 md:mt-10">
+        <div className="mt-4 sm:mt-8 md:mt-10">
           <KedarAcronymPanel />
         </div>
 
-        <p className="mx-auto mt-4 max-w-2xl text-center text-xs leading-relaxed text-kedar-navy/75 sm:mt-8 sm:text-base">
+        <p className="mx-auto mt-3 max-w-2xl text-center text-[11px] leading-relaxed text-kedar-navy/75 sm:mt-8 sm:text-base">
           {KEDAR_ACRONYM.visionStatement}
         </p>
 
-        <div className="mx-auto mt-5 flex w-fit flex-col items-center gap-2 sm:mt-8 sm:flex-row sm:justify-center sm:gap-3">
+        <div className="mx-auto mt-4 flex w-fit flex-row items-center justify-center gap-2 sm:mt-8 sm:gap-3">
           <Link href="/about" className="btn-primary !px-4 !py-1.5 !text-xs sm:!px-6 sm:!py-3 sm:!text-sm">
             Our Story
             <ArrowRight className="ml-1.5 h-3.5 w-3.5 sm:ml-2 sm:h-4 sm:w-4" />
@@ -214,7 +214,7 @@ export function HeroCarousel() {
       </div>
 
       {/* Foreground content */}
-      <div className="section-container relative z-10 flex flex-1 flex-col justify-center py-4 sm:py-8 md:py-12">
+      <div className="section-container relative z-10 flex flex-1 flex-col justify-center py-3 sm:py-8 md:py-12">
         {isBrandSlide ? (
           <BrandSlideContent />
         ) : (
