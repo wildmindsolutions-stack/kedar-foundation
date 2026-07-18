@@ -84,7 +84,7 @@ export const QUALITY_BADGES = [
 ];
 
 export const CHILD_WELFARE_TAGLINE =
-  'Provide support to organizations that offer free education, accommodation, and meals to children who do not have parents (orphaned boys and girls).';
+  'Every child deserves to feel safe, loved, and full of hope. We stand beside homes that give orphaned boys and girls warm meals, a roof to call their own, and the education to dream big — so no child ever has to face the world alone.';
 
 export const CHILD_WELFARE_IMAGES = [
   '/work/child-welfare/child-welfare-01.avif',
@@ -95,7 +95,7 @@ export const CHILD_WELFARE_IMAGES = [
 ];
 
 export const FARMING_TAGLINE =
-  'Support farmers by assisting with irrigation projects and water management initiatives to improve agricultural productivity and sustainability.';
+  'Behind every harvest is a farmer’s quiet hope. We help bring water to thirsty fields through irrigation and water-management support — so honest hard work is rewarded, families flourish, and the land stays fertile for generations to come.';
 
 export const FARMING_IMAGES = [
   '/work/farming/farming-01.avif',
@@ -105,7 +105,7 @@ export const FARMING_IMAGES = [
 ];
 
 export const BIRD_SEVA_TAGLINE =
-  'Serve birds through feeding initiatives, water bowl distribution, tree plantation, and environmental awareness campaigns to conserve biodiversity and inspire community participation.';
+  'Compassion knows no boundaries. Through feeding drives, water bowls, and tree plantation, we care for the voiceless creatures who share our skies — nurturing kindness in people and new life in nature.';
 
 export const BIRD_SEVA_IMAGES = Array.from(
   { length: 30 },
@@ -113,7 +113,7 @@ export const BIRD_SEVA_IMAGES = Array.from(
 );
 
 export const FACTORY_TAGLINE =
-  'A look inside Kedar Enterprise’s food-processing facility, where agricultural produce is handled, processed, and prepared with a commitment to hygiene, consistency, and trusted quality.';
+  'Step inside Kedar Enterprise, where every grain is handled with care, integrity, and pride. From farm to family, we hold to the highest standards of hygiene and quality — because the food that reaches your loved ones should be nothing short of pure.';
 
 export const FACTORY_IMAGES = Array.from(
   { length: 8 },
@@ -179,97 +179,97 @@ export const INITIATIVES = [
   {
     title: 'Student Innovation & Youth Development',
     description:
-      'A platform where students and young innovators present ideas, projects, and technologies that contribute to society through innovation challenges, mentorship, prototype support, and startup incubation.',
+      'Every big idea starts with a single spark. We give students and young dreamers the stage, the mentorship, and the support to turn their ideas into real solutions — and their ambition into a force that lifts society forward.',
     items: ['Innovation challenges', 'Mentorship programs', 'Prototype development', 'Startup incubation', 'Technology showcase events'],
   },
   {
     title: 'School Development Programs',
     description:
-      'Educational initiatives that improve learning opportunities for children through workshops, career guidance, science programs, and digital literacy.',
+      'A good education can change the course of a child’s entire life. Through workshops, mentoring, science, and digital learning, we help open doors of opportunity for the children who need them most.',
     items: ['Educational workshops', 'Career guidance', 'Science & innovation', 'Digital literacy', 'Skill-building camps'],
   },
   {
     title: 'Senior Citizen & Disability Support',
     description:
-      'Assistance for senior citizens and persons with disabilities through healthcare awareness, mobility aids, medical camps, and rehabilitation guidance.',
+      'Dignity has no age and no limits. We walk alongside our elders and persons with disabilities — offering care, mobility aids, and support that helps them live with comfort, independence, and the respect they deserve.',
     items: ['Physiotherapy equipment', 'Mobility aids', 'Healthcare camps', 'Assistive devices', 'Rehabilitation guidance'],
   },
   {
     title: 'Rural Skill Development',
     description:
-      'Skill enhancement programs for village communities to improve employment and self-sufficiency.',
+      'A single skill can rewrite a family’s future. We equip village communities with practical, employable skills — turning quiet potential into livelihoods, and dependence into proud self-reliance.',
     items: ['Digital literacy', 'Agricultural technology', 'Food processing', 'Vocational training', 'Handicrafts'],
   },
   {
     title: 'Entrepreneurship Development',
     description:
-      'Support for aspiring entrepreneurs with mentoring, affordable technology, branding, and digital presence.',
+      'Every great business begins with courage and a helping hand. We mentor aspiring entrepreneurs with guidance, technology, and branding support — helping bold ideas grow into thriving ventures.',
     items: ['Business mentoring', 'Startup guidance', 'Branding support', 'Digital presence', 'Networking opportunities'],
   },
   {
     title: 'Organic Farming Promotion',
     description:
-      'Encouraging farmers to adopt organic and sustainable farming through awareness programs, demonstration farms, and soil health education.',
+      'Healthier soil, healthier families, a healthier planet. We inspire farmers to embrace organic, sustainable practices through hands-on demonstrations and education — for food we can all feel good about.',
     items: ['Organic awareness', 'Demonstration farms', 'Farmer workshops', 'Soil health education'],
   },
   {
     title: 'Agricultural Value Addition',
     description:
-      'Promoting value addition of agricultural produce to improve farmers\' income through processing and branding.',
+      'A farmer’s hard work deserves a fairer reward. By adding value to produce through processing and branding, we help farmers earn more from the very crops they lovingly grow.',
     items: ['Flour processing', 'Spice packaging', 'Pulse processing', 'Dehydrated food', 'Food branding'],
   },
   {
     title: 'Farmer Exposure Visits',
     description:
-      'Educational visits to successful farms and institutions for knowledge sharing and modern agricultural methods.',
+      'Sometimes, seeing is believing. We take farmers to thriving farms and institutions to learn modern methods first-hand — sparking confidence, curiosity, and fresh possibility.',
     items: ['Knowledge sharing', 'Technology exposure', 'Best practices', 'Farmer interaction'],
   },
   {
     title: 'Women Empowerment',
     description:
-      'Supporting women in becoming financially independent through entrepreneurship, self-help groups, and marketing assistance.',
+      'When a woman rises, her whole family and community rise with her. We support women toward financial independence through entrepreneurship, self-help groups, and market access — one confident step at a time.',
     items: ['Home-based businesses', 'Self-help groups', 'Food processing', 'Branding support', 'Business mentorship'],
   },
   {
     title: 'Collective Farming (Samuhik Kheti)',
     description:
-      'Community farming models where farmers collectively cultivate larger areas for shared resources and better profitability.',
+      'Together, farmers can achieve what none could alone. Through collective farming, communities share resources, lower costs, and grow richer harvests — and a stronger sense of togetherness.',
     items: ['Shared resources', 'Reduced costs', 'Collective marketing', 'Profit sharing'],
   },
   {
     title: 'Talent & Innovation Platform',
     description:
-      'An open platform where individuals with innovative ideas can collaborate with the foundation for social impact.',
+      'Good ideas deserve a home. We open our doors to anyone with the heart to create change — turning individual passion into shared, lasting social impact.',
     items: ['Innovative projects', 'Community service', 'Technology solutions', 'Volunteer participation'],
   },
   {
     title: 'Ayurveda & Natural Living',
     description:
-      'Promoting integration of Ayurvedic principles through health awareness, natural wellness, and traditional healthcare knowledge.',
+      'True wellness is our oldest inheritance. We help revive the timeless wisdom of Ayurveda and natural living — guiding people toward healthier, calmer, more balanced lives.',
     items: ['Health awareness', 'Natural wellness', 'Lifestyle guidance', 'Herbal product awareness'],
   },
   {
     title: 'Dehydrated Food Processing',
     description:
-      'Hygienic processing of fruits and vegetables through dehydration to reduce wastage and increase farmer income.',
+      'No harvest should ever go to waste. Through hygienic dehydration of fruits and vegetables, we reduce spoilage, extend shelf life, and put more income back into farmers’ hands.',
     items: ['Reduced food wastage', 'Extended shelf life', 'Export opportunities', 'Higher farmer income'],
   },
   {
     title: 'Aromatic & Essential Oil Farming',
     description:
-      'Cultivation of aromatic crops for essential oil extraction, crop diversification, and market linkage.',
+      'New crops can open new futures. We help farmers grow aromatic crops for essential oils — diversifying their income and connecting their harvest to wider markets.',
     items: ['Crop diversification', 'Essential oil processing', 'Market linkage', 'Farmer income enhancement'],
   },
   {
     title: 'Medicinal Plant Farming',
     description:
-      'Supporting farmers in cultivating medicinal plants with awareness, market linkage, and processing opportunities.',
+      'Nature has always been our healer. We support farmers in growing medicinal plants — with the guidance, buyers, and processing opportunities that make it truly worthwhile.',
     items: ['Crop awareness', 'Market linkage', 'Buyer connections', 'Best cultivation practices'],
   },
   {
     title: 'Agricultural Waste Management',
     description:
-      'Effective utilization of agricultural waste through compost production, bio-decomposers, and natural fertilizers.',
+      'What once was waste can nourish new life. We turn crop leftovers into compost and natural fertilizers — protecting the earth while enriching the very soil that feeds us.',
     items: ['Organic compost', 'Bio-decomposer usage', 'Waste recycling', 'Awareness campaigns'],
   },
 ];

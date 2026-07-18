@@ -63,10 +63,10 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
               <p className="text-xs font-semibold uppercase tracking-wider text-kedar-gold-dark">
                 {product.category}
               </p>
-              <h1 className="mt-2 font-serif text-3xl font-bold text-kedar-navy sm:text-4xl">
+              <h1 className="mt-2 heading-section text-kedar-navy">
                 {product.name}
               </h1>
-              <p className="mt-4 text-base leading-relaxed text-kedar-navy/75">{description}</p>
+              <p className="mt-4 lead">{description}</p>
 
               <div className="mt-6 flex items-baseline gap-2">
                 <span className="font-serif text-3xl font-bold text-kedar-navy">

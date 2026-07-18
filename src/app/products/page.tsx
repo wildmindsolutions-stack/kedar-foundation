@@ -4,6 +4,7 @@ import { MountainLightBackdrop } from '@/components/BrandMotifs';
 import { FilterableProductsGrid } from '@/components/FilterableProductsGrid';
 import { PageHero } from '@/components/InitiativeCard';
 import { SectionHeading } from '@/components/SectionHeading';
+import { Reveal } from '@/components/Reveal';
 import { fetchStoreProducts } from '@/lib/products';
 import { QUALITY_BADGES, SITE } from '@/lib/content';
 
@@ -19,8 +20,8 @@ export default async function ProductsPage() {
     <>
       <PageHero
         eyebrow="Our Products"
-        title="Agricultural & Food Products"
-        subtitle="Quality grains, pulses, flour, snacks, and spices — sourced from trusted farmers and processed with care."
+        title="Goodness, Grown with Care"
+        subtitle="Wholesome grains, pulses, flour, snacks, and spices — sourced from farmers we trust and processed with the care your family deserves."
       />
 
       <section className="relative overflow-hidden section-padding">
@@ -42,11 +43,11 @@ export default async function ProductsPage() {
               />
             </div>
             <div>
-              <SectionHeading align="left" title="Our Commitment" />
-              <p className="text-base leading-relaxed text-kedar-navy/80">
-                Every product reflects Kedar Foundation&apos;s dedication to farmers, families, and communities.
-                From premium wheat to everyday pulses and spices, we maintain hygienic processing and
-                consistent quality you can trust.
+              <SectionHeading align="left" eyebrow="Our Promise" title="Quality That Honours Every Hand It Passes Through" />
+              <p className="lead">
+                Every product carries our dedication to the farmers who grow it and the families who
+                enjoy it. From premium wheat to everyday pulses and spices, we hold to hygienic
+                processing and consistent quality — because trust is earned in every grain.
               </p>
               <div className="mt-8 flex items-center gap-4 rounded-2xl border-2 border-kedar-gold bg-kedar-gold/10 p-6">
                 <Award className="h-12 w-12 shrink-0 text-kedar-gold" />
@@ -62,14 +63,16 @@ export default async function ProductsPage() {
 
       <section className="section-padding">
         <div className="section-container">
-          <SectionHeading title="Quality & Certifications" />
+          <SectionHeading eyebrow="Certified & Trusted" title="Quality You Can Always Count On" />
           <div className="grid gap-6 sm:grid-cols-3">
-            {QUALITY_BADGES.map((badge) => (
-              <div key={badge.label} className="card text-center">
-                <Shield className="mx-auto mb-4 h-10 w-10 text-kedar-gold" />
-                <h3 className="font-serif text-lg font-semibold text-kedar-navy">{badge.label}</h3>
-                <p className="mt-2 text-sm text-kedar-navy/70">{badge.description}</p>
-              </div>
+            {QUALITY_BADGES.map((badge, i) => (
+              <Reveal key={badge.label} delay={i * 90} className="card card-interactive text-center">
+                <span className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-kedar-gold/20 to-kedar-gold/5 ring-1 ring-kedar-gold/20">
+                  <Shield className="h-7 w-7 text-kedar-gold-dark" />
+                </span>
+                <h3 className="heading-sub text-kedar-navy">{badge.label}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-kedar-navy/70">{badge.description}</p>
+              </Reveal>
             ))}
           </div>
           <div className="mt-10 flex items-center justify-center gap-2 text-sm text-kedar-navy/70">

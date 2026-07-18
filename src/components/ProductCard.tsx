@@ -29,10 +29,10 @@ export function ProductCard({ product, compact = false, className }: ProductCard
   }
 
   return (
-    <article className={cn('card flex flex-col !p-0 overflow-hidden', className)}>
+    <article className={cn('card card-interactive group flex flex-col !p-0 overflow-hidden', className)}>
       <Link href={`/products/${product.id}`} className="block">
         <div className="relative aspect-[4/3] overflow-hidden bg-hero-gradient">
-          <ProductImage product={product} sizes="(max-width: 640px) 100vw, 33vw" className="absolute inset-0" />
+          <ProductImage product={product} sizes="(max-width: 640px) 100vw, 33vw" className="absolute inset-0 transition-transform duration-500 group-hover:scale-105" />
           {!product.inStock && (            <span className="absolute right-3 top-3 rounded-full bg-red-500/90 px-2 py-0.5 text-[10px] font-semibold uppercase text-white">
               Out of stock
             </span>

@@ -25,8 +25,8 @@ export default function InitiativesPage() {
     <>
       <PageHero
         eyebrow="What We Do"
-        title="Strategic Initiatives"
-        subtitle="Practical solutions that improve quality of life while promoting environmental sustainability and national development."
+        title="Where Compassion Meets Action"
+        subtitle="Every initiative is a promise kept — practical programs that improve lives, protect our environment, and help build a stronger, self-reliant nation."
       />
 
       {/* Featured: Child Welfare */}
@@ -92,8 +92,9 @@ export default function InitiativesPage() {
       <section className="section-padding bg-white">
         <div className="section-container">
           <SectionHeading
-            title="Our Programs"
-            description="From child welfare and student innovation to organic farming, women empowerment, and environmental conservation — each initiative is designed to create meaningful community impact."
+            eyebrow="Explore Our Programs"
+            title="Many Programs, One Shared Mission"
+            description="From child welfare and youth innovation to organic farming, women empowerment, and environmental care — tap any program to see how we're making a difference."
           />
           <InitiativesGrid initiatives={INITIATIVES} />
         </div>

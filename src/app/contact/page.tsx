@@ -18,44 +18,44 @@ export default function ContactPage() {
     <>
       <PageHero
         eyebrow="Get in Touch"
-        title="Contact Us"
-        subtitle="Whether you want to collaborate, volunteer, partner, or inquire about our premium wheat products — we welcome you."
+        title="Let's Start a Conversation"
+        subtitle="Whether you want to collaborate, volunteer, partner, or simply learn more — our door is always open, and we'd love to hear from you."
       />
 
       <section className="section-padding">
         <div className="section-container grid gap-12 lg:grid-cols-2">
           <div>
-            <SectionHeading align="left" title="Reach Out" />
+            <SectionHeading align="left" eyebrow="Reach Out" title="We're Here to Help" />
             <div className="space-y-6">
-              <div className="card flex items-start gap-4">
+              <div className="card card-interactive flex items-start gap-4">
                 <MapPin className="mt-1 h-5 w-5 shrink-0 text-kedar-gold" />
                 <div>
                   <p className="font-semibold text-kedar-navy">Location</p>
                   <p className="text-sm text-kedar-navy/70">{SITE.location}</p>
                 </div>
               </div>
-              <div className="card flex items-start gap-4">
+              <div className="card card-interactive flex items-start gap-4">
                 <Mail className="mt-1 h-5 w-5 shrink-0 text-kedar-gold" />
                 <div>
                   <p className="font-semibold text-kedar-navy">Email</p>
                   <p className="text-sm text-kedar-navy/70">{SITE.email}</p>
                 </div>
               </div>
-              <div className="card flex items-start gap-4">
+              <div className="card card-interactive flex items-start gap-4">
                 <Phone className="mt-1 h-5 w-5 shrink-0 text-kedar-gold" />
                 <div>
                   <p className="font-semibold text-kedar-navy">Phone</p>
                   <p className="text-sm text-kedar-navy/70">{SITE.phone}</p>
                 </div>
               </div>
-              <div className="card flex items-start gap-4">
+              <div className="card card-interactive flex items-start gap-4">
                 <Shield className="mt-1 h-5 w-5 shrink-0 text-kedar-gold" />
                 <div>
                   <p className="font-semibold text-kedar-navy">Food-Safety Approved</p>
                   <p className="text-sm text-kedar-navy/70">Committed to quality and hygienic standards.</p>
                 </div>
               </div>
-              <div className="card flex items-start gap-4">
+              <div className="card card-interactive flex items-start gap-4">
                 <Globe className="mt-1 h-5 w-5 shrink-0 text-kedar-gold" />
                 <div>
                   <p className="font-semibold text-kedar-navy">Export Documentation</p>

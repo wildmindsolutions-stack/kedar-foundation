@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { LotusDivider, LotusMotif, MountainHeroBackdrop } from '@/components/BrandMotifs';
+import { Reveal } from '@/components/Reveal';
 
 interface InitiativeCardProps {
   title: string;
@@ -69,19 +70,18 @@ export function PageHero({
   mountain?: boolean;
 }) {
   return (
-    <section className="relative overflow-hidden bg-hero-gradient py-16 text-white sm:py-20">
+    <section className="relative overflow-hidden bg-navy-radial py-20 text-white sm:py-24 lg:py-28">
       {mountain && <MountainHeroBackdrop />}
+      {/* Soft gold glow for depth */}
+      <div className="pointer-events-none absolute -top-24 right-[-10%] h-72 w-72 rounded-full bg-kedar-gold/15 blur-3xl" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-kedar-gold/40 to-transparent" />
       <div className="section-container relative z-10 text-center">
-        <LotusMotif className="mx-auto mb-4 h-10 w-auto text-kedar-gold opacity-80 sm:h-12" />
-        {eyebrow && (
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-kedar-gold">
-            {eyebrow}
-          </p>
-        )}
-        <h1 className="font-serif text-4xl font-bold sm:text-5xl">{title}</h1>
-        <LotusDivider className="my-5" />
+        <LotusMotif className="mx-auto mb-5 h-11 w-auto text-kedar-gold opacity-90 sm:h-14" />
+        {eyebrow && <p className="eyebrow eyebrow-center mb-4 text-kedar-gold">{eyebrow}</p>}
+        <h1 className="heading-hero">{title}</h1>
+        <LotusDivider className="my-6" />
         {subtitle && (
-          <p className="mx-auto max-w-2xl text-base leading-relaxed text-white/80">{subtitle}</p>
+          <p className="mx-auto max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg">{subtitle}</p>
         )}
       </div>
     </section>
@@ -90,29 +90,29 @@ export function PageHero({
 
 export function CtaBanner() {
   return (
-    <section className="relative overflow-hidden section-padding bg-kedar-navy">
-      <LotusMotif className="pointer-events-none absolute left-1/2 top-1/2 h-48 w-auto -translate-x-1/2 -translate-y-1/2 text-kedar-gold opacity-[0.07] sm:h-64" />
-      <div className="section-container relative z-10 text-center">
-        <p className="text-sm font-medium uppercase tracking-wider text-kedar-gold">
-          Join Our Mission
-        </p>
-        <h2 className="mt-3 font-serif text-3xl font-bold text-white sm:text-4xl">
-          If you have talent, innovative ideas, or a passion to create positive social impact
+    <section className="relative overflow-hidden bg-navy-radial section-padding">
+      <LotusMotif className="pointer-events-none absolute left-1/2 top-1/2 h-48 w-auto -translate-x-1/2 -translate-y-1/2 text-kedar-gold opacity-[0.08] sm:h-72" />
+      <div className="pointer-events-none absolute -left-16 top-0 h-64 w-64 rounded-full bg-kedar-gold/10 blur-3xl" />
+      <div className="pointer-events-none absolute -right-16 bottom-0 h-64 w-64 rounded-full bg-kedar-gold/10 blur-3xl" />
+      <Reveal className="section-container relative z-10 text-center">
+        <p className="eyebrow eyebrow-center mb-4 text-kedar-gold">Be Part of the Change</p>
+        <h2 className="heading-section mx-auto max-w-3xl text-white">
+          Your skills, ideas, and heart can shape a stronger India
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-white/75">
-          Kedar Foundation welcomes you to collaborate with us. Together we can build a self-reliant,
-          innovative, and socially empowered India.
+        <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
+          Whether you want to volunteer, partner, or simply believe in the cause — there is a place
+          for you here. Let&apos;s build a self-reliant, compassionate, and empowered society, together.
         </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
+        <div className="mt-9 flex flex-wrap justify-center gap-4">
           <Link href="/contact" className="btn-primary">
             Collaborate With Us
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
-          <Link href="/initiatives" className="btn-outline">
-            Explore Initiatives
+          <Link href="/initiatives" className="btn-outline !border-white/40 !text-white hover:!bg-white hover:!text-kedar-navy">
+            Explore Our Work
           </Link>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

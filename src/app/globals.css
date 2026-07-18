@@ -10,34 +10,166 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   @apply bg-kedar-cream text-kedar-navy antialiased;
+  font-feature-settings: 'kern', 'liga', 'calt';
+  text-rendering: optimizeLegibility;
+}
+
+/* Premium heading defaults — tighter tracking, balanced wrapping.
+   Color is intentionally inherited so headings stay legible on both
+   light and dark (navy) sections. */
+h1,
+h2,
+h3,
+h4 {
+  @apply font-serif;
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+  font-optical-sizing: auto;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: rgba(212, 175, 55, 0.28);
+  color: #0b2447;
+}
+
+@layer base {
+  /* Refined focus ring for keyboard users */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #faf7f0, 0 0 0 4px rgba(212, 175, 55, 0.7);
+    border-radius: 0.5rem;
+  }
 }
 
 @layer components {
   .section-container {
-    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto max-w-7xl px-5 sm:px-6 lg:px-8;
   }
 
   .section-padding {
-    @apply py-16 sm:py-20 lg:py-24;
+    @apply py-16 sm:py-20 lg:py-28;
   }
 
+  /* ---------- Typography system ---------- */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-kedar-gold-dark sm:text-xs;
+  }
+
+  .eyebrow::before {
+    content: '';
+    @apply h-px w-6 bg-kedar-gold/60;
+  }
+
+  .eyebrow-center {
+    @apply justify-center;
+  }
+
+  .heading-hero {
+    font-size: clamp(2rem, 5.2vw, 3.75rem);
+    line-height: 1.05;
+    @apply font-serif font-bold tracking-tight;
+  }
+
+  .heading-section {
+    font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+    line-height: 1.12;
+    @apply font-serif font-bold tracking-tight;
+  }
+
+  .heading-sub {
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    line-height: 1.2;
+    @apply font-serif font-semibold;
+  }
+
+  .lead {
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.75;
+    @apply text-kedar-navy/75;
+  }
+
+  /* ---------- Buttons ---------- */
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-kedar-gold px-6 py-3 text-sm font-semibold text-kedar-navy shadow-gold transition-all hover:bg-kedar-gold-light hover:shadow-lg;
+    @apply relative inline-flex items-center justify-center overflow-hidden rounded-full bg-kedar-gold px-7 py-3 text-sm font-semibold tracking-wide text-kedar-navy shadow-gold transition-all duration-300 hover:-translate-y-0.5 hover:bg-kedar-gold-light hover:shadow-gold-lg active:translate-y-0;
+  }
+
+  .btn-primary::after {
+    content: '';
+    @apply pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700;
+  }
+
+  .btn-primary:hover::after {
+    @apply translate-x-full;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center rounded-full border-2 border-kedar-gold px-6 py-3 text-sm font-semibold text-kedar-gold transition-all hover:bg-kedar-gold hover:text-kedar-navy;
+    @apply inline-flex items-center justify-center rounded-full border-2 border-kedar-gold px-7 py-3 text-sm font-semibold tracking-wide text-kedar-gold-dark transition-all duration-300 hover:-translate-y-0.5 hover:bg-kedar-gold hover:text-kedar-navy hover:shadow-gold;
   }
 
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold text-kedar-gold-dark transition-colors hover:text-kedar-navy;
+  }
+
+  /* ---------- Cards ---------- */
   .card {
-    @apply rounded-2xl border border-kedar-navy/10 bg-white p-6 shadow-card transition-all hover:shadow-lg;
+    @apply rounded-2xl border border-kedar-navy/10 bg-white p-6 shadow-card transition-all duration-300;
   }
 
+  .card-interactive {
+    @apply hover:-translate-y-1 hover:border-kedar-gold/40 hover:shadow-lifted;
+  }
+
+  /* ---------- Accents ---------- */
   .gold-divider {
-    @apply mx-auto h-1 w-16 rounded-full bg-kedar-gold;
+    @apply mx-auto h-1 w-16 rounded-full bg-gold-gradient;
+  }
+
+  .surface-glow {
+    @apply relative;
+  }
+
+  .surface-glow::before {
+    content: '';
+    @apply pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-kedar-gold/10 blur-3xl;
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .btn-primary,
+  .btn-outline,
+  .card-interactive {
+    transition: none;
   }
 }

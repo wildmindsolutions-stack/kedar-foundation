@@ -3,6 +3,7 @@ import { ArrowRight, Users } from 'lucide-react';
 import { PageHero } from '@/components/InitiativeCard';
 import { LotusDivider } from '@/components/BrandMotifs';
 import { SectionHeading } from '@/components/SectionHeading';
+import { Reveal } from '@/components/Reveal';
 import { TrusteeProfileCard, TrusteeQuickNav } from '@/components/TrusteeProfileCard';
 import { FOUNDERS_SHARED_VISION, TRUSTEES } from '@/lib/content';
 
@@ -77,23 +78,27 @@ export default function LeadershipPage() {
         <div className="section-container">
           <SectionHeading
             eyebrow="Our Trustees"
-            title="Meet the Board"
-            description="Each trustee brings unique professional experience, community commitment, and core values that guide Kedar Foundation's mission."
+            title="The People Behind the Purpose"
+            description="Every trustee brings a lifetime of experience, conviction, and heart — together forming the foundation on which Kedar stands."
           />
 
           <div className="space-y-10 lg:space-y-14">
             {TRUSTEES.map((trustee, index) => (
-              <TrusteeProfileCard key={trustee.id} trustee={trustee} index={index} />
+              <Reveal key={trustee.id}>
+                <TrusteeProfileCard trustee={trustee} index={index} />
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* Shared vision */}
-      <section className="section-padding bg-kedar-navy text-white">
-        <div className="section-container text-center">
+      <section className="relative overflow-hidden bg-navy-radial section-padding text-white">
+        <div className="pointer-events-none absolute -right-16 top-0 h-64 w-64 rounded-full bg-kedar-gold/10 blur-3xl" />
+        <Reveal className="section-container relative z-10 text-center">
           <LotusDivider className="text-kedar-gold" />
-          <h2 className="mt-6 font-serif text-3xl font-bold sm:text-4xl">Our Shared Vision</h2>
+          <p className="eyebrow eyebrow-center mt-6 text-kedar-gold">United in Purpose</p>
+          <h2 className="mt-3 heading-section text-white">One Vision, Many Hands</h2>
           <p className="mx-auto mt-6 max-w-3xl text-base leading-[1.85] text-white/80 sm:text-lg">
             {FOUNDERS_SHARED_VISION}
           </p>
@@ -102,11 +107,11 @@ export default function LeadershipPage() {
               Our Story
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
-            <Link href="/initiatives" className="btn-outline">
+            <Link href="/initiatives" className="btn-outline !border-white/40 !text-white hover:!bg-white hover:!text-kedar-navy">
               Explore Initiatives
             </Link>
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );

@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
 import { LotusDivider } from '@/components/BrandMotifs';
+import { Reveal } from '@/components/Reveal';
 
 interface SectionHeadingProps {
   eyebrow?: string;
@@ -19,12 +20,13 @@ export function SectionHeading({
   lotus = false,
 }: SectionHeadingProps) {
   return (
-    <div className={cn('mb-12', align === 'center' && 'text-center')}>
+    <Reveal className={cn('mb-12', align === 'center' && 'mx-auto max-w-3xl text-center')}>
       {eyebrow && (
         <p
           className={cn(
-            'mb-2 text-xs font-semibold uppercase tracking-[0.2em]',
-            light ? 'text-kedar-gold' : 'text-kedar-gold-dark',
+            'eyebrow mb-3',
+            align === 'center' && 'eyebrow-center',
+            light && 'text-kedar-gold',
           )}
         >
           {eyebrow}
@@ -32,28 +34,28 @@ export function SectionHeading({
       )}
       <h2
         className={cn(
-          'font-serif text-3xl font-bold sm:text-4xl',
+          'heading-section',
           light ? 'text-white' : 'text-kedar-navy',
         )}
       >
         {title}
       </h2>
       {lotus ? (
-        <LotusDivider className={cn('my-4', light && 'text-kedar-gold')} />
+        <LotusDivider className={cn('my-5', align === 'left' && 'justify-start', light && 'text-kedar-gold')} />
       ) : (
-        <div className={cn('gold-divider my-4', align === 'left' && 'mx-0')} />
+        <div className={cn('gold-divider my-5', align === 'left' && 'mx-0')} />
       )}
       {description && (
         <p
           className={cn(
-            'mx-auto max-w-2xl text-base leading-relaxed',
-            light ? 'text-white/80' : 'text-kedar-navy/70',
-            align === 'left' && 'mx-0',
+            'lead',
+            light ? 'text-white/80' : 'text-kedar-navy/75',
+            align === 'center' ? 'mx-auto max-w-2xl' : 'max-w-2xl',
           )}
         >
           {description}
         </p>
       )}
-    </div>
+    </Reveal>
   );
 }

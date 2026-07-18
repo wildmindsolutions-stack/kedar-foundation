@@ -15,37 +15,64 @@ const INTERVAL_MS = 6000;
 const TRANSITION_MS = 700;
 const SWIPE_THRESHOLD = 48;
 
+/** Distinct caption per work photo slide (cycles if there are more photos). */
+const WORK_SLIDES = [
+  { title: 'Empowering Communities', caption: 'Standing beside people, uplifting lives' },
+  { title: 'Nurturing Young Minds', caption: 'Education and care for every child' },
+  { title: 'Standing With Our Farmers', caption: 'Water, tools, and hope for the fields' },
+  { title: 'Compassion for All Beings', caption: 'Kindness that reaches every creature' },
+  { title: 'Building a Self-Reliant India', caption: 'Skills, enterprise, and dignity' },
+  { title: 'Rooted in Service', caption: 'Small steps, lasting change' },
+];
+
 function KedarAcronymPanel() {
   return (
-    <div className="rounded-xl border border-kedar-navy/8 bg-white px-4 py-5 shadow-card sm:px-8 sm:py-8">
-      <p className="text-center text-[10px] font-semibold uppercase tracking-[0.24em] text-kedar-gold-dark sm:text-xs">
-        What KEDAR Stands For
-      </p>
-      <div className="gold-divider my-3 sm:my-4" />
+    <div className="relative overflow-hidden rounded-3xl border border-kedar-navy/10 bg-gradient-to-b from-white to-kedar-cream/70 px-5 py-6 shadow-lifted sm:px-9 sm:py-9">
+      {/* Top accent + soft glows */}
+      <span className="absolute inset-x-0 top-0 h-1 bg-gold-gradient" />
+      <div className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-kedar-gold/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-14 -left-12 h-36 w-36 rounded-full bg-kedar-navy/5 blur-3xl" />
 
-      {/* Mobile — vertical list for readable labels */}
-      <ul className="divide-y divide-kedar-navy/8 md:hidden">
-        {KEDAR_ACRONYM.pillars.map(({ letter, short }) => (
-          <li key={letter} className="flex items-center gap-3 py-2.5 first:pt-0 last:pb-0">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-kedar-gold font-serif text-sm font-bold text-kedar-navy shadow-sm">
+      {/* Header */}
+      <div className="mb-6 flex items-center justify-center gap-3">
+        <span className="h-px w-6 bg-kedar-gold/40 sm:w-10" />
+        <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-kedar-gold-dark sm:text-xs">
+          What KEDAR Stands For
+        </p>
+        <span className="h-px w-6 bg-kedar-gold/40 sm:w-10" />
+      </div>
+
+      {/* Mobile — vertical list with gradient badges */}
+      <ul className="space-y-2.5 md:hidden">
+        {KEDAR_ACRONYM.pillars.map(({ letter, short }, i) => (
+          <li
+            key={letter}
+            className="flex items-center gap-3 rounded-xl border border-kedar-navy/8 bg-white/70 px-3 py-2.5"
+          >
+            <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-kedar-gold to-kedar-gold-dark font-serif text-base font-bold text-kedar-navy shadow-gold">
               {letter}
+              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-kedar-navy text-[8px] font-bold text-kedar-gold">
+                {i + 1}
+              </span>
             </span>
             <span className="text-sm font-semibold text-kedar-navy">{short}</span>
           </li>
         ))}
       </ul>
 
-      {/* Tablet+ — compact horizontal grid */}
-      <div className="mx-auto hidden max-w-3xl grid-cols-5 gap-2 md:grid sm:gap-3">
-        {KEDAR_ACRONYM.pillars.map(({ letter, short }) => (
-          <div key={letter} className="min-w-0 text-center">
-            <p className="font-serif text-2xl font-bold leading-none tracking-tight text-kedar-gold sm:text-3xl">
-              {letter}
-            </p>
-            <div className="mx-auto my-2 h-px w-6 bg-kedar-gold/50 sm:w-8" />
-            <p className="text-xs font-semibold leading-tight text-kedar-navy sm:text-sm">{short}</p>
-          </div>
-        ))}
+      {/* Tablet+ — badges on a connecting line */}
+      <div className="relative mx-auto hidden max-w-3xl md:block">
+        <div className="absolute inset-x-4 top-8 h-px bg-gradient-to-r from-transparent via-kedar-gold/35 to-transparent" />
+        <div className="relative grid grid-cols-5 gap-3">
+          {KEDAR_ACRONYM.pillars.map(({ letter, short }) => (
+            <div key={letter} className="group flex min-w-0 flex-col items-center text-center">
+              <span className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-kedar-gold to-kedar-gold-dark font-serif text-3xl font-bold text-kedar-navy shadow-gold ring-4 ring-white transition-all duration-300 group-hover:-translate-y-1.5 group-hover:shadow-gold-lg">
+                {letter}
+              </span>
+              <p className="mt-4 text-sm font-semibold leading-tight text-kedar-navy">{short}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -56,12 +83,12 @@ function BrandSlideContent() {
     <div className="relative mx-auto w-full max-w-5xl">
       <div className="relative z-10">
         <div className="mx-auto max-w-4xl px-1 text-center sm:px-0">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-kedar-gold-dark sm:text-xs">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-kedar-gold-dark sm:text-xs">
             {SITE.name}
           </p>
-          <h1 className="mt-2 font-serif text-base font-bold leading-snug text-kedar-navy sm:mt-3 sm:text-3xl md:text-4xl md:whitespace-nowrap">
+          <h1 className="mt-2 font-sans text-xl font-bold leading-tight tracking-tight text-kedar-navy sm:mt-3 sm:text-4xl md:text-5xl md:whitespace-nowrap">
             {KEDAR_ACRONYM.subtitle}{' '}
-            <span className="tracking-tight text-kedar-gold">{KEDAR_ACRONYM.title}</span>
+            <span className="bg-gold-gradient bg-clip-text text-transparent">{KEDAR_ACRONYM.title}</span>
           </h1>
         </div>
 
@@ -192,11 +219,14 @@ export function HeroCarousel() {
           <BrandSlideContent />
         ) : (
           <div className="mx-auto max-w-lg text-center">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-kedar-gold/90 sm:text-xs [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-kedar-gold sm:text-xs [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
               {SITE.name}
             </p>
-            <p className="mt-2 font-serif text-xl font-bold text-white sm:text-2xl [text-shadow:0_2px_10px_rgba(0,0,0,0.75)]">
-              Empowering Communities
+            <p className="mt-3 font-sans text-2xl font-bold leading-tight text-white sm:text-3xl md:text-4xl [text-shadow:0_2px_14px_rgba(0,0,0,0.8)]">
+              {WORK_SLIDES[(index - 1 + WORK_SLIDES.length) % WORK_SLIDES.length].title}
+            </p>
+            <p className="mx-auto mt-2.5 max-w-md text-sm text-white/85 sm:text-base [text-shadow:0_1px_10px_rgba(0,0,0,0.85)]">
+              {WORK_SLIDES[(index - 1 + WORK_SLIDES.length) % WORK_SLIDES.length].caption}
             </p>
           </div>
         )}
