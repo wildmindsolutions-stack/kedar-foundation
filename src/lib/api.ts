@@ -2,9 +2,9 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
 export async function apiFetch<T>(
   path: string,
-  options?: RequestInit & { token?: string },
+  options?: RequestInit & { token?: string; timeoutMs?: number },
 ): Promise<T> {
-  const { token, ...init } = options ?? {};
+  const { token, timeoutMs = 8000, ...init } = options ?? {};
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     ...(init.headers ?? {}),
@@ -16,6 +16,9 @@ export async function apiFetch<T>(
   const res = await fetch(`${API_BASE}${path}`, {
     ...init,
     headers,
+    // Fail fast instead of hanging (e.g. when the API is unreachable during
+    // static build) so callers can fall back to local data.
+    signal: init.signal ?? AbortSignal.timeout(timeoutMs),
     ...(init.method === 'GET' || !init.method ? { next: { revalidate: 60 } } : {}),
   });
 
