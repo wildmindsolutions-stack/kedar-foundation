@@ -4,7 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { AlertTriangle, ShoppingCart } from 'lucide-react';
 import { ProductImage } from '@/components/ProductImage';
-import { useCart } from '@/contexts/CartContext';import { formatPrice, getProductCategoryName, getProductDescription } from '@/lib/products';
+import { useCart } from '@/contexts/CartContext';
+import { formatPrice, getProductCategoryName, getProductDescription, isFallbackCatalogProduct } from '@/lib/products';
 import type { StoreProduct } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
