@@ -8,9 +8,16 @@ import { TrusteeProfileCard, TrusteeQuickNav } from '@/components/TrusteeProfile
 import { FOUNDERS_SHARED_VISION, TRUSTEES } from '@/lib/content';
 
 export const metadata = {
-  title: 'Founders & Board of Trustees',
+  title: 'Our Leadership & Board of Trustees',
   description:
-    'Meet the founders and board of trustees of Kedar Foundation — leaders in biotechnology, education, agriculture, entrepreneurship, and social development.',
+    'Meet the founders and board of trustees of Kedar Foundation—leaders in plant biotechnology, Gandhian education, organic farming, and animal husbandry.',
+  keywords: [
+    'Kedar Foundation trustees',
+    'board of directors',
+    'Dr. Anil Shrivastav',
+    'Shri Bharat Patel',
+    'social development leaders',
+  ],
 };
 
 const EXPERTISE_AREAS = [
@@ -32,7 +39,7 @@ export default function LeadershipPage() {
       />
 
       {/* Overview */}
-      <section className="section-padding">
+      <section id="leadership-overview" className="section-padding bg-grain">
         <div className="section-container">
           <div className="mx-auto max-w-3xl text-center">
             <SectionHeading
@@ -74,7 +81,7 @@ export default function LeadershipPage() {
       </section>
 
       {/* Trustee profiles */}
-      <section className="section-padding bg-white">
+      <section id="leadership-board" className="section-padding bg-white">
         <div className="section-container">
           <SectionHeading
             eyebrow="Our Trustees"
@@ -93,7 +100,7 @@ export default function LeadershipPage() {
       </section>
 
       {/* Shared vision */}
-      <section className="relative overflow-hidden bg-navy-radial section-padding text-white">
+      <section id="leadership-manifesto" className="relative overflow-hidden bg-navy-radial section-padding text-white">
         <div className="pointer-events-none absolute -right-16 top-0 h-64 w-64 rounded-full bg-kedar-gold/10 blur-3xl" />
         <Reveal className="section-container relative z-10 text-center">
           <LotusDivider className="text-kedar-gold" />
@@ -103,11 +110,11 @@ export default function LeadershipPage() {
             {FOUNDERS_SHARED_VISION}
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link href="/about" className="btn-primary">
+            <Link href="/about" id="lead-link-about" className="btn-primary">
               Our Story
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
-            <Link href="/initiatives" className="btn-outline !border-white/40 !text-white hover:!bg-white hover:!text-kedar-navy">
+            <Link href="/initiatives" id="lead-link-initiatives" className="btn-outline !border-white/40 !text-white hover:!bg-white hover:!text-kedar-navy">
               Explore Initiatives
             </Link>
           </div>

@@ -1,6 +1,7 @@
+import Image from 'next/image';
 import { Check } from 'lucide-react';
 import { PageHero } from '@/components/InitiativeCard';
-import { LotusDivider, MountainAboutFeature } from '@/components/BrandMotifs';
+import { LotusDivider } from '@/components/BrandMotifs';
 import { SectionHeading } from '@/components/SectionHeading';
 import { Reveal } from '@/components/Reveal';
 import {
@@ -8,8 +9,16 @@ import {
 } from '@/lib/content';
 
 export const metadata = {
-  title: 'About Us',
-  description: 'Learn about Kedar Foundation\'s vision, mission, objectives, and guiding principles.',
+  title: 'Our Story & Vision',
+  description:
+    'Discover the story of Kedar Foundation. Grounded in rural development, youth innovation, environmental stewardship, and premium agriculture, we work to build a self-reliant India.',
+  keywords: [
+    'Kedar Foundation story',
+    'vision and mission',
+    'rural welfare',
+    'sustainable development India',
+    'social empowerment',
+  ],
 };
 
 export default function AboutPage() {
@@ -22,10 +31,19 @@ export default function AboutPage() {
         subtitle="Inspired by the sacred mountains of Kedar — rooted in tradition, driven by purpose, and devoted to uplifting every life we touch."
       />
 
-      <section className="section-padding">
+      <section id="about-story" className="section-padding bg-grain">
         <div className="mx-auto w-full max-w-[90rem] px-3 sm:px-5 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[minmax(220px,26%)_minmax(0,1fr)] lg:items-end lg:gap-10 xl:gap-14">
-            <MountainAboutFeature className="order-2 lg:order-1 lg:pb-2" />
+            <div className="order-2 lg:order-1 relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-kedar-navy/10 shadow-lifted bg-kedar-navy/5">
+              <Image
+                src="/images/brand/kedarnath.png"
+                alt="Sacred peaks of Mount Kedarnath during morning sunrise"
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 30vw"
+                quality={90}
+              />
+            </div>
 
             <div className="order-1 space-y-12 lg:order-2">
               <div>
@@ -62,7 +80,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-padding bg-white">
+      <section id="about-objectives" className="section-padding bg-white">
         <div className="section-container">
           <SectionHeading
             eyebrow="What Drives Us"
@@ -82,7 +100,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-padding">
+      <section id="about-beneficiaries" className="section-padding">
         <div className="section-container">
           <SectionHeading
             eyebrow="Who We Serve"
@@ -102,7 +120,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-navy-radial section-padding text-white">
+      <section id="about-national-call" className="relative overflow-hidden bg-navy-radial section-padding text-white">
         <div className="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-kedar-gold/10 blur-3xl" />
         <div className="section-container relative z-10">
           <SectionHeading
@@ -123,7 +141,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-padding bg-white">
+      <section id="about-future-roadmap" className="section-padding bg-white">
         <div className="section-container">
           <SectionHeading
             eyebrow="The Road Ahead"

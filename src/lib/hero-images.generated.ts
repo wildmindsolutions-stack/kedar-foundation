@@ -3,8 +3,5 @@
 export const HERO_CAROUSEL_IMAGES: string[] = [
   "/work/work-01.avif",
   "/work/work-02.avif",
-  "/work/work-03.avif",
-  "/work/work-04.avif",
-  "/work/work-06.avif",
-  "/work/work-07.avif"
+  "/work/work-03.avif"
 ];

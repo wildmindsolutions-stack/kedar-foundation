@@ -9,8 +9,16 @@ import { fetchStoreProducts } from '@/lib/products';
 import { QUALITY_BADGES, SITE } from '@/lib/content';
 
 export const metadata = {
-  title: 'Products',
-  description: 'Browse Kedar Foundation agricultural products — grains, pulses, flour, snacks, and spices.',
+  title: 'Organic Agricultural Grains, Spices & Flours | Kedar Enterprise',
+  description:
+    'Browse premium wheat (25kg, 50kg, 100kg packs), bajra, chickpeas, spices, and pulses sourced directly from local farmers and cleanly processed by Kedar Enterprise.',
+  keywords: [
+    'premium wheat packs',
+    'milled wheat flour',
+    'organic spices Gujarat',
+    'local pulses',
+    'Kedar Enterprise products',
+  ],
 };
 
 export default async function ProductsPage() {
@@ -24,14 +32,14 @@ export default async function ProductsPage() {
         subtitle="Wholesome grains, pulses, flour, snacks, and spices — sourced from farmers we trust and processed with the care your family deserves."
       />
 
-      <section className="relative overflow-hidden section-padding">
+      <section id="products-catalog" className="relative overflow-hidden section-padding bg-grain">
         <MountainLightBackdrop />
         <div className="section-container relative z-10">
           <FilterableProductsGrid products={products} />
         </div>
       </section>
 
-      <section className="section-padding bg-white">
+      <section id="products-promise" className="section-padding bg-white bg-grain">
         <div className="section-container">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-card">
@@ -61,7 +69,7 @@ export default async function ProductsPage() {
         </div>
       </section>
 
-      <section className="section-padding">
+      <section id="products-certifications" className="section-padding">
         <div className="section-container">
           <SectionHeading eyebrow="Certified & Trusted" title="Quality You Can Always Count On" />
           <div className="grid gap-6 sm:grid-cols-3">

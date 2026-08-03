@@ -15,9 +15,16 @@ import {
 } from '@/lib/content';
 
 export const metadata = {
-  title: 'Initiatives',
+  title: 'Our Strategic Initiatives & Social Impact Projects',
   description:
-    "Explore Kedar Foundation's strategic initiatives for social welfare, agriculture, education, and community development.",
+    'Explore Kedar Foundation\'s 20 core initiatives across child welfare, farmer irrigation, bird conservation, rural skill development, and women empowerment.',
+  keywords: [
+    'social welfare initiatives',
+    'rural development projects',
+    'child welfare support',
+    'bird conservation',
+    'farmer water management',
+  ],
 };
 
 export default function InitiativesPage() {
@@ -30,7 +37,7 @@ export default function InitiativesPage() {
       />
 
       {/* Featured: Child Welfare */}
-      <section className="section-padding bg-white">
+      <section id="featured-child-welfare" className="section-padding bg-white bg-grain">
         <div className="section-container">
           <SectionHeading
             eyebrow="Featured Initiative"
@@ -45,7 +52,7 @@ export default function InitiativesPage() {
       </section>
 
       {/* Featured: Farmer Irrigation & Water Management */}
-      <section className="section-padding">
+      <section id="featured-farming-irrigation" className="section-padding">
         <div className="section-container">
           <SectionHeading
             eyebrow="Featured Initiative"
@@ -60,7 +67,7 @@ export default function InitiativesPage() {
       </section>
 
       {/* Featured: Bird Seva */}
-      <section className="section-padding bg-white">
+      <section id="featured-bird-seva" className="section-padding bg-white bg-grain">
         <div className="section-container">
           <SectionHeading
             eyebrow="Featured Initiative"
@@ -75,7 +82,7 @@ export default function InitiativesPage() {
       </section>
 
       {/* Featured: Food Processing & Factory Operations */}
-      <section className="section-padding">
+      <section id="featured-factory-operations" className="section-padding">
         <div className="section-container">
           <SectionHeading
             eyebrow="Featured Initiative"
@@ -89,7 +96,7 @@ export default function InitiativesPage() {
         </div>
       </section>
 
-      <section className="section-padding bg-white">
+      <section id="explore-programs-grid" className="section-padding bg-white bg-grain">
         <div className="section-container">
           <SectionHeading
             eyebrow="Explore Our Programs"

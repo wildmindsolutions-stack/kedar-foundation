@@ -181,6 +181,7 @@ export const INITIATIVES = [
     description:
       'Every big idea starts with a single spark. We give students and young dreamers the stage, the mentorship, and the support to turn their ideas into real solutions — and their ambition into a force that lifts society forward.',
     items: ['Innovation challenges', 'Mentorship programs', 'Prototype development', 'Startup incubation', 'Technology showcase events'],
+    image: '/work/work-02.avif',
   },
   {
     title: 'School Development Programs',
@@ -211,6 +212,7 @@ export const INITIATIVES = [
     description:
       'Healthier soil, healthier families, a healthier planet. We inspire farmers to embrace organic, sustainable practices through hands-on demonstrations and education — for food we can all feel good about.',
     items: ['Organic awareness', 'Demonstration farms', 'Farmer workshops', 'Soil health education'],
+    image: '/work/farming/farming-01.avif',
   },
   {
     title: 'Agricultural Value Addition',
@@ -229,6 +231,7 @@ export const INITIATIVES = [
     description:
       'When a woman rises, her whole family and community rise with her. We support women toward financial independence through entrepreneurship, self-help groups, and market access — one confident step at a time.',
     items: ['Home-based businesses', 'Self-help groups', 'Food processing', 'Branding support', 'Business mentorship'],
+    image: '/work/work-03.avif',
   },
   {
     title: 'Collective Farming (Samuhik Kheti)',
@@ -247,6 +250,7 @@ export const INITIATIVES = [
     description:
       'True wellness is our oldest inheritance. We help revive the timeless wisdom of Ayurveda and natural living — guiding people toward healthier, calmer, more balanced lives.',
     items: ['Health awareness', 'Natural wellness', 'Lifestyle guidance', 'Herbal product awareness'],
+    image: '/work/work-01.avif',
   },
   {
     title: 'Dehydrated Food Processing',

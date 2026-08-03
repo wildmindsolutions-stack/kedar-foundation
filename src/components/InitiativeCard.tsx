@@ -27,7 +27,7 @@ export function InitiativeCard({
             src={cover}
             alt={title}
             fill
-            className="object-contain object-center p-2 transition-transform duration-500 group-hover:scale-[1.02]"
+            className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
             sizes="(max-width: 768px) 100vw, 33vw"
           />
         </div>

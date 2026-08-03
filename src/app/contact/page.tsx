@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { Mail, MapPin, Phone, Send, Shield, Globe } from 'lucide-react';
 import { PageHero } from '@/components/InitiativeCard';
@@ -22,7 +23,7 @@ export default function ContactPage() {
         subtitle="Whether you want to collaborate, volunteer, partner, or simply learn more — our door is always open, and we'd love to hear from you."
       />
 
-      <section className="section-padding">
+      <section id="contact-details-form" className="section-padding bg-grain">
         <div className="section-container grid gap-12 lg:grid-cols-2">
           <div>
             <SectionHeading align="left" eyebrow="Reach Out" title="We're Here to Help" />
@@ -62,6 +63,16 @@ export default function ContactPage() {
                   <p className="text-sm text-kedar-navy/70">Prepared for domestic and international markets.</p>
                 </div>
               </div>
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl border border-kedar-navy/10 shadow-lifted bg-kedar-navy/5">
+                <Image
+                  src="/images/brand/team-collaboration.png"
+                  alt="Kedar Foundation team and volunteers collaborating around a table"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  quality={90}
+                />
+              </div>
             </div>
           </div>
 
@@ -73,34 +84,36 @@ export default function ContactPage() {
             </p>
 
             {submitted ? (
-              <div className="mt-8 rounded-xl bg-kedar-gold/10 p-6 text-center">
-                <p className="font-semibold text-kedar-navy">Thank you for reaching out!</p>
+              <div id="contact-success-message" role="alert" className="mt-8 rounded-xl bg-kedar-gold/10 p-6 text-center border border-kedar-gold/20">
+                <p className="font-semibold text-kedar-navy text-lg">Thank you for reaching out!</p>
                 <p className="mt-2 text-sm text-kedar-navy/70">
                   We have received your message and will get back to you shortly.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+              <form onSubmit={handleSubmit} id="contact-form" className="mt-6 space-y-4">
                 <div>
                   <label htmlFor="name" className="mb-1 block text-sm font-medium text-kedar-navy">
-                    Full Name
+                    Full Name <span className="text-kedar-gold-dark">*</span>
                   </label>
                   <input
                     id="name"
                     name="name"
                     required
+                    aria-required="true"
                     className="w-full rounded-lg border border-kedar-navy/15 bg-kedar-cream px-4 py-2.5 text-sm outline-none focus:border-kedar-gold focus:ring-2 focus:ring-kedar-gold/20"
                   />
                 </div>
                 <div>
                   <label htmlFor="email" className="mb-1 block text-sm font-medium text-kedar-navy">
-                    Email Address
+                    Email Address <span className="text-kedar-gold-dark">*</span>
                   </label>
                   <input
                     id="email"
                     name="email"
                     type="email"
                     required
+                    aria-required="true"
                     className="w-full rounded-lg border border-kedar-navy/15 bg-kedar-cream px-4 py-2.5 text-sm outline-none focus:border-kedar-gold focus:ring-2 focus:ring-kedar-gold/20"
                   />
                 </div>
@@ -122,17 +135,18 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <label htmlFor="message" className="mb-1 block text-sm font-medium text-kedar-navy">
-                    Message
+                    Message <span className="text-kedar-gold-dark">*</span>
                   </label>
                   <textarea
                     id="message"
                     name="message"
                     rows={4}
                     required
+                    aria-required="true"
                     className="w-full resize-none rounded-lg border border-kedar-navy/15 bg-kedar-cream px-4 py-2.5 text-sm outline-none focus:border-kedar-gold focus:ring-2 focus:ring-kedar-gold/20"
                   />
                 </div>
-                <button type="submit" className="btn-primary w-full sm:w-auto">
+                <button type="submit" id="contact-btn-submit" className="btn-primary w-full sm:w-auto">
                   Send Message
                   <Send className="ml-2 h-4 w-4" />
                 </button>

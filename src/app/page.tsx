@@ -10,7 +10,7 @@ import { CtaBanner } from '@/components/InitiativeCard';
 import { FeaturedProducts } from '@/components/FeaturedProducts';
 import { ProjectsCarousel } from '@/components/ProjectsCarousel';
 import {
-  HOMEPAGE_STATS, INITIATIVES, MISSION,
+  HOMEPAGE_STATS, INITIATIVES, KEDAR_ACRONYM, MISSION,
   PROJECTS, QUALITY_BADGES, SITE, VISION,
 } from '@/lib/content';
 
@@ -29,7 +29,7 @@ export default function HomePage() {
       <HeroBanner />
 
       {/* Stats strip */}
-      <section className="border-b border-kedar-gold/15 bg-white py-10">
+      <section id="homepage-stats" className="border-b border-kedar-gold/15 bg-white py-10">
         <div className="section-container grid grid-cols-2 gap-y-8 sm:gap-x-6 lg:grid-cols-4 lg:divide-x lg:divide-kedar-navy/10">
           {HOMEPAGE_STATS.map(({ value, label }) => (
             <div key={label} className="text-center lg:px-4">
@@ -40,8 +40,34 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Standalone KEDAR Acronym Section */}
+      <section id="homepage-acronym" className="border-b border-kedar-gold/10 bg-white py-14 sm:py-20 bg-grain">
+        <div className="section-container relative z-10 text-center">
+          <p className="eyebrow eyebrow-center mb-3">Our Core Pillars</p>
+          <h2 className="heading-section text-kedar-navy">What KEDAR Stands For</h2>
+          <div className="mx-auto mt-10 max-w-6xl">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+              {KEDAR_ACRONYM.pillars.map(({ letter, short, meaning }, i) => (
+                <Reveal
+                  key={letter}
+                  delay={i * 90}
+                  className="group card card-interactive flex flex-col items-center text-center p-6 bg-white/70"
+                >
+                  <span className="absolute inset-x-0 top-0 h-1 scale-x-0 bg-gold-gradient transition-transform duration-300 group-hover:scale-x-100" />
+                  <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-kedar-gold to-kedar-gold-dark font-serif text-2xl font-bold text-kedar-navy shadow-gold group-hover:scale-110 transition-transform duration-300">
+                    {letter}
+                  </div>
+                  <h3 className="mt-4 font-sans text-base font-bold text-kedar-navy uppercase tracking-wider">{short}</h3>
+                  <p className="mt-2.5 text-xs leading-relaxed text-kedar-navy/60">{meaning}</p>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Highlights */}
-      <section className="relative overflow-hidden section-padding">
+      <section id="homepage-highlights" className="relative overflow-hidden section-padding bg-grain">
         <MountainLightBackdrop />
         <div className="section-container relative z-10">
           <SectionHeading
@@ -69,7 +95,7 @@ export default function HomePage() {
       </section>
 
       {/* Projects carousel */}
-      <section className="section-padding bg-white">
+      <section id="homepage-projects" className="section-padding bg-white">
         <div className="section-container">
           <SectionHeading
             eyebrow="Our Work in Action"
@@ -83,7 +109,7 @@ export default function HomePage() {
       </section>
 
       {/* Vision & Mission */}
-      <section className="relative overflow-hidden section-padding">
+      <section id="homepage-vision-mission" className="relative overflow-hidden section-padding">
         <LotusMotif className="pointer-events-none absolute -right-8 top-8 h-32 w-auto text-kedar-gold opacity-[0.07] sm:h-40" />
         <LotusMotif className="pointer-events-none absolute -left-8 bottom-8 h-24 w-auto scale-x-[-1] text-kedar-gold opacity-[0.07] sm:h-32" />
         <div className="section-container relative z-10">
@@ -117,7 +143,7 @@ export default function HomePage() {
       </section>
 
       {/* Our Products — multiple from ERP */}
-      <section className="relative overflow-hidden section-padding bg-kedar-cream">
+      <section id="homepage-products" className="relative overflow-hidden section-padding bg-kedar-cream bg-grain">
         <MountainLightBackdrop />
         <div className="section-container relative z-10">
           <SectionHeading
@@ -130,7 +156,7 @@ export default function HomePage() {
       </section>
 
       {/* Quality badges */}
-      <section className="section-padding bg-white">
+      <section id="homepage-quality-badges" className="section-padding bg-white">
         <div className="section-container">
           <div className="grid gap-5 sm:grid-cols-3">
             {QUALITY_BADGES.map((badge, i) => (
@@ -149,7 +175,7 @@ export default function HomePage() {
       </section>
 
       {/* Initiatives preview */}
-      <section className="relative overflow-hidden bg-navy-radial section-padding text-white">
+      <section id="homepage-initiatives" className="relative overflow-hidden bg-navy-radial section-padding text-white">
         <div className="pointer-events-none absolute -right-20 top-10 h-72 w-72 rounded-full bg-kedar-gold/10 blur-3xl" />
         <div className="section-container relative z-10">
           <SectionHeading
@@ -175,7 +201,7 @@ export default function HomePage() {
             ))}
           </div>
           <div className="mt-12 text-center">
-            <Link href="/initiatives" className="btn-primary">
+            <Link href="/initiatives" id="btn-explore-initiatives" className="btn-primary">
               Explore All Initiatives
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
@@ -184,7 +210,7 @@ export default function HomePage() {
       </section>
 
       {/* Quality strip */}
-      <section className="border-y border-kedar-gold/20 bg-kedar-cream-dark/60 py-10">
+      <section id="homepage-quality-strip" className="border-y border-kedar-gold/20 bg-kedar-cream-dark/60 py-10">
         <div className="section-container grid gap-6 sm:grid-cols-3">
           {[
             { icon: Shield, title: 'Food-Safety Approved', text: 'Hygienic, trusted processing standards' },
