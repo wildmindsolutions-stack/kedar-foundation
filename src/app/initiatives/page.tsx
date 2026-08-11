@@ -2,6 +2,7 @@ import { PageHero } from '@/components/InitiativeCard';
 import { FeaturedWorkCarousel } from '@/components/FeaturedWorkCarousel';
 import { InitiativesGrid } from '@/components/InitiativesGrid';
 import { SectionHeading } from '@/components/SectionHeading';
+import Image from 'next/image';
 import {
   BIRD_SEVA_IMAGES,
   BIRD_SEVA_TAGLINE,
@@ -48,6 +49,52 @@ export default function InitiativesPage() {
             images={CHILD_WELFARE_IMAGES}
             altPrefix="Child welfare support"
           />
+
+          <div className="mt-16 grid gap-12 lg:grid-cols-2 lg:items-center">
+            <div className="space-y-8">
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-kedar-navy/50">
+                  About this program
+                </h3>
+                <p className="mt-4 text-base leading-relaxed text-kedar-navy/80 sm:text-lg">
+                  Every child deserves to feel safe, loved, and full of hope. We stand beside homes that give orphaned boys and girls warm meals, a roof to call their own, and the education to dream big — so no child ever has to face the world alone.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-kedar-navy/50">
+                  Key focus areas
+                </h3>
+                <ul className="mt-4 space-y-3">
+                  {[
+                    'Support for orphaned boys and girls',
+                    'Free education partnerships',
+                    'Safe accommodation',
+                    'Nutritious daily meals',
+                    'Community care organizations',
+                  ].map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-4 rounded-xl border border-kedar-navy/8 bg-kedar-cream/60 px-5 py-4 text-base text-kedar-navy"
+                    >
+                      <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-kedar-gold" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl shadow-xl">
+              <Image
+                src="/child-welfare-about.png"
+                alt="Child Welfare Program Overview"
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+          </div>
         </div>
       </section>
 

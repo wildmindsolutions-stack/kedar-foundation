@@ -22,7 +22,7 @@ export function InitiativeCard({
   return (
     <article className="card group flex h-full cursor-pointer flex-col !p-0 overflow-hidden transition-shadow hover:shadow-lg">
       {cover && (
-        <div className="relative aspect-[4/3] w-full overflow-hidden bg-kedar-navy/10">
+        <div className="relative aspect-square w-full overflow-hidden bg-white">
           <Image
             src={cover}
             alt={title}

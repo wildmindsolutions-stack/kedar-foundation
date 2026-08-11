@@ -87,6 +87,7 @@ export const CHILD_WELFARE_TAGLINE =
   'Every child deserves to feel safe, loved, and full of hope. We stand beside homes that give orphaned boys and girls warm meals, a roof to call their own, and the education to dream big — so no child ever has to face the world alone.';
 
 export const CHILD_WELFARE_IMAGES = [
+  '/child-welfare-about.png',
   '/work/child-welfare/child-welfare-01.avif',
   '/work/child-welfare/child-welfare-02.avif',
   '/work/child-welfare/child-welfare-03.avif',
@@ -98,6 +99,7 @@ export const FARMING_TAGLINE =
   'Behind every harvest is a farmer’s quiet hope. We help bring water to thirsty fields through irrigation and water-management support — so honest hard work is rewarded, families flourish, and the land stays fertile for generations to come.';
 
 export const FARMING_IMAGES = [
+  '/farming-about.png',
   '/work/farming/farming-01.avif',
   '/work/farming/farming-02.avif',
   '/work/farming/farming-03.avif',
@@ -107,18 +109,24 @@ export const FARMING_IMAGES = [
 export const BIRD_SEVA_TAGLINE =
   'Compassion knows no boundaries. Through feeding drives, water bowls, and tree plantation, we care for the voiceless creatures who share our skies — nurturing kindness in people and new life in nature.';
 
-export const BIRD_SEVA_IMAGES = Array.from(
-  { length: 30 },
-  (_, i) => `/work/bird-seva/bird-seva-${String(i + 1).padStart(2, '0')}.avif`,
-);
+export const BIRD_SEVA_IMAGES = [
+  '/bird-seva-about.png',
+  ...Array.from(
+    { length: 30 },
+    (_, i) => `/work/bird-seva/bird-seva-${String(i + 1).padStart(2, '0')}.avif`,
+  ),
+];
 
 export const FACTORY_TAGLINE =
   'Step inside Kedar Enterprise, where every grain is handled with care, integrity, and pride. From farm to family, we hold to the highest standards of hygiene and quality — because the food that reaches your loved ones should be nothing short of pure.';
 
-export const FACTORY_IMAGES = Array.from(
-  { length: 8 },
-  (_, i) => `/work/factory/factory-${String(i + 1).padStart(2, '0')}.avif`,
-);
+export const FACTORY_IMAGES = [
+  '/factory-about.png',
+  ...Array.from(
+    { length: 8 },
+    (_, i) => `/work/factory/factory-${String(i + 1).padStart(2, '0')}.avif`,
+  ),
+];
 
 export const INITIATIVES = [
   {
@@ -181,100 +189,105 @@ export const INITIATIVES = [
     description:
       'Every big idea starts with a single spark. We give students and young dreamers the stage, the mentorship, and the support to turn their ideas into real solutions — and their ambition into a force that lifts society forward.',
     items: ['Innovation challenges', 'Mentorship programs', 'Prototype development', 'Startup incubation', 'Technology showcase events'],
-    image: '/work/work-02.avif',
+    image: '/youth-innovation-about.png',
   },
   {
     title: 'School Development Programs',
     description:
       'A good education can change the course of a child’s entire life. Through workshops, mentoring, science, and digital learning, we help open doors of opportunity for the children who need them most.',
     items: ['Educational workshops', 'Career guidance', 'Science & innovation', 'Digital literacy', 'Skill-building camps'],
+    image: '/school-development-about.png',
   },
   {
     title: 'Senior Citizen & Disability Support',
     description:
       'Dignity has no age and no limits. We walk alongside our elders and persons with disabilities — offering care, mobility aids, and support that helps them live with comfort, independence, and the respect they deserve.',
     items: ['Physiotherapy equipment', 'Mobility aids', 'Healthcare camps', 'Assistive devices', 'Rehabilitation guidance'],
+    image: '/senior-citizen-about.png',
   },
   {
     title: 'Rural Skill Development',
     description:
       'A single skill can rewrite a family’s future. We equip village communities with practical, employable skills — turning quiet potential into livelihoods, and dependence into proud self-reliance.',
     items: ['Digital literacy', 'Agricultural technology', 'Food processing', 'Vocational training', 'Handicrafts'],
+    image: '/rural-skill-about.png',
   },
   {
     title: 'Entrepreneurship Development',
     description:
       'Every great business begins with courage and a helping hand. We mentor aspiring entrepreneurs with guidance, technology, and branding support — helping bold ideas grow into thriving ventures.',
     items: ['Business mentoring', 'Startup guidance', 'Branding support', 'Digital presence', 'Networking opportunities'],
+    image: '/entrepreneurship-about.png',
   },
   {
     title: 'Organic Farming Promotion',
     description:
       'Healthier soil, healthier families, a healthier planet. We inspire farmers to embrace organic, sustainable practices through hands-on demonstrations and education — for food we can all feel good about.',
     items: ['Organic awareness', 'Demonstration farms', 'Farmer workshops', 'Soil health education'],
-    image: '/work/farming/farming-01.avif',
+    image: '/organic-farming-about.png',
   },
   {
     title: 'Agricultural Value Addition',
     description:
       'A farmer’s hard work deserves a fairer reward. By adding value to produce through processing and branding, we help farmers earn more from the very crops they lovingly grow.',
     items: ['Flour processing', 'Spice packaging', 'Pulse processing', 'Dehydrated food', 'Food branding'],
+    image: '/value-addition-about.png',
   },
   {
     title: 'Farmer Exposure Visits',
     description:
       'Sometimes, seeing is believing. We take farmers to thriving farms and institutions to learn modern methods first-hand — sparking confidence, curiosity, and fresh possibility.',
     items: ['Knowledge sharing', 'Technology exposure', 'Best practices', 'Farmer interaction'],
+    image: '/farmer-exposure-about.png',
   },
   {
     title: 'Women Empowerment',
     description:
       'When a woman rises, her whole family and community rise with her. We support women toward financial independence through entrepreneurship, self-help groups, and market access — one confident step at a time.',
     items: ['Home-based businesses', 'Self-help groups', 'Food processing', 'Branding support', 'Business mentorship'],
-    image: '/work/work-03.avif',
-  },
-  {
-    title: 'Collective Farming (Samuhik Kheti)',
-    description:
-      'Together, farmers can achieve what none could alone. Through collective farming, communities share resources, lower costs, and grow richer harvests — and a stronger sense of togetherness.',
-    items: ['Shared resources', 'Reduced costs', 'Collective marketing', 'Profit sharing'],
+    image: '/women-empowerment-about.png',
   },
   {
     title: 'Talent & Innovation Platform',
     description:
       'Good ideas deserve a home. We open our doors to anyone with the heart to create change — turning individual passion into shared, lasting social impact.',
     items: ['Innovative projects', 'Community service', 'Technology solutions', 'Volunteer participation'],
+    image: '/talent-innovation-about.png',
   },
   {
     title: 'Ayurveda & Natural Living',
     description:
       'True wellness is our oldest inheritance. We help revive the timeless wisdom of Ayurveda and natural living — guiding people toward healthier, calmer, more balanced lives.',
     items: ['Health awareness', 'Natural wellness', 'Lifestyle guidance', 'Herbal product awareness'],
-    image: '/work/work-01.avif',
+    image: '/ayurveda-about.png',
   },
   {
     title: 'Dehydrated Food Processing',
     description:
       'No harvest should ever go to waste. Through hygienic dehydration of fruits and vegetables, we reduce spoilage, extend shelf life, and put more income back into farmers’ hands.',
     items: ['Reduced food wastage', 'Extended shelf life', 'Export opportunities', 'Higher farmer income'],
+    image: '/dehydrated-food-about.png',
   },
   {
     title: 'Aromatic & Essential Oil Farming',
     description:
       'New crops can open new futures. We help farmers grow aromatic crops for essential oils — diversifying their income and connecting their harvest to wider markets.',
     items: ['Crop diversification', 'Essential oil processing', 'Market linkage', 'Farmer income enhancement'],
+    image: '/aromatic-farming-about.png',
   },
   {
     title: 'Medicinal Plant Farming',
     description:
       'Nature has always been our healer. We support farmers in growing medicinal plants — with the guidance, buyers, and processing opportunities that make it truly worthwhile.',
     items: ['Crop awareness', 'Market linkage', 'Buyer connections', 'Best cultivation practices'],
+    image: '/medicinal-plant-about.png',
   },
   {
     title: 'Agricultural Waste Management',
     description:
       'What once was waste can nourish new life. We turn crop leftovers into compost and natural fertilizers — protecting the earth while enriching the very soil that feeds us.',
     items: ['Organic compost', 'Bio-decomposer usage', 'Waste recycling', 'Awareness campaigns'],
+    image: '/waste-management-about.png',
   },
 ];
 
