@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { AddToCartButton, ProductDetailList } from '@/components/ProductCard';
-import { ProductImage } from '@/components/ProductImage';
+import { ProductGallery } from '@/components/ProductGallery';
 import { MountainLightBackdrop } from '@/components/BrandMotifs';
 import { PageHero } from '@/components/InitiativeCard';
 import {
@@ -50,14 +50,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
           </Link>
 
           <div className="grid gap-10 lg:grid-cols-2">
-            <div className="relative aspect-square overflow-hidden rounded-2xl bg-hero-gradient shadow-card">
-              <ProductImage
-                product={product}
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
-                iconClassName="h-16 w-16"
-              />
-            </div>
+            <ProductGallery product={product} />
 
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-kedar-gold-dark">

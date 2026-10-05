@@ -10,21 +10,24 @@ import {
   CHILD_WELFARE_TAGLINE,
   FACTORY_IMAGES,
   FACTORY_TAGLINE,
-  FARMING_IMAGES,
-  FARMING_TAGLINE,
   INITIATIVES,
+  PLANTATION_IMAGES,
+  PLANTATION_TAGLINE,
+  WOMEN_EMPOWERMENT_IMAGES,
+  WOMEN_EMPOWERMENT_TAGLINE,
 } from '@/lib/content';
 
 export const metadata = {
   title: 'Our Strategic Initiatives & Social Impact Projects',
   description:
-    'Explore Kedar Foundation\'s 20 core initiatives across child welfare, farmer irrigation, bird conservation, rural skill development, and women empowerment.',
+    'Explore Kedar Foundation\'s initiatives across child welfare, plantation, bird conservation, rural skill development, and women empowerment in rural areas.',
   keywords: [
     'social welfare initiatives',
     'rural development projects',
     'child welfare support',
     'bird conservation',
-    'farmer water management',
+    'tree plantation',
+    'women empowerment rural areas',
   ],
 };
 
@@ -98,23 +101,38 @@ export default function InitiativesPage() {
         </div>
       </section>
 
-      {/* Featured: Farmer Irrigation & Water Management */}
-      <section id="featured-farming-irrigation" className="section-padding">
+      {/* Featured: Plantation */}
+      <section id="featured-plantation" className="section-padding">
         <div className="section-container">
           <SectionHeading
             eyebrow="Featured Initiative"
-            title="Farmer Irrigation & Water Management"
-            description={FARMING_TAGLINE}
+            title="Plantation"
+            description={PLANTATION_TAGLINE}
           />
           <FeaturedWorkCarousel
-            images={FARMING_IMAGES}
-            altPrefix="Farmer irrigation and water management"
+            images={PLANTATION_IMAGES}
+            altPrefix="Plantation"
+          />
+        </div>
+      </section>
+
+      {/* Featured: Women Empowerment in Rural Areas */}
+      <section id="featured-women-empowerment" className="section-padding bg-white bg-grain">
+        <div className="section-container">
+          <SectionHeading
+            eyebrow="Featured Initiative"
+            title="Women Empowerment in Rural Areas"
+            description={WOMEN_EMPOWERMENT_TAGLINE}
+          />
+          <FeaturedWorkCarousel
+            images={WOMEN_EMPOWERMENT_IMAGES}
+            altPrefix="Women empowerment in rural areas"
           />
         </div>
       </section>
 
       {/* Featured: Bird Seva */}
-      <section id="featured-bird-seva" className="section-padding bg-white bg-grain">
+      <section id="featured-bird-seva" className="section-padding">
         <div className="section-container">
           <SectionHeading
             eyebrow="Featured Initiative"
@@ -129,7 +147,7 @@ export default function InitiativesPage() {
       </section>
 
       {/* Featured: Food Processing & Factory Operations */}
-      <section id="featured-factory-operations" className="section-padding">
+      <section id="featured-factory-operations" className="section-padding bg-white bg-grain">
         <div className="section-container">
           <SectionHeading
             eyebrow="Featured Initiative"
@@ -143,7 +161,7 @@ export default function InitiativesPage() {
         </div>
       </section>
 
-      <section id="explore-programs-grid" className="section-padding bg-white bg-grain">
+      <section id="explore-programs-grid" className="section-padding">
         <div className="section-container">
           <SectionHeading
             eyebrow="Explore Our Programs"

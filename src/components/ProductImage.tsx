@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Wheat } from 'lucide-react';
-import { resolveProductImageUrl } from '@/lib/product-images';
+import { getProductPresentationPath, resolveProductImageUrl } from '@/lib/product-images';
 import type { StoreProduct } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
@@ -10,6 +10,8 @@ interface ProductImageProps {
   sizes?: string;
   priority?: boolean;
   iconClassName?: string;
+  /** Catalogue cards use the presentation shot, fitted so the whole pack shows. */
+  presentation?: boolean;
 }
 
 export function ProductImage({
@@ -18,8 +20,11 @@ export function ProductImage({
   sizes = '(max-width: 768px) 100vw, 50vw',
   priority = false,
   iconClassName = 'h-10 w-10',
+  presentation = false,
 }: ProductImageProps) {
-  const src = resolveProductImageUrl(product);
+  const src = presentation
+    ? getProductPresentationPath(product) ?? resolveProductImageUrl(product)
+    : resolveProductImageUrl(product);
   const category =
     typeof product.category === 'string' ? product.category : 'Product';
 
@@ -40,7 +45,7 @@ export function ProductImage({
         src={src}
         alt={product.name}
         fill
-        className="object-cover object-center"
+        className={presentation ? 'object-contain object-center p-2' : 'object-cover object-center'}
         sizes={sizes}
         priority={priority}
       />

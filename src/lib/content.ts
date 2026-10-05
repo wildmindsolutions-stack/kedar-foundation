@@ -2,7 +2,7 @@ export const SITE = {
   name: 'Kedar Foundation',
   tagline: 'Trusted Quality in Every Grain',
   taglineGujarati: 'आइये देश के लिए कुछ करें।',
-  taglineHindi: '२ कदम देश के माटे।',
+  taglineHindi: '२ कदम देश के लिए।',
   location: 'Ahmedabad, India',
   email: 'info@kedarfoundation.org',
   phone: '+91 63519 25121',
@@ -95,15 +95,23 @@ export const CHILD_WELFARE_IMAGES = [
   '/work/child-welfare/child-welfare-05.avif',
 ];
 
-export const FARMING_TAGLINE =
-  'Behind every harvest is a farmer’s quiet hope. We help bring water to thirsty fields through irrigation and water-management support — so honest hard work is rewarded, families flourish, and the land stays fertile for generations to come.';
+export const PLANTATION_TAGLINE =
+  'A greener tomorrow starts with a sapling in the ground. Through community plantation and ground-up stewardship, we help restore green cover, stand with farmers, and leave the land healthier for the next generation.';
 
-export const FARMING_IMAGES = [
-  '/farming-about.png',
-  '/work/farming/farming-01.avif',
-  '/work/farming/farming-02.avif',
-  '/work/farming/farming-03.avif',
-  '/work/farming/farming-04.avif',
+export const PLANTATION_IMAGES = [
+  '/work/plantation/plantation-01.avif',
+  '/work/plantation/plantation-02.avif',
+  '/work/plantation/plantation-03.avif',
+  '/work/plantation/plantation-04.avif',
+];
+
+export const WOMEN_EMPOWERMENT_TAGLINE =
+  'When a woman in a village rises, her whole family and community rise with her. We support rural women toward financial independence through entrepreneurship, self-help groups, and a place at the table — one confident step at a time.';
+
+export const WOMEN_EMPOWERMENT_IMAGES = [
+  '/work/women-empowerment/women-rural-01.avif',
+  '/work/women-empowerment/women-rural-02.avif',
+  '/work/women-empowerment/women-rural-03.avif',
 ];
 
 export const BIRD_SEVA_TAGLINE =
@@ -144,18 +152,18 @@ export const INITIATIVES = [
     tagline: CHILD_WELFARE_TAGLINE,
   },
   {
-    title: 'Farmer Irrigation & Water Management',
-    description: FARMING_TAGLINE,
+    title: 'Plantation',
+    description: PLANTATION_TAGLINE,
     items: [
-      'Irrigation project support',
-      'Water management initiatives',
-      'Farmer productivity programs',
-      'Sustainable agriculture practices',
-      'Rural community outreach',
+      'Community tree plantation',
+      'Sapling drives with farmers',
+      'Green cover in rural areas',
+      'Ground-up environmental stewardship',
+      'Citizen participation',
     ],
-    image: FARMING_IMAGES[0],
-    images: FARMING_IMAGES,
-    tagline: FARMING_TAGLINE,
+    image: PLANTATION_IMAGES[0],
+    images: PLANTATION_IMAGES,
+    tagline: PLANTATION_TAGLINE,
   },
   {
     title: 'Bird Seva',
@@ -241,11 +249,18 @@ export const INITIATIVES = [
     image: '/farmer-exposure-about.png',
   },
   {
-    title: 'Women Empowerment',
-    description:
-      'When a woman rises, her whole family and community rise with her. We support women toward financial independence through entrepreneurship, self-help groups, and market access — one confident step at a time.',
-    items: ['Home-based businesses', 'Self-help groups', 'Food processing', 'Branding support', 'Business mentorship'],
-    image: '/women-empowerment-about.png',
+    title: 'Women Empowerment in Rural Areas',
+    description: WOMEN_EMPOWERMENT_TAGLINE,
+    items: [
+      'Rural livelihoods for women',
+      'Self-help groups',
+      'Home-based businesses',
+      'A voice in community forums',
+      'Business mentorship',
+    ],
+    image: WOMEN_EMPOWERMENT_IMAGES[0],
+    images: WOMEN_EMPOWERMENT_IMAGES,
+    tagline: WOMEN_EMPOWERMENT_TAGLINE,
   },
   {
     title: 'Talent & Innovation Platform',
@@ -313,8 +328,6 @@ export interface TrusteeProfile {
   communityVision?: string;
   socialContributions?: string[];
   additionalRole?: string;
-  personalPhilosophy?: string;
-  familyNote?: string;
   vision?: string;
   coreValues: string[];
   quote?: string;
@@ -325,31 +338,11 @@ export const FOUNDERS_SHARED_VISION =
 
 export const TRUSTEES: TrusteeProfile[] = [
   {
-    id: 'anil-shrivastav',
-    name: 'Dr. Anil Shrivastav',
-    designation: 'Founder & Trustee',
-    initials: 'AS',
-    professionalBackground: [
-      'Biotechnology Expert',
-      'Project Consultant',
-      'Research Professional in Plant Biotechnology',
-    ],
-    areasOfExpertise: [
-      'Plant Biotechnology',
-      'Scientific Research',
-      'Biotechnology Projects',
-      'Research Consulting',
-      'Sustainable Agricultural Innovation',
-    ],
-    communityVision:
-      'Promoting science-driven sustainable development, encouraging research for social welfare, and supporting innovation in agriculture and biotechnology.',
-    coreValues: ['Scientific Excellence', 'Innovation', 'Sustainability', 'Knowledge Sharing'],
-  },
-  {
     id: 'purushottam-putabia',
     name: 'Shri Purushottam Putabia',
     designation: 'Founder & Trustee',
     initials: 'PP',
+    image: '/images/leadership/purushottam-putabia.jpg',
     professionalBackground: [
       'Residential Superintendent (Grihapati), Adarsh Residential School, Dahegam',
     ],
@@ -374,6 +367,7 @@ export const TRUSTEES: TrusteeProfile[] = [
     name: 'Shri Rajabhai Khatwani',
     designation: 'Founder & Trustee',
     initials: 'RK',
+    image: '/images/leadership/rajabhai-khatwani.jpg',
     professionalBackground: ['Owner, Raja Fashion Showroom, Naroda'],
     areasOfExpertise: ['Entrepreneurship', 'Business Management', 'Community Engagement'],
     socialContributions: [
@@ -386,6 +380,7 @@ export const TRUSTEES: TrusteeProfile[] = [
     name: 'Shri Shivraj Chauhan',
     designation: 'Founder & Trustee',
     initials: 'SC',
+    image: '/images/leadership/shivraj-chauhan.jpg',
     professionalBackground: [
       'Regional Manager (5 States), Patanjali Haridwar – Animal Feed Distribution & Production',
     ],
@@ -393,7 +388,6 @@ export const TRUSTEES: TrusteeProfile[] = [
     socialContributions: [
       'Promotes healthy living through yoga and believes in action-oriented leadership',
     ],
-    personalPhilosophy: 'Less Promise, More Deliver.',
     coreValues: ['Commitment', 'Discipline', 'Humility', 'Positivity', 'Service Excellence'],
   },
   {
@@ -401,13 +395,13 @@ export const TRUSTEES: TrusteeProfile[] = [
     name: 'Shri Ratibhai Patel',
     designation: 'Founder & Trustee',
     initials: 'RP',
+    image: '/images/leadership/ratibhai-patel.jpg',
     professionalBackground: [
       'Associated with Dev Day Chem Industries, Naroda (Family-managed business)',
     ],
     socialContributions: [
       'Known for compassion, devotion, discipline, and humanitarian values',
     ],
-    familyNote: 'Son: Vivek Patel – Founder, Wildchild Studio (IT Company)',
     coreValues: ['Compassion', 'Devotion', 'Simplicity', 'Integrity', 'Self-Discipline'],
   },
   {
@@ -415,6 +409,7 @@ export const TRUSTEES: TrusteeProfile[] = [
     name: 'Shri Bharat Patel',
     designation: 'Founder & Trustee',
     initials: 'BP',
+    image: '/images/leadership/bharat-patel.jpg',
     professionalBackground: ['Organic Farming Expert with over 30 years of experience'],
     areasOfExpertise: [
       'Organic Farming',
@@ -456,13 +451,13 @@ export const PROJECTS = [
     images: CHILD_WELFARE_IMAGES,
   },
   {
-    id: 'farmer-irrigation',
-    title: 'Farmer Irrigation & Water Management',
-    description: FARMING_TAGLINE,
-    location: 'Rural Gujarat',
-    year: '2025',
-    image: FARMING_IMAGES[0],
-    images: FARMING_IMAGES,
+    id: 'plantation',
+    title: 'Plantation',
+    description: PLANTATION_TAGLINE,
+    location: 'Gujarat',
+    year: '2026',
+    image: PLANTATION_IMAGES[0],
+    images: PLANTATION_IMAGES,
   },
   {
     id: 'bird-seva',
@@ -483,11 +478,12 @@ export const PROJECTS = [
   },
   {
     id: 'women-empowerment',
-    title: 'Women Self-Help Group Initiative',
-    description:
-      'Training and market linkage for women-led food processing units — enabling home-based businesses with branding and packaging support.',
+    title: 'Women Empowerment in Rural Areas',
+    description: WOMEN_EMPOWERMENT_TAGLINE,
     location: 'Rural Gujarat',
-    year: '2024',
+    year: '2026',
+    image: WOMEN_EMPOWERMENT_IMAGES[0],
+    images: WOMEN_EMPOWERMENT_IMAGES,
   },
   {
     id: 'youth-innovation',

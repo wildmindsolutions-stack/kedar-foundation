@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import type { ElementType, ReactNode } from 'react';
-import { Briefcase, Heart, Lightbulb, Quote, Sparkles, Target, Users } from 'lucide-react';
+import { Briefcase, Heart, Lightbulb, Sparkles, Target, Users } from 'lucide-react';
 import { LotusMotif } from '@/components/BrandMotifs';
 import type { TrusteeProfile } from '@/lib/content';
 import { cn } from '@/lib/utils';
@@ -70,35 +70,30 @@ export function TrusteeProfileCard({ trustee, index }: TrusteeProfileCardProps) 
     >
       <div
         className={cn(
-          'grid lg:grid-cols-[minmax(240px,300px)_minmax(0,1fr)]',
-          !isEven && 'lg:grid-cols-[minmax(0,1fr)_minmax(240px,300px)] lg:[&>*:first-child]:order-2',
+          'grid items-stretch lg:grid-cols-[280px_minmax(0,1fr)]',
+          !isEven && 'lg:grid-cols-[minmax(0,1fr)_280px] lg:[&>*:first-child]:order-2',
         )}
       >
-        {/* Portrait */}
-        <div className="relative min-h-[260px] overflow-hidden bg-gradient-to-br from-kedar-navy via-kedar-navy-light to-kedar-navy-dark lg:min-h-full">
-          <LotusMotif
-            className="pointer-events-none absolute left-1/2 top-1/2 h-44 w-auto -translate-x-1/2 -translate-y-1/2 text-kedar-gold opacity-[0.14] sm:h-52"
-            aria-hidden
-          />
+        {/* Portrait — same frame for every trustee */}
+        <div className="relative h-80 w-full overflow-hidden bg-[#f6f1e7] sm:h-96 lg:h-full lg:min-h-[420px]">
           {trustee.image ? (
             <Image
               src={trustee.image}
               alt={trustee.name}
               fill
-              className="object-cover object-top"
-              sizes="(max-width: 1024px) 100vw, 300px"
+              className="object-cover object-center"
+              sizes="280px"
             />
           ) : (
-            <div className="relative z-10 flex h-full min-h-[260px] flex-col items-center justify-center p-8 text-center">
+            <div className="relative z-10 flex h-full min-h-[320px] flex-col items-center justify-center p-8 text-center">
               <div className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-kedar-gold/50 bg-kedar-gold/10 font-serif text-4xl font-bold text-kedar-gold shadow-gold">
                 {trustee.initials}
               </div>
-              <p className="mt-5 text-xs font-medium uppercase tracking-[0.2em] text-white/50">
+              <p className="mt-5 text-xs font-medium uppercase tracking-[0.2em] text-kedar-navy/40">
                 Portrait forthcoming
               </p>
             </div>
           )}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-kedar-navy/60 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-kedar-navy/10" />
         </div>
 
         {/* Content */}
@@ -157,28 +152,6 @@ export function TrusteeProfileCard({ trustee, index }: TrusteeProfileCardProps) 
               </ProfileSection>
             )}
           </div>
-
-          {(trustee.personalPhilosophy || trustee.familyNote) && (
-            <div className="mt-6 space-y-3">
-              {trustee.personalPhilosophy && (
-                <blockquote className="rounded-xl border-l-4 border-kedar-gold bg-kedar-cream/80 px-5 py-4">
-                  <div className="mb-2 flex items-center gap-2 text-kedar-gold-dark">
-                    <Quote className="h-4 w-4" />
-                    <span className="text-xs font-semibold uppercase tracking-[0.14em]">Philosophy</span>
-                  </div>
-                  <p className="font-serif text-lg italic text-kedar-navy">
-                    &ldquo;{trustee.personalPhilosophy}&rdquo;
-                  </p>
-                </blockquote>
-              )}
-              {trustee.familyNote && (
-                <p className="rounded-xl border border-kedar-navy/8 bg-white px-4 py-3 text-sm text-kedar-navy/70">
-                  <span className="font-semibold text-kedar-navy">Family Note: </span>
-                  {trustee.familyNote}
-                </p>
-              )}
-            </div>
-          )}
 
           <div className="mt-6 border-t border-kedar-navy/8 pt-6">
             <ProfileSection icon={Heart} title="Core Values">

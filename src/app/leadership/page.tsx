@@ -14,7 +14,6 @@ export const metadata = {
   keywords: [
     'Kedar Foundation trustees',
     'board of directors',
-    'Dr. Anil Shrivastav',
     'Shri Bharat Patel',
     'social development leaders',
   ],
