@@ -194,3 +194,26 @@ p {
     transition: none;
   }
 }
+
+/* Pre-booking receipt: print only the receipt card */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print-receipt,
+  .print-receipt * {
+    visibility: visible;
+  }
+
+  .print-receipt {
+    position: absolute;
+    inset: 0 0 auto 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  @page {
+    margin: 12mm;
+  }
+}

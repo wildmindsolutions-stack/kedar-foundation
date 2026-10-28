@@ -436,6 +436,7 @@ export const NAV_LINKS = [
   { href: '/leadership', label: 'Leadership' },
   { href: '/initiatives', label: 'Initiatives' },
   { href: '/products', label: 'Products' },
+  { href: '/prebook', label: 'Pre-book' },
   { href: '/contact', label: 'Contact' },
 ];
 
