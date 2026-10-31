@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { CheckCircle2, Printer, RotateCcw } from 'lucide-react';
+import Link from 'next/link';
+import { CheckCircle2, MapPin, Printer, RotateCcw } from 'lucide-react';
 import { SITE } from '@/lib/content';
 import { formatPrice } from '@/lib/products';
 import type { PrebookReceipt as Receipt } from '@/lib/prebook';
@@ -125,6 +126,12 @@ export function PrebookReceipt({ receipt, onNew }: { receipt: Receipt; onNew: ()
         <button type="button" onClick={() => window.print()} className="btn-primary">
           <Printer className="mr-2 h-4 w-4" /> Print / Save as PDF
         </button>
+        <Link
+          href={`/prebook/track?bookingNo=${encodeURIComponent(receipt.bookingNo)}&phone=${receipt.phone}`}
+          className="btn-outline"
+        >
+          <MapPin className="mr-2 h-4 w-4" /> Track order
+        </Link>
         <button type="button" onClick={onNew} className="btn-outline">
           <RotateCcw className="mr-2 h-4 w-4" /> New pre-booking
         </button>

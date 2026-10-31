@@ -267,13 +267,77 @@ export async function fetchPrebookProducts(): Promise<{ products: PrebookProduct
   return { products: FALLBACK_PREBOOK_PRODUCTS, live: false };
 }
 
+/** Browser-side retry for when the server render could not reach the ERP (e.g. API waking up). */
+export async function retryPrebookProducts(signal: AbortSignal): Promise<PrebookProduct[] | null> {
+  for (let attempt = 0; attempt < 4 && !signal.aborted; attempt += 1) {
+    try {
+      const products = await apiFetch<PrebookProduct[]>('/prebook/products', {
+        signal: AbortSignal.any([signal, AbortSignal.timeout(45000)]),
+        cache: 'no-store',
+      });
+      if (products.length) return products;
+      return null;
+    } catch {
+      // keep trying until the attempts run out
+    }
+  }
+  return null;
+}
+
+export interface PrebookTracking extends PrebookReceipt {
+  confirmedAt: string | null;
+  assignedAt: string | null;
+  outForDeliveryAt: string | null;
+  deliveredAt: string | null;
+  failedAttempts: number;
+  lastFailReason: string | null;
+  executiveName: string | null;
+}
+
+export function trackPrebooking(bookingNo: string, phone: string): Promise<PrebookTracking> {
+  const query = new URLSearchParams({ bookingNo, phone });
+  return apiFetch<PrebookTracking>(`/prebook/receipt?${query}`, { cache: 'no-store', timeoutMs: 45000 });
+}
+
+export function checkPincode(pincode: string, signal: AbortSignal) {
+  return apiFetch<{ serviceable: boolean; area: string | null }>(`/prebook/pincode?pincode=${pincode}`, {
+    cache: 'no-store',
+    signal,
+  });
+}
+
+export function cancelMyPrebooking(bookingNo: string, token: string) {
+  return apiFetch('/prebook/mine/cancel', {
+    method: 'POST',
+    token,
+    body: JSON.stringify({ bookingNo }),
+    timeoutMs: 45000,
+  });
+}
+
+/** Must match the server list so GST is always worked out from a real state name. */
+export const INDIAN_STATES = [
+  'Andaman and Nicobar Islands', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chandigarh',
+  'Chhattisgarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Goa', 'Gujarat', 'Haryana',
+  'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand', 'Karnataka', 'Kerala', 'Ladakh', 'Lakshadweep',
+  'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Puducherry',
+  'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand',
+  'West Bengal',
+];
+
+export function fetchMyPrebookings(token: string): Promise<PrebookTracking[]> {
+  return apiFetch<PrebookTracking[]>('/prebook/mine', { token, cache: 'no-store', timeoutMs: 45000 });
+}
+
 export function submitPrebooking(
   customer: PrebookCustomer,
   items: { productId: string; qty: number }[],
+  token: string,
 ): Promise<PrebookReceipt> {
   return apiFetch<PrebookReceipt>('/prebook', {
     method: 'POST',
+    token,
     body: JSON.stringify({ ...customer, items }),
-    timeoutMs: 15000,
+    timeoutMs: 60000,
   });
 }

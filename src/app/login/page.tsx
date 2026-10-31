@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { FormEvent, Suspense, useEffect, useState } from 'react';
 import { LogIn, UserPlus } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { SITE } from '@/lib/content';
 import { cn } from '@/lib/utils';
 
 const INDIAN_STATES = [
@@ -16,6 +17,7 @@ function AuthForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const fromCart = searchParams.get('from') === 'cart';
+  const afterLogin = searchParams.get('from') === 'prebook' ? '/prebook' : fromCart ? '/?cart=open' : '/';
 
   const [mode, setMode] = useState<'login' | 'signup'>(searchParams.get('mode') === 'signup' ? 'signup' : 'login');
   const [error, setError] = useState('');
@@ -30,9 +32,9 @@ function AuthForm() {
 
   useEffect(() => {
     if (user) {
-      router.replace(fromCart ? '/?cart=open' : '/');
+      router.replace(afterLogin);
     }
-  }, [user, router, fromCart]);
+  }, [user, router, afterLogin]);
 
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
@@ -40,7 +42,7 @@ function AuthForm() {
     setLoading(true);
     try {
       await login(email, password);
-      router.push(fromCart ? '/?cart=open' : '/');
+      router.push(afterLogin);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed.');
     } finally {
@@ -60,7 +62,7 @@ function AuthForm() {
           'Your account was linked to our existing customer record. Name and city from our ERP system were kept.',
         );
       }
-      router.push(fromCart ? '/?cart=open' : '/');
+      router.push(afterLogin);
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Registration failed.';
       setError(msg);
@@ -125,6 +127,9 @@ function AuthForm() {
               <div>
                 <label htmlFor="password" className="mb-1 block text-sm font-medium text-kedar-navy">Password</label>
                 <input id="password" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className={inputClass} />
+                <p className="mt-1 text-xs text-kedar-navy/55">
+                  Forgot your password? Call {SITE.phone} and our team will reset it.
+                </p>
               </div>
               {error && (
                 <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">

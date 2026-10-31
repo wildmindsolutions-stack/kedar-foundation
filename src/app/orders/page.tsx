@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Download, Loader2, Package } from 'lucide-react';
+import { MyPrebookings } from '@/components/MyPrebookings';
 import { useAuth } from '@/contexts/AuthContext';
 import { apiFetch, downloadInvoicePdf } from '@/lib/api';
 import { formatPrice } from '@/lib/products';
@@ -138,6 +139,8 @@ export default function OrdersPage() {
           <ArrowLeft className="h-4 w-4" />
           Back to Home
         </Link>
+
+        <MyPrebookings />
 
         <h1 className="font-serif text-3xl font-bold text-kedar-navy">My Orders</h1>
         <p className="mt-2 text-sm text-kedar-navy/65">Track confirmation, dispatch, delivery, and invoice details.</p>

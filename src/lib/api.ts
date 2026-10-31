@@ -19,7 +19,7 @@ export async function apiFetch<T>(
     // Fail fast instead of hanging (e.g. when the API is unreachable during
     // static build) so callers can fall back to local data.
     signal: init.signal ?? AbortSignal.timeout(timeoutMs),
-    ...(init.method === 'GET' || !init.method ? { next: { revalidate: 60 } } : {}),
+    ...((init.method === 'GET' || !init.method) && !init.cache ? { next: { revalidate: 60 } } : {}),
   });
 
   if (!res.ok) {

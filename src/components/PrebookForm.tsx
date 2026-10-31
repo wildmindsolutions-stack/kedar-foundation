@@ -1,11 +1,16 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { AlertCircle, Banknote, Loader2, Minus, Plus, ShoppingBag, Truck } from 'lucide-react';
 import { ProductImage } from '@/components/ProductImage';
 import { PrebookReceipt } from '@/components/PrebookReceipt';
+import { useAuth } from '@/contexts/AuthContext';
 import { formatPrice } from '@/lib/products';
 import {
+  INDIAN_STATES,
+  checkPincode,
+  retryPrebookProducts,
   submitPrebooking,
   type PrebookCustomer,
   type PrebookProduct,
@@ -28,6 +33,8 @@ const EMPTY_CUSTOMER: PrebookCustomer = {
   notes: '',
   website: '',
 };
+
+const DRAFT_KEY = 'kedar-prebook-draft';
 
 type Errors = Partial<Record<keyof PrebookCustomer | 'items', string>>;
 
@@ -107,7 +114,19 @@ const CATEGORY_FILTERS = [
   { value: 'Pulses', label: 'Chana Dal' },
 ];
 
-export function PrebookForm({ products, live }: { products: PrebookProduct[]; live: boolean }) {
+export function PrebookForm({
+  products: initialProducts,
+  live: initialLive,
+}: {
+  products: PrebookProduct[];
+  live: boolean;
+}) {
+  const router = useRouter();
+  const { user, token, isLoading: authLoading } = useAuth();
+  const [pincodeCheck, setPincodeCheck] = useState<{ serviceable: boolean; area: string | null } | null>(null);
+  const [products, setProducts] = useState(initialProducts);
+  const [live, setLive] = useState(initialLive);
+  const [connecting, setConnecting] = useState(!initialLive);
   const [qty, setQty] = useState<Record<string, number>>({});
   const [customer, setCustomer] = useState<PrebookCustomer>(EMPTY_CUSTOMER);
   const [categoryFilter, setCategoryFilter] = useState('ALL');
@@ -115,6 +134,58 @@ export function PrebookForm({ products, live }: { products: PrebookProduct[]; li
   const [submitError, setSubmitError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [receipt, setReceipt] = useState<Receipt | null>(null);
+
+  // The server render gives up quickly, so a slow-waking API must not leave the page stuck offline.
+  useEffect(() => {
+    if (initialLive) return;
+    const controller = new AbortController();
+    retryPrebookProducts(controller.signal).then((fresh) => {
+      if (controller.signal.aborted) return;
+      if (fresh) {
+        setProducts(fresh);
+        setLive(true);
+      }
+      setConnecting(false);
+    });
+    return () => controller.abort();
+  }, [initialLive]);
+
+  // Bring back what the customer picked before being sent to log in
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(DRAFT_KEY);
+      if (!saved) return;
+      const draft = JSON.parse(saved);
+      setQty(draft.qty ?? {});
+      setCustomer((c) => ({ ...c, ...draft.customer }));
+    } catch {
+      // an unreadable draft just means starting fresh
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    setCustomer((c) => ({
+      ...c,
+      name: c.name || user.name,
+      phone: c.phone || user.phone || '',
+      email: c.email || user.email || '',
+      city: c.city || user.city || '',
+    }));
+  }, [user]);
+
+  useEffect(() => {
+    setPincodeCheck(null);
+    const pincode = customer.pincode.trim();
+    if (!/^[1-9]\d{5}$/.test(pincode)) return;
+    const controller = new AbortController();
+    checkPincode(pincode, controller.signal)
+      .then(setPincodeCheck)
+      .catch(() => {
+        // the server still checks the pincode on submit
+      });
+    return () => controller.abort();
+  }, [customer.pincode]);
 
   const selected = useMemo(
     () => products.filter((p) => (qty[p.id] ?? 0) > 0).map((p) => ({ product: p, qty: qty[p.id] })),
@@ -129,7 +200,7 @@ export function PrebookForm({ products, live }: { products: PrebookProduct[]; li
   }, [products, categoryFilter]);
 
   const setField = (key: keyof PrebookCustomer) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     setCustomer((c) => ({ ...c, [key]: e.target.value }));
     if (errors[key]) setErrors((prev) => ({ ...prev, [key]: undefined }));
@@ -143,7 +214,15 @@ export function PrebookForm({ products, live }: { products: PrebookProduct[]; li
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitError('');
+    if (!token) {
+      sessionStorage.setItem(DRAFT_KEY, JSON.stringify({ qty, customer }));
+      router.push('/login?from=prebook');
+      return;
+    }
     const found = validate(customer, selected.length);
+    if (pincodeCheck?.serviceable === false) {
+      found.pincode = 'Sorry, we do not deliver to this pincode yet.';
+    }
     setErrors(found);
     if (Object.keys(found).length) {
       const first = found.items ? 'prebook-products' : `prebook-${Object.keys(found)[0]}`;
@@ -156,7 +235,9 @@ export function PrebookForm({ products, live }: { products: PrebookProduct[]; li
       const result = await submitPrebooking(
         customer,
         selected.map((s) => ({ productId: s.product.id, qty: s.qty })),
+        token,
       );
+      sessionStorage.removeItem(DRAFT_KEY);
       setReceipt(result);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
@@ -218,7 +299,13 @@ export function PrebookForm({ products, live }: { products: PrebookProduct[]; li
             ))}
           </div>
 
-          {!live && (
+          {connecting && (
+            <div className="mb-5 flex items-start gap-2 rounded-xl border border-kedar-navy/10 bg-white p-4 text-sm text-kedar-navy/75">
+              <Loader2 className="mt-0.5 h-4 w-4 shrink-0 animate-spin" />
+              Connecting to our booking system. This can take up to a minute…
+            </div>
+          )}
+          {!live && !connecting && (
             <div className="mb-5 flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
               <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
               Online pre-booking is temporarily unavailable. Please call us at the number below to book.
@@ -261,8 +348,14 @@ export function PrebookForm({ products, live }: { products: PrebookProduct[]; li
                     <div className="mt-auto pt-4">
                       <div className="mb-3">
                         <p className="text-kedar-navy">
-                          <span className="text-xl font-bold">{formatPrice(p.price)}</span>
-                          <span className="text-sm text-kedar-navy/55"> / {p.packSize || p.unitName}</span>
+                          {live ? (
+                            <>
+                              <span className="text-xl font-bold">{formatPrice(p.price)}</span>
+                              <span className="text-sm text-kedar-navy/55"> / {p.packSize || p.unitName}</span>
+                            </>
+                          ) : (
+                            <span className="text-sm text-kedar-navy/55">{p.packSize || p.unitName} · price shown when connected</span>
+                          )}
                         </p>
                         <p className="mt-0.5 text-[11px] font-medium text-emerald-700">5% tax included directly</p>
                       </div>
@@ -353,7 +446,13 @@ export function PrebookForm({ products, live }: { products: PrebookProduct[]; li
               <label htmlFor="prebook-state" className={LABEL}>
                 State <span className="text-kedar-gold-dark">*</span>
               </label>
-              <input id="prebook-state" autoComplete="address-level1" className={INPUT} value={customer.state} onChange={setField('state')} />
+              <select id="prebook-state" autoComplete="address-level1" className={INPUT} value={customer.state} onChange={setField('state')}>
+                {INDIAN_STATES.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
               {fieldError('state')}
             </div>
             <div>
@@ -372,6 +471,12 @@ export function PrebookForm({ products, live }: { products: PrebookProduct[]; li
                 onChange={setField('pincode')}
               />
               {fieldError('pincode')}
+                {!errors.pincode && pincodeCheck?.serviceable === false && (
+                  <p className="mt-1 text-xs text-red-600">Sorry, we do not deliver to this pincode yet.</p>
+                )}
+                {pincodeCheck?.area && (
+                  <p className="mt-1 text-xs text-emerald-700">We deliver here · {pincodeCheck.area}</p>
+                )}
             </div>
             <div>
               <label htmlFor="prebook-notes" className={LABEL}>
@@ -446,7 +551,7 @@ export function PrebookForm({ products, live }: { products: PrebookProduct[]; li
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Placing pre-booking…
               </>
             ) : (
-              'Confirm Pre-booking'
+              !authLoading && !token ? 'Log in to Pre-book' : 'Confirm Pre-booking'
             )}
           </button>
           <p className="mt-3 text-center text-xs text-kedar-navy/50">
